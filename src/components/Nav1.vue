@@ -77,7 +77,7 @@
         <div class="comlogo">
           <img src="../assets/comlogo.png" />
         </div>
-        <div class="leftcompany">南京云卫通软件技术有限公司</div>
+        <div class="leftcompany">南京中网卫星通信股份有限公司</div>
       </div>
     </div>
     <router-view class="rightchild"></router-view>
@@ -164,7 +164,7 @@ a {
   height: 70px;
   border-radius: 35px;
   overflow: hidden;
-  margin-left: 45px;
+  margin-left: 65px;
   /* position: absolute; */
   /* bottom: 55px; */
   /* left: 45px; */
@@ -178,7 +178,7 @@ a {
   left: 5px; */
 }
 .leftcompany {
-  width: 170px;
+  width: 205px;
   color: #fff;
   font-size: 12px;
   margin-top: 5px;

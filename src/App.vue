@@ -3,23 +3,41 @@
     <header>
       <div class="header">
         <div class="logo">
-          <img src="./assets/logo1.png" />
+          <img src="./assets/spa_logo.png" />
           <div class="pcompany">中国气象科学研究院</div>
         </div>
         <div class="headerright">
-          <div class="projectname">人工增雨随机化外场试验和效果检验技术研究(数据库)</div>
+          <div class="projectname">江苏省流量巡测在线平台</div>
           <div class="headernav">
             <div class="navcontent" @click="navchange1">
-              <router-link :to="{name:'n1c2'}" class="nava" :class="{nav_active:navshow == 1}">福建省</router-link>
+              <router-link :to="{name:'n1c4'}" class="nava" :class="{nav_active:navshow == 1}">
+                <img src="./assets/river.png" alt class="navimg" />
+                <div class="navtext">水文数据</div>
+              </router-link>
             </div>
             <div class="navcontent" @click="navchange2">
-              <router-link :to="{name:'n2c1'}" class="nava" :class="{nav_active:navshow == 2}">海南省</router-link>
+              <router-link :to="{name:'n2c1'}" class="nava" :class="{nav_active:navshow == 2}">
+                <img src="./assets/workflow.png" alt class="navimg" />
+                <div class="navtext">测流审核</div>
+              </router-link>
             </div>
             <div class="navcontent" @click="navchange3">
-              <router-link :to="{name:'n3c1'}" class="nava" :class="{nav_active:navshow == 3}">吉林省</router-link>
+              <router-link :to="{name:'n3c1'}" class="nava" :class="{nav_active:navshow == 3}">
+                <img src="./assets/duanmian.png" alt class="navimg" />
+                <div class="navtext">断面维护</div>
+              </router-link>
             </div>
             <div class="navcontent" @click="navchange4">
-              <router-link :to="{name:'n4c1'}" class="nava" :class="{nav_active:navshow == 4}">山东省</router-link>
+              <router-link :to="{name:'n4c1'}" class="nava" :class="{nav_active:navshow == 4}">
+                <img src="./assets/datatable.png" alt class="navimg" />
+                <div class="navtext">数据分析</div>
+              </router-link>
+            </div>
+            <div class="navcontent" @click="navchange5">
+              <router-link :to="{name:'n4c1'}" class="nava" :class="{nav_active:navshow == 5}">
+                <img src="./assets/rootsetting.png" alt class="navimg" />
+                <div class="navtext">用户管理</div>
+              </router-link>
             </div>
           </div>
         </div>
@@ -51,6 +69,9 @@ export default {
     },
     navchange4() {
       this.navshow = 4;
+    },
+    navchange5() {
+      this.navshow = 5;
     }
   }
 };
@@ -69,17 +90,18 @@ body,
   min-width: 1080px;
 }
 .logo {
-  width: 205px;
-  height: 150px;
+  width: 100px;
+  height: 80px;
   overflow: hidden;
-  background-color: #2958DE;
-  padding-top: 10px;
+  background-color: #324098;
+  padding-top: 5px;
   float: left;
+  box-sizing: border-box;
 }
 .logo img {
-  width: 100px;
-  line-height: 100px;
-  /* height: 100px; */
+  /* width: 100px; */
+  /* line-height: 80px; */
+  height: 70px;
 }
 .pcompany {
   width: 100%;
@@ -91,18 +113,20 @@ body,
 .projectname {
   float: left;
   position: relative;
-  left: 90px;
-  line-height: 100px;
+  left: 20px;
+  line-height: 80px;
   font-weight: bolder;
   font-size: 32px;
+  letter-spacing: 5px;
+  text-shadow: 2px 2px #000;
 }
 
 header {
   width: 100%;
   height: 150px;
-  background-color: #e8eaf2;
+  background-color: #324098;
   float: left;
-  color: #273c9b;
+  color: #fff;
 
   /* line-height: 100px; */
 }
@@ -113,38 +137,52 @@ header {
 }
 .headerright {
   width: 100%;
-  padding-left: 205px;
+  /* padding-left: 205px; */
   height: 150px;
   box-sizing: border-box;
+  /* background-color: #e8eaf2; */
 }
 .headernav {
   /* padding-left:170px; */
   width: 100%;
   /* margin-left: 170px; */
-  /* height: 50px; */
-  background-color: #324098;
+  height: 70px;
+  /* background-color: #e8eaf2; */
   float: left;
 }
 .navcontent {
   float: left;
-  width: 25%;
+  width: 20%;
   height: 100%;
-  line-height: 50px;
+  line-height: 70px;
   box-sizing: border-box;
+  background: linear-gradient(to top, #bfcede, #eef2f3);
 }
 .nava {
   height: 100%;
   width: 100%;
-  display: block;
+  display: flex;
   font-size: 15px;
   text-decoration: none;
-  color: #fff;
-  background-color: #1d6ec7;
-  border-right: 1px solid #324098;
+  color: #242c67;
+  /* background-color: #1d6ec7; */
+  border-right: 1px solid #6f7981;
   box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+}
+.navimg {
+  height: 40px;
+  /* line-height: 70px; */
+  float: left;
+  margin-right: 15px;
+}
+.navtext {
+  float: left;
+  /* font-size: 16px; */
 }
 .nav_active {
-  background-color: #324098 !important;
+  background: linear-gradient(to top, #ffff6f, #ffffff) !important;
 }
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
