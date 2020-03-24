@@ -11,7 +11,7 @@
           <div class="titletext">新设备入网</div>
         </el-col>
       </el-row>
-      <el-form ref="dateselect" :model="dateselect" label-width="30%" class="leftcontent">
+      <el-form ref="form" :model="form" label-width="30%" class="leftcontent">
         <el-form-item label="设备名称">
           <el-input v-model="form.name" placeholder="请填写设备名称"></el-input>
         </el-form-item>
@@ -19,7 +19,7 @@
           <el-input v-model="form.name" placeholder="请填写设备ID"></el-input>
         </el-form-item>
         <el-form-item label="设备类型">
-          <el-select v-model="form.region" placeholder="请选择设备类型">
+          <el-select v-model="form.region" placeholder="请选择设备类型"  style="width:100%">
             <el-option label="北斗手机" value="mobile"></el-option>
             <el-option label="测流车" value="car"></el-option>
           </el-select>
