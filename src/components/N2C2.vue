@@ -59,48 +59,12 @@ export default {
         defaultdate: new Date(2014, 8, 10),
         subleader: "",
         info: ""
-      },
-      tableData: [
-        {
-          date: "2019-01-02",
-          name: "测流设备1",
-          id: "1001",
-          kind: "北斗手机"
-          // address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2019-02-02",
-          name: "测流设备2",
-          id: "1002",
-          kind: "测速车"
-          // address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2019-03-02",
-          name: "测流设备3",
-          id: "1003",
-          kind: "北斗手机"
-          // address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2019-04-01",
-          name: "测流设备4",
-          id: "1004",
-          kind: "测速车"
-          // address: "上海市普陀区金沙江路 1518 弄"
-        }
-      ]
+      }
     };
   },
   methods: {
     searchleida() {
       console.log(1);
-    },
-    handleEdit(index, row) {
-      console.log(index, row);
-    },
-    handleDelete(index, row) {
-      console.log(index, row);
     }
   }
 };

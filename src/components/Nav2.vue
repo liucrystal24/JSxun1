@@ -96,6 +96,21 @@ export default {
     leftnav3() {
       this.leftnum = 3;
     }
+  },
+  mounted() {
+    let inum = this.$route.name.split("c")[1];
+    console.log(inum);
+    switch (inum) {
+      case '1':
+      case '2':
+      case '3':
+        this.leftnum = inum;
+        break;
+      default:
+        this.leftnum = 3;
+        break;
+    }
+    // this.leftnum = this.$route.name.split("c")[1];
   }
 };
 </script>

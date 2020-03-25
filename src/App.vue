@@ -73,7 +73,10 @@ export default {
     navchange5() {
       this.navshow = 5;
     }
-  }
+  },
+  mounted() {
+    this.navshow = this.$route.path.split('/')[1].split('nav')[1]
+  },
 };
 </script>
 

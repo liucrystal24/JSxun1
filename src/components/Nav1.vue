@@ -57,7 +57,7 @@
           <el-menu-item index="4-3">选项3</el-menu-item>
           <el-menu-item index="4-4">选项4</el-menu-item>
         </el-submenu>
-      </el-menu> -->
+      </el-menu>-->
       <div :class="{ leftactive: leftnum == 2 }" class="leftnavitem" @click="leftnav2">
         <router-link :to="{ name: 'n1c4' }" class="lefta">地图总览</router-link>
       </div>
@@ -108,6 +108,9 @@ export default {
     leftnav5() {
       this.leftnum = 5;
     }
+  },
+  mounted() {
+    console.log(this.$route);
   }
 };
 </script>

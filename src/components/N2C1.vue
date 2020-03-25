@@ -19,7 +19,7 @@
           <el-input v-model="form.name" placeholder="请填写设备ID"></el-input>
         </el-form-item>
         <el-form-item label="设备类型">
-          <el-select v-model="form.region" placeholder="请选择设备类型"  style="width:100%">
+          <el-select v-model="form.region" placeholder="请选择设备类型" style="width:100%">
             <el-option label="北斗手机" value="mobile"></el-option>
             <el-option label="测流车" value="car"></el-option>
           </el-select>
@@ -37,7 +37,7 @@
       <el-row class="searchtitle">
         <el-col :span="4">
           <div class>
-            <img src="../assets/checklist.png" width="40px" />
+            <img src="../assets/files.png" width="40px" />
           </div>
         </el-col>
         <el-col :span="20">
@@ -142,7 +142,8 @@ export default {
     handleDelete(index, row) {
       console.log(index, row);
     }
-  }
+  },
+
 };
 </script>
 

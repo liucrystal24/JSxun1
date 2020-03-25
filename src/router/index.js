@@ -87,7 +87,8 @@ export default new Router({
         {
           path: "TaskPercent",
           name: "TaskPercent",
-          component: TaskPercent
+          component: TaskPercent,
+          props:true
         }
       ]
     },
