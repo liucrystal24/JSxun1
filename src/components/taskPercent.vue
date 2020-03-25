@@ -2,12 +2,17 @@
   <div>
     <div class="searchcontainer">
       <el-row class="searchtitle">
-        <el-col :span="6">
+        <el-col :span="3">
+          <div class>
+            <img src="../assets/back.png" width="40px" @click="history" />
+          </div>
+        </el-col>
+        <el-col :span="4" style="textAlign:right;">
           <div class>
             <img src="../assets/calendar.png" width="40px" />
           </div>
         </el-col>
-        <el-col :span="18">
+        <el-col :span="15">
           <div class="titletext">测流任务进度</div>
         </el-col>
       </el-row>
@@ -27,7 +32,7 @@
     </div>
     <div class="resultcontainer">
       <el-row class="searchtitle">
-        <el-col :span="4">
+        <el-col :span="4" style="textAlign:right;">
           <div class>
             <img src="../assets/taskdetail.png" width="40px" />
           </div>
@@ -142,6 +147,9 @@ export default {
   methods: {
     check() {
       console.log(1);
+    },
+    history() {
+      this.$router.go(-1);
     }
   },
   beforeRouteEnter(to, from, next) {
@@ -180,6 +188,7 @@ export default {
 .titletext {
   line-height: 44px;
   text-align: left;
+  padding-left: 15px;
 }
 .tableContainer {
   padding-top: 20px;
