@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="searchcontainer">
-      <el-scrollbar native="true" noresize="true" class="scrollcontainer">
+      <el-scrollbar native="true" noresize="true" class="scrollcontainer" wrap-style="overflow-x:hidden;" >
         <el-row class="searchtitle">
           <el-col :span="6">
             <div class>
@@ -111,7 +111,7 @@
 </template>
 
 <script>
-import "@/assets/css/scrollbar.css"
+// import "@/assets/css/scrollbar.css"
 export default {
   name: "N2C1",
   data() {
@@ -222,4 +222,8 @@ export default {
 .leftcontent {
   width: 90%;
 }
+/* .el-scrollbar__wrap {
+  overflow-x: hidden;
+} */
+
 </style>

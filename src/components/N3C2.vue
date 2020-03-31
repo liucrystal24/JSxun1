@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="searchcontainer">
-      <el-scrollbar native="true" noresize="true" class="scrollcontainer">
+      <el-scrollbar native="true" noresize="true" class="scrollcontainer" wrap-style="overflow-x:hidden;">
         <el-row class="searchtitle">
           <el-col :span="6">
             <div class>

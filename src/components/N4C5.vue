@@ -55,7 +55,7 @@
           </div>
         </el-col>
         <el-col :span="20">
-          <div class="titletext">水文基流自动分割</div>
+          <div class="titletext">瞬时单位线率定</div>
         </el-col>
       </el-row>
       <el-alert

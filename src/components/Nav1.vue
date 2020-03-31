@@ -3,7 +3,7 @@
     <div class="leftnav">
       <div class="lefttitle">
         <i class="el-icon-s-data"></i>
-        数据库列表
+        水文数据
       </div>
       <!-- <el-menu
         default-active="2"
@@ -62,9 +62,9 @@
         <router-link :to="{ name: 'n1c4' }" class="lefta">地图总览</router-link>
       </div>
       <div :class="{ leftactive: leftnum == 5 }" @click="leftnav5" class="leftnavitem">
-        <router-link :to="{ name: 'n1c5' }" class="lefta">探空</router-link>
+        <router-link :to="{ name: 'n1c5' }" class="lefta">报警设置</router-link>
       </div>
-      <div :class="{ leftactive: leftnum == 1 }" class="leftnavitem" @click="leftnav1">
+      <!-- <div :class="{ leftactive: leftnum == 1 }" class="leftnavitem" @click="leftnav1">
         <router-link :to="{ name: 'n1c1' }" class="lefta">雷达</router-link>
       </div>
       <div :class="{ leftactive: leftnum == 3 }" class="leftnavitem" @click="leftnav3">
@@ -72,7 +72,7 @@
       </div>
       <div :class="{ leftactive: leftnum == 4 }" class="leftnavitem" @click="leftnav4">
         <router-link :to="{ name: 'n1c6' }" class="lefta">自动站</router-link>
-      </div>
+      </div> -->
       <div class="footer">
         <div class="comlogo">
           <img src="../assets/comlogo.png" />

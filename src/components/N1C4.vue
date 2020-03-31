@@ -5,9 +5,6 @@
     :zoom="zoom"
     :scroll-wheel-zoom="false"
     :mapStyle="mapStyle"
-    @mousemove="syncPolyline"
-    @click="paintPolyline"
-    @rightclick="newPolyline"
     @ready="handler"
   >
     <!-- 查询条件 -->
@@ -120,17 +117,17 @@
 
     <!-- 画折线线查件组，只需要在polyline.paths加入经纬度数组，即可 -->
 
-    <bm-polyline
+    <!-- <bm-polyline
       :path="path"
       v-for="path of polyline.paths"
       :key="path.index"
       stroke-color="#42F942"
-    ></bm-polyline>
+    ></bm-polyline>-->
     <bm-polyline :path="recPath1" stroke-color="#0303FF"></bm-polyline>
     <bm-polyline :path="recPath2" stroke-color="#0303FF"></bm-polyline>
-    <bm-polyline :path="recPath3" stroke-color="#0303FF"></bm-polyline>
+    <!-- <bm-polyline :path="recPath3" stroke-color="#0303FF"></bm-polyline>
     <bm-polyline :path="recPath4" stroke-color="#FF02FF"></bm-polyline>
-    <bm-polyline :path="recPath5" stroke-color="#FF0000"></bm-polyline>
+    <bm-polyline :path="recPath5" stroke-color="#FF0000"></bm-polyline>-->
 
     <!-- 站点 -->
     <bm-point-collection
@@ -140,6 +137,36 @@
       size="BMAP_POINT_SIZE_SMALL"
       @click="clickHandler"
     ></bm-point-collection>
+
+    <!-- 巡测分类图标 -->
+
+    <bm-marker
+      v-for="zuobiao in carpoints"
+      :key="zuobiao.id"
+      :position="zuobiao.point"
+      :dragging="true"
+      :icon="{url: require('@/assets/car.png'), size: {width: 32, height: 19}}"
+      @click="carmarker(zuobiao)"
+    ></bm-marker>
+    <bm-marker
+      v-for="zuobiao in mobilepoints"
+      :key="zuobiao.id"
+      :position="zuobiao.point"
+      :dragging="true"
+      :icon="{url: require('@/assets/mobile.png'), size: {width: 20, height: 38}}"
+    ></bm-marker>
+    <!-- <bm-marker
+      :position="points.position[4]"
+      :dragging="true"
+      :icon="{url: require('@/assets/car.png'), size: {width: 32, height: 19}}"
+      :offset="{width:0,height:-20}"
+    ></bm-marker>
+    <bm-marker
+      :position="points[8]"
+      :dragging="true"
+      :icon="{url: require('@/assets/mobile.png'), size: {width: 20, height: 38}}"
+      :offset="{width:0,height:-40}"
+    ></bm-marker>-->
   </baidu-map>
 </template>
 
@@ -169,18 +196,17 @@ export default {
         ]
       },
       recPath1: [
-        { lng: 117.974005, lat: 26.776609 },
-        { lng: 118.199372, lat: 26.530698 },
-        { lng: 118.709897, lat: 26.91895 },
-        { lng: 118.48453, lat: 27.137265 },
-        { lng: 117.974005, lat: 26.776609 }
+        { lng: "118.5092", lat: "32.173" },
+        { lng: "118.6552", lat: "32.1754" },
+        { lng: "118.7599", lat: "32.1735" },
+        { lng: "118.8535", lat: "32.175" },
+        { lng: "118.9556", lat: "32.177" }
       ],
       recPath2: [
-        { lng: 118.086689, lat: 26.359901 },
-        { lng: 118.48913, lat: 26.657853 },
-        { lng: 118.705298, lat: 26.453095 },
-        { lng: 118.256864, lat: 26.102707 },
-        { lng: 118.086689, lat: 26.359901 }
+        { lng: "120.681396", lat: "31.704139" },
+        { lng: "120.625551", lat: "31.682505" },
+        { lng: "120.880729", lat: "31.462468" },
+        { lng: "120.758183", lat: "31.629683" }
       ],
       recPath3: [
         { lng: 118.744392, lat: 26.337109 },
@@ -218,7 +244,7 @@ export default {
       },
       //searchdialog
       searchdialog: false,
-      searchbuttonshow:false,
+      searchbuttonshow: false,
       form: {
         stationnum: "",
         startdate: "",
@@ -228,9 +254,21 @@ export default {
         endtime: "",
         enddefaultdate: new Date(2014, 6, 12),
         show: false,
-        fea: "",
+        fea: ""
       },
-      points: [],
+      carpoints: [
+        { point: { lng: "118.5092", lat: "32.173" }, id: "1" },
+        { point: { lng: "118.6552", lat: "32.1754" }, id: "2" },
+        { point: { lng: "118.7599", lat: "32.1735" }, id: "3" },
+        { point: { lng: "118.8535", lat: "32.175" }, id: "4" },
+        { point: { lng: "118.9556", lat: "32.177" }, id: "5" }
+      ],
+      mobilepoints: [
+        { point: { lng: "120.681396", lat: "31.704139" }, id: "1" },
+        { point: { lng: "120.625551", lat: "31.682505" }, id: "2" },
+        { point: { lng: "120.880729", lat: "31.462468" }, id: "3" },
+        { point: { lng: "120.758183", lat: "31.629683" }, id: "4" }
+      ],
       chartShow: false,
       // SELECT `观测时间`,`10分钟平均风速` FROM `fujian`.`fujian_zidongzhan` WHERE `区站号` LIKE '%54537%' AND `观测时间` BETWEEN '2014-07-13 00:00:00' AND '2014-07-13 23:59:59' AND `2分钟平均风向` NOT LIKE '%/%'
       chartData: {
@@ -337,29 +375,40 @@ export default {
 
     handler({ BMap, map }) {
       console.log(BMap, map);
-      this.center.lng = 118.69035;
-      this.center.lat = 26.7539;
-      this.zoom = 9;
-      // Map.addOverlay({ lng: 118.9477, lat: 26.076305 });
-      const points = [];
-      let url = "/FJzidongStationNum";
-      this.axios.get(url, {}).then(
-        res => {
-          console.log(res.data.info.zidongStationNum);
-          let zidongStationNum = res.data.info.zidongStationNum;
-          for (let i = 0; i < zidongStationNum.length; i++) {
-            const position = {
-              lng: zidongStationNum[i].经度,
-              lat: zidongStationNum[i].纬度
-            };
-            points.push(position);
-          }
-          this.points = points;
-        },
-        res => {
-          console.log("err");
-        }
-      );
+      this.center.lng = 119.6052;
+      this.center.lat = 31.7754;
+      this.zoom = 10;
+      // const points = [
+      //   { lng: "118.7092", lat: "32.173" },
+      //   { lng: "118.7552", lat: "32.1754" },
+      //   { lng: "118.799", lat: "32.1735" },
+      //   { lng: "118.835", lat: "32.175" },
+      //   { lng: "118.856", lat: "32.177" },
+      //   { lng: "120.681396", lat: "31.704139" },
+      //   { lng: "120.625551", lat: "31.682505" },
+      //   { lng: "120.880729", lat: "31.462468" },
+      //   { lng: "120.758183", lat: "31.629683" }
+      // ];
+      // this.points = points;
+
+      // let url = "/FJzidongStationNum";
+      // this.axios.get(url, {}).then(
+      //   res => {
+      //     console.log(res.data.info.zidongStationNum);
+      //     let zidongStationNum = res.data.info.zidongStationNum;
+      //     for (let i = 0; i < zidongStationNum.length; i++) {
+      //       const position = {
+      //         lng: zidongStationNum[i].经度,
+      //         lat: zidongStationNum[i].纬度
+      //       };
+      //       points.push(position);
+      //     }
+      //     this.points = points;
+      //   },
+      //   res => {
+      //     console.log("err");
+      //   }
+      // );
     },
     toggle(name) {
       this[name].editing = !this[name].editing;
@@ -405,7 +454,9 @@ export default {
       paths[paths.length - 1].push(e.point);
     },
     clickHandler(e) {
-      alert(`单击点的坐标为：${e.point.lng}, ${e.point.lat}`);
+      console.log(`单击点的坐标为：${e.point.lng}, ${e.point.lat}`);
+      // console.log(e);
+      // console.log(points);
     },
     onSubmit() {
       this.chartShow = true;
@@ -422,8 +473,12 @@ export default {
     },
     chartclose() {
       this.chartShow = false;
+    },
+    carmarker(data) {
+      console.log(data);
     }
-  }
+  },
+  computed: {}
 };
 </script>
 
