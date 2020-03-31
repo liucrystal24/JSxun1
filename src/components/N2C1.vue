@@ -163,7 +163,7 @@ export default {
 .searchtitle {
   padding-top: 20px;
   padding-left: 10px;
-  height: 120px;
+  height: 80px;
 }
 .titletext {
   line-height: 44px;

@@ -3,23 +3,17 @@
     <div class="leftnav">
       <div class="lefttitle">
         <i class="el-icon-s-data"></i>
-        数据分析
+        断面维护
       </div>
       <div :class="{ leftactive: leftnum == 1 }" class="leftnavitem" @click="leftnav1">
-        <router-link :to="{ name: 'n4c1' }" class="lefta">降雨径流关系分析</router-link>
+        <router-link :to="{ name: 'n3c1' }" class="lefta">断面信息管理</router-link>
       </div>
       <div :class="{ leftactive: leftnum == 2 }" @click="leftnav2" class="leftnavitem">
-        <router-link :to="{ name: 'n4c2' }" class="lefta">水文基流自动分割</router-link>
+        <router-link :to="{ name: 'n3c2' }" class="lefta">断面图统计</router-link>
       </div>
-      <div :class="{ leftactive: leftnum == 3 }" class="leftnavitem" @click="leftnav3">
-        <router-link :to="{ name: 'n4c3' }" class="lefta">河道洪水演算智能率定</router-link>
-      </div>
-      <div :class="{ leftactive: leftnum == 4 }" class="leftnavitem" @click="leftnav4">
-        <router-link :to="{ name: 'n4c4' }" class="lefta">水位流量关系智能分析</router-link>
-      </div>
-      <div :class="{ leftactive: leftnum == 5 }" class="leftnavitem" @click="leftnav5">
-        <router-link :to="{ name: 'n4c5' }" class="lefta">瞬时单位线率定</router-link>
-      </div>
+      <!-- <div :class="{ leftactive: leftnum == 3 }" class="leftnavitem" @click="leftnav3">
+        <router-link :to="{ name: 'n2c3' }" class="lefta">测流信息审核</router-link>
+      </div> -->
       <div class="footer">
         <div class="comlogo">
           <img src="../assets/comlogo.png" />
@@ -33,7 +27,7 @@
 
 <script>
 export default {
-  name: "Nav2",
+  name: "Nav3",
   data() {
     return {
       leftnum: 1
@@ -46,29 +40,21 @@ export default {
     leftnav2() {
       this.leftnum = 2;
     },
-    leftnav3() {
-      this.leftnum = 3;
-    },
-    leftnav4() {
-      this.leftnum = 4;
-    },
-    leftnav5() {
-      this.leftnum = 5;
-    }
+    // leftnav3() {
+    //   this.leftnum = 3;
+    // }
   },
   mounted() {
     let inum = this.$route.name.split("c")[1];
     console.log(inum);
     switch (inum) {
-      case "1":
-      case "2":
-      case "3":
-      case "4":
-      case "5":
+      case '1':
+      case '2':
+      case '3':
         this.leftnum = inum;
         break;
       default:
-        this.leftnum = 1;
+        this.leftnum = 3;
         break;
     }
     // this.leftnum = this.$route.name.split("c")[1];

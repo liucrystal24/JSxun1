@@ -51,43 +51,41 @@
       <el-row class="searchtitle">
         <el-col :span="4">
           <div class>
-            <img src="../assets/checklist.png" width="40px" />
+            <img src="../assets/duancharts.png" width="40px" />
           </div>
         </el-col>
         <el-col :span="20">
-          <div class="titletext">雷达文件</div>
+          <div class="titletext">水文基流自动分割</div>
         </el-col>
       </el-row>
-      <div class='tableContainer'>
-        <el-table :data="tableData" style="width: 100%;text-align:center">
-          <el-table-column label="日期" width="180" header-align='center' align='center'>
-            <template slot-scope="scope">
-              <i class="el-icon-time"></i>
-              <span style="margin-left:10px">{{ scope.row.date }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="文件" width="180" header-align='center' align='center'>
-            <template slot-scope="scope">
-              <div slot="reference" class="name-wrapper">
-                <el-tag size="medium">{{ scope.row.name }}</el-tag>
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column label="操作" header-align='center' align='center'>
-            <template slot-scope="scope">
-              <!-- <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button> -->
-              <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">下载</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
+      <el-alert
+        title="统计图显示"
+        type="warning"
+        description="选择左边的条件，点击查询按钮"
+        show-icon
+        style="width:80%;margin:0 auto;"
+        v-if="!chartShow"
+      ></el-alert>
+      <div class="tableContainer" v-if="chartShow">
+        <ve-histogram
+          class="resultContent"
+          :extend="extend"
+          height="400px"
+          :data="chartData"
+          :settings="chartSettings"
+          :toolbox="toolbox"
+          ref="feachart"
+          v-if="chartShow"
+        ></ve-histogram>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import "@/assets/css/scrollbar.css";
 export default {
-  name: "N1C1",
+  name: "N4C1",
   data() {
     return {
       dateselect: {
@@ -119,12 +117,89 @@ export default {
           name: "雷达4",
           address: "上海市普陀区金沙江路 1516 弄"
         }
-      ]
+      ],
+      chartShow: false,
+      chartcontainershow: false,
+      chartData: {
+        columns: ["左水边距离", "河底高层","平均流速"],
+        rows: [
+          {
+            左水边距离: "0",
+            河底高层: "21.1",
+            平均流速:"19"
+          },
+          {
+            左水边距离: "10",
+            河底高层: "17",
+            平均流速:"38"
+          },
+          {
+            左水边距离: "15",
+            河底高层: "14.5",
+            平均流速:"36"
+          },
+          {
+            左水边距离: "20",
+            河底高层: "14",
+            平均流速:"29"
+          },
+          {
+            左水边距离: "25",
+            河底高层: "13.8",
+            平均流速:"31"
+          },
+          {
+            左水边距离: "30",
+            河底高层: "13.5",
+            平均流速:"39"
+          },
+          {
+            左水边距离: "35",
+            河底高层: "14.2",
+            平均流速:"21"
+          },
+          {
+            左水边距离: "40",
+            河底高层: "16",
+            平均流速:"23"
+          },
+          {
+            左水边距离: "45",
+            河底高层: "21.1",
+            平均流速:"18"
+          }
+        ]
+      },
+      chartSettings: {
+        // yAxisName: [""],
+        showLine:"平均流速",
+        xAxisName: ["左水边距离(m)"]
+      },
+      toolbox: {
+        feature: {
+          // magicType: { type: ["line", "bar"] },
+          saveAsImage: {}
+        }
+      },
+      extend: {
+        // color: ["cornflowerblue"],
+        series: {
+          label: {
+            normal: {
+              // show: true
+            }
+          }
+          // markLine: {
+          //   data: [{ type: "average", name: "平均值" }]
+          // }
+        }
+      }
     };
   },
   methods: {
     searchleida() {
       console.log(1);
+      this.chartShow = true;
     },
     handleEdit(index, row) {
       console.log(index, row);
@@ -143,7 +218,6 @@ export default {
   height: 100%;
   box-sizing: border-box;
   border-right: 1px solid #324098;
-
 }
 .resultcontainer {
   float: left;
@@ -153,15 +227,15 @@ export default {
 .searchtitle {
   padding-top: 20px;
   padding-left: 10px;
-  height: 120px;
+  height: 80px;
 }
 .titletext {
   line-height: 44px;
   text-align: left;
 }
-.tableContainer{
-  border:1px solid #ddd;
-  width:80%;
-  margin:0 auto;
+.tableContainer {
+  border: 1px solid #ddd;
+  width: 80%;
+  margin: 0 auto;
 }
 </style>

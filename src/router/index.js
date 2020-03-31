@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Nav1 from "@/components/Nav1";
 import Nav2 from "@/components/Nav2";
+import Nav3 from "@/components/Nav3";
 import Nav4 from "@/components/Nav4";
 
 import N1C1 from "@/components/N1C1";
@@ -15,12 +16,14 @@ import N2C2 from "@/components/N2C2";
 import N2C3 from "@/components/N2C3";
 import TaskPercent from "@/components/TaskPercent";
 
+import N3C1 from "@/components/N3C1";
+import N3C2 from "@/components/N3C2";
+
 import N4C1 from "@/components/N4C1";
 import N4C2 from "@/components/N4C2";
 import N4C3 from "@/components/N4C3";
 import N4C4 from "@/components/N4C4";
 import N4C5 from "@/components/N4C5";
-import N4C6 from "@/components/N4C6";
 
 Vue.use(Router);
 
@@ -88,7 +91,24 @@ export default new Router({
           path: "TaskPercent",
           name: "TaskPercent",
           component: TaskPercent,
-          props:true
+          props: true
+        }
+      ]
+    },
+    {
+      path: "/nav3",
+      // name: 'Nav1',
+      component: Nav3,
+      children: [
+        {
+          path: "n3c1",
+          name: "n3c1",
+          component: N3C1
+        },
+        {
+          path: "n3c2",
+          name: "n3c2",
+          component: N3C2
         }
       ]
     },
@@ -121,11 +141,6 @@ export default new Router({
           path: "n4c5",
           name: "n4c5",
           component: N4C5
-        },
-        {
-          path: "n4c6",
-          name: "n4c6",
-          component: N4C6
         }
       ]
     }

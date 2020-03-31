@@ -1,52 +1,39 @@
 <template>
   <div>
     <div class="searchcontainer">
-      <el-row class="searchtitle">
-        <el-col :span="6">
-          <div class>
-            <img src="../assets/search.png" width="40px" />
-          </div>
-        </el-col>
-        <el-col :span="18">
-          <div class="titletext">条件筛选</div>
-        </el-col>
-      </el-row>
-      <el-form ref="dateselect" :model="dateselect" label-width="30%">
-        <el-form-item label="起始日期">
-          <el-date-picker
-            type="date"
-            placeholder="选择起始日期"
-            v-model="dateselect.startdate"
-            :default-value="dateselect.startdefaultdate"
-          ></el-date-picker>
-        </el-form-item>
-        <el-form-item label="起始时间">
-          <el-select v-model="dateselect.starttime" placeholder="请选起始时间">
-            <el-option label="08:00" value="08:00"></el-option>
-            <el-option label="20:00" value="20:00"></el-option>
-          </el-select>
-        </el-form-item>
-
-        <el-form-item label="结束日期">
-          <el-date-picker
-            type="date"
-            placeholder="选择结束日期"
-            v-model="dateselect.enddate"
-            :default-value="dateselect.enddefaultdate"
-          ></el-date-picker>
-        </el-form-item>
-        <el-form-item label="结束时间">
-          <el-select v-model="dateselect.endtime" placeholder="请选结束时间">
-            <el-option label="08:00" value="08:00"></el-option>
-            <el-option label="20:00" value="20:00"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="searchleida">查询</el-button>
-          <el-button>取消</el-button>
-        </el-form-item>
-      </el-form>
+      <el-scrollbar native="true" noresize="true" class="scrollcontainer">
+        <el-row class="searchtitle">
+          <el-col :span="6">
+            <div class>
+              <img src="../assets/duansearch.png" width="40px" />
+            </div>
+          </el-col>
+          <el-col :span="18">
+            <div class="titletext">断面条件筛选</div>
+          </el-col>
+        </el-row>
+        <el-form ref="form" :model="form" label-width="30%" class="leftcontent">
+          <el-form-item label="设备ID">
+            <el-input v-model="form.deviceid" placeholder="请填写设备ID"></el-input>
+          </el-form-item>
+          <el-form-item label="截面编号">
+            <el-input v-model="form.duanid" placeholder="请填写截面编号"></el-input>
+          </el-form-item>
+          <el-form-item label="桥梁编号">
+            <el-input v-model="form.bridgeid" placeholder="请填写桥梁编号"></el-input>
+            <!-- <el-select v-model="form.region" placeholder="请填写桥梁编号" style="width:100%">
+            <el-option label="北斗手机" value="mobile"></el-option>
+            <el-option label="测流车" value="car"></el-option>
+            </el-select>-->
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="searchleida">查询</el-button>
+            <el-button>取消</el-button>
+          </el-form-item>
+        </el-form>
+      </el-scrollbar>
     </div>
+
     <div class="resultcontainer">
       <el-row class="searchtitle">
         <el-col :span="4">
@@ -55,17 +42,10 @@
           </div>
         </el-col>
         <el-col :span="20">
-          <div class="titletext">降雨径流关系分析</div>
+          <div class="titletext">断面信息统计图</div>
         </el-col>
       </el-row>
-      <el-alert
-        title="统计图显示"
-        type="warning"
-        description="选择左边的条件，点击查询按钮"
-        show-icon
-        style="width:80%;margin:0 auto;"
-        v-if="!chartShow"
-      ></el-alert>
+      <el-alert title="统计图显示" type="warning" description="选择左边的条件，点击查询按钮" show-icon style="width:80%;margin:0 auto;" v-if='!chartShow'></el-alert>
       <div class="tableContainer" v-if="chartShow">
         <ve-line
           class="resultContent"
@@ -85,37 +65,45 @@
 <script>
 import "@/assets/css/scrollbar.css";
 export default {
-  name: "N4C1",
+  name: "N2C1",
   data() {
     return {
-      dateselect: {
-        startdate: "",
-        starttime: "",
-        startdefaultdate: new Date(2014, 8, 10),
-        enddate: "",
-        endtime: "",
-        enddefaultdate: new Date(2014, 8, 15)
+      form: {
+        deviceid: "",
+        duanid: "",
+        bridgeid: "",
+        leftdis: "",
+        riverheight: ""
       },
+      fileList: [],
       tableData: [
         {
-          date: "2016-05-02 08:00",
-          name: "雷达1",
-          address: "上海市普陀区金沙江路 1518 弄"
+          deviceid: "0",
+          duanid: "v1",
+          bridgeid: "nj11",
+          leftdis: "10",
+          riverheight: "17"
         },
         {
-          date: "2016-05-04 08:00",
-          name: "雷达2",
-          address: "上海市普陀区金沙江路 1517 弄"
+          deviceid: "0",
+          duanid: "v1",
+          bridgeid: "nj11",
+          leftdis: "10",
+          riverheight: "17"
         },
         {
-          date: "2016-05-01 08:00",
-          name: "雷达3",
-          address: "上海市普陀区金沙江路 1519 弄"
+          deviceid: "0",
+          duanid: "v1",
+          bridgeid: "nj12",
+          leftdis: "15",
+          riverheight: "30"
         },
         {
-          date: "2016-05-03 08:00",
-          name: "雷达4",
-          address: "上海市普陀区金沙江路 1516 弄"
+          deviceid: "0",
+          duanid: "v1",
+          bridgeid: "nj12",
+          leftdis: "20",
+          riverheight: "29"
         }
       ],
       chartShow: false,
@@ -190,12 +178,31 @@ export default {
     searchleida() {
       console.log(1);
       this.chartShow = true;
+      // this.chartcontainershow = true;
     },
     handleEdit(index, row) {
       console.log(index, row);
     },
     handleDelete(index, row) {
       console.log(index, row);
+    },
+
+    //上传文件
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(
+        `当前限制选择 3 个文件，本次选择了 ${
+          files.length
+        } 个文件，共选择了 ${files.length + fileList.length} 个文件`
+      );
+    },
+    beforeRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`);
     }
   }
 };
@@ -208,6 +215,10 @@ export default {
   height: 100%;
   box-sizing: border-box;
   border-right: 1px solid #324098;
+  /* overflow-y: auto; */
+}
+.scrollcontainer {
+  height: 100%;
 }
 .resultcontainer {
   float: left;
@@ -225,7 +236,10 @@ export default {
 }
 .tableContainer {
   border: 1px solid #ddd;
-  width: 80%;
+  width: 90%;
   margin: 0 auto;
+}
+.leftcontent {
+  width: 90%;
 }
 </style>
