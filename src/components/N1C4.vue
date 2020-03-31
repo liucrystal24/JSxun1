@@ -130,13 +130,13 @@
     <bm-polyline :path="recPath5" stroke-color="#FF0000"></bm-polyline>-->
 
     <!-- 站点 -->
-    <bm-point-collection
+    <!-- <bm-point-collection
       :points="points"
       shape="BMAP_POINT_SHAPE_CIRCLE"
       color="red"
       size="BMAP_POINT_SIZE_SMALL"
       @click="clickHandler"
-    ></bm-point-collection>
+    ></bm-point-collection>-->
 
     <!-- 巡测分类图标 -->
 
@@ -150,11 +150,23 @@
     ></bm-marker>
     <bm-marker
       v-for="zuobiao in mobilepoints"
-      :key="zuobiao.id"
+      :key="+'car'+zuobiao.id"
       :position="zuobiao.point"
       :dragging="true"
       :icon="{url: require('@/assets/mobile.png'), size: {width: 20, height: 38}}"
     ></bm-marker>
+
+    <!-- 点击出现windows -->
+    <bm-info-window
+      :position="infoWindow.position"
+      title="巡测信息"
+      :show="infoWindow.show"
+      @close="infoWindowClose"
+      @open="infoWindowOpen"
+    >
+      <p v-text="infoWindow.contents"></p>
+    </bm-info-window>
+
     <!-- <bm-marker
       :position="points.position[4]"
       :dragging="true"
@@ -269,6 +281,11 @@ export default {
         { point: { lng: "120.880729", lat: "31.462468" }, id: "3" },
         { point: { lng: "120.758183", lat: "31.629683" }, id: "4" }
       ],
+      infoWindow: {
+        show: false,
+        position: {},
+        contents: ""
+      },
       chartShow: false,
       // SELECT `观测时间`,`10分钟平均风速` FROM `fujian`.`fujian_zidongzhan` WHERE `区站号` LIKE '%54537%' AND `观测时间` BETWEEN '2014-07-13 00:00:00' AND '2014-07-13 23:59:59' AND `2分钟平均风向` NOT LIKE '%/%'
       chartData: {
@@ -458,6 +475,12 @@ export default {
       // console.log(e);
       // console.log(points);
     },
+    infoWindowClose(e) {
+      this.infoWindow.show = false;
+    },
+    infoWindowOpen(e) {
+      this.infoWindow.show = true;
+    },
     onSubmit() {
       this.chartShow = true;
       // this.$refs[`feachart`].echarts.resize();
@@ -475,7 +498,9 @@ export default {
       this.chartShow = false;
     },
     carmarker(data) {
-      console.log(data);
+      this.infoWindow.show = true;
+      this.infoWindow.position = { lng: data.point.lng, lat: data.point.lat };
+      this.infoWindow.contents = data.id;
     }
   },
   computed: {}
