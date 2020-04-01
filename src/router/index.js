@@ -4,6 +4,7 @@ import Nav1 from "@/components/Nav1";
 import Nav2 from "@/components/Nav2";
 import Nav3 from "@/components/Nav3";
 import Nav4 from "@/components/Nav4";
+import Nav5 from "@/components/Nav5";
 
 import N1C1 from "@/components/N1C1";
 import N1C2 from "@/components/N1C2";
@@ -24,6 +25,9 @@ import N4C2 from "@/components/N4C2";
 import N4C3 from "@/components/N4C3";
 import N4C4 from "@/components/N4C4";
 import N4C5 from "@/components/N4C5";
+
+import N5C1 from "@/components/N5C1";
+
 
 Vue.use(Router);
 
@@ -141,6 +145,18 @@ export default new Router({
           path: "n4c5",
           name: "n4c5",
           component: N4C5
+        }
+      ]
+    },
+    {
+      path: "/nav5",
+      // name: 'Nav1',
+      component: Nav5,
+      children: [
+        {
+          path: "n5c1",
+          name: "n5c1",
+          component: N5C1
         }
       ]
     }

@@ -4,6 +4,12 @@ import Vue from "vue";
 import axios from "axios";
 import VCharts from "v-charts";
 
+import ECharts from 'vue-echarts'
+import 'echarts/lib/component/tooltip'
+import 'echarts/lib/component/title'
+import 'echarts/lib/component/legend'
+
+
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 
@@ -21,6 +27,8 @@ Vue.use(BaiduMap, {
   ak: "3IOUQ6Hcni8qwdXXyMD8sGssfCOGwjYD"
 });
 Vue.component("bml-marker-cluster", BmlMarkerClusterer);
+
+Vue.component('v-chart', ECharts)
 
 Vue.config.productionTip = false;
 

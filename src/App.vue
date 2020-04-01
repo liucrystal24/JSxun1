@@ -34,7 +34,7 @@
               </router-link>
             </div>
             <div class="navcontent" @click="navchange5">
-              <router-link :to="{name:'n4c1'}" class="nava" :class="{nav_active:navshow == 5}">
+              <router-link :to="{name:'n5c1'}" class="nava" :class="{nav_active:navshow == 5}">
                 <img src="./assets/rootsetting.png" alt class="navimg" />
                 <div class="navtext">用户管理</div>
               </router-link>

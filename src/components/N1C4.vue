@@ -3,7 +3,7 @@
     class="bm-view"
     :center="center"
     :zoom="zoom"
-    :scroll-wheel-zoom="false"
+    :scroll-wheel-zoom="true"
     :mapStyle="mapStyle"
     @ready="handler"
   >
@@ -144,7 +144,7 @@
       v-for="zuobiao in carpoints"
       :key="zuobiao.id"
       :position="zuobiao.point"
-      :dragging="true"
+      :dragging="false"
       :icon="{url: require('@/assets/car.png'), size: {width: 32, height: 19}}"
       @click="carmarker(zuobiao)"
     ></bm-marker>
@@ -152,8 +152,9 @@
       v-for="zuobiao in mobilepoints"
       :key="+'car'+zuobiao.id"
       :position="zuobiao.point"
-      :dragging="true"
+      :dragging="false"
       :icon="{url: require('@/assets/mobile.png'), size: {width: 20, height: 38}}"
+      @click="carmarker(zuobiao)"
     ></bm-marker>
 
     <!-- 点击出现windows -->
@@ -164,7 +165,29 @@
       @close="infoWindowClose"
       @open="infoWindowOpen"
     >
-      <p v-text="infoWindow.contents"></p>
+      <!-- <p v-text="infoWindow.contents"></p> -->
+      <el-table :data="tableData" style="width: 100%;text-align:center">
+        <el-table-column label="时间" width="170" header-align="center" align="center">
+          <template slot-scope="scope">
+            <i class="el-icon-time"></i>
+            <span style="margin-left:10px">{{ scope.row.date }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="平均流速(测速仪)" width="130" header-align="center" align="center">
+          <template slot-scope="scope">
+            <div slot="reference" class="name-wrapper">
+              <el-tag size="medium">{{ scope.row.cesuyi }}</el-tag>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column label="平均流速(adcp)" width="130" header-align="center" align="center">
+          <template slot-scope="scope">
+            <div slot="reference" class="name-wrapper">
+              <el-tag size="medium">{{ scope.row.adcp }}</el-tag>
+            </div>
+          </template>
+        </el-table-column>
+      </el-table>
     </bm-info-window>
 
     <!-- <bm-marker
@@ -362,7 +385,29 @@ export default {
           //   data: [{ type: "average", name: "平均值" }]
           // }
         }
-      }
+      },
+      tableData: [
+        {
+          date: "2019-05-29 11:00",
+          cesuyi: "0.038",
+          adcp: "0.123"
+        },
+        {
+          date: "2019-05-29 17:00",
+          cesuyi: "0.097",
+          adcp: "0.076"
+        },
+        {
+          date: "2019-05-29 17:30",
+          cesuyi: "0.048",
+          adcp: "0.044"
+        },
+        {
+          date: "2019-05-29 18:00",
+          cesuyi: "0.025",
+          adcp: "0.039"
+        }
+      ]
     };
   },
   methods: {
@@ -394,7 +439,7 @@ export default {
       console.log(BMap, map);
       this.center.lng = 119.6052;
       this.center.lat = 31.7754;
-      this.zoom = 10;
+      this.zoom = 9;
       // const points = [
       //   { lng: "118.7092", lat: "32.173" },
       //   { lng: "118.7552", lat: "32.1754" },
