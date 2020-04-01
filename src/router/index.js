@@ -11,6 +11,8 @@ import N1C2 from "@/components/N1C2";
 import N1C3 from "@/components/N1C3";
 import N1C4 from "@/components/N1C4";
 import N1C5 from "@/components/N1C5";
+import N1C6 from "@/components/N1C6";
+import ChartTest from "@/components/chart";
 
 import N2C1 from "@/components/N2C1";
 import N2C2 from "@/components/N2C2";
@@ -68,7 +70,12 @@ export default new Router({
           path: "n1c5",
           name: "n1c5",
           component: N1C5
-        }
+        },
+        {
+          path: "n1c6",
+          name: "n1c6",
+          component: N1C6
+        },
       ]
     },
     {

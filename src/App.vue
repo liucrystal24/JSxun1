@@ -4,10 +4,11 @@
       <div class="header">
         <div class="logo">
           <img src="./assets/spa_logo.png" />
-          <div class="pcompany">中国气象科学研究院</div>
+          <!-- <div class="pcompany">中国气象科学研究院</div> -->
         </div>
         <div class="headerright">
           <div class="projectname">江苏省流量巡测在线平台</div>
+          <el-avatar :src="userimg" class="user"></el-avatar>
           <div class="headernav">
             <div class="navcontent" @click="navchange1">
               <router-link :to="{name:'n1c4'}" class="nava" :class="{nav_active:navshow == 1}">
@@ -54,7 +55,8 @@ export default {
   name: "App",
   data() {
     return {
-      navshow: 1
+      navshow: 1,
+      userimg:require("@/assets/user.png")
     };
   },
   methods: {
@@ -200,5 +202,14 @@ header {
   /* position: absolute; */
   padding-top: 150px;
   box-sizing: border-box;
+}
+.el-avatar{
+  background-color: #fff;
+}
+.user{
+  position: fixed;
+  right:40px;
+  top:20px;
+
 }
 </style>

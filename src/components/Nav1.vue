@@ -5,59 +5,6 @@
         <i class="el-icon-s-data"></i>
         水文数据
       </div>
-      <!-- <el-menu
-        default-active="2"
-        class="el-menu-vertical-demo"
-        @open="handleOpen"
-        @close="handleClose"
-        background-color="#6995EB"
-        text-color="#fff"
-        active-text-color="#ffd04b"
-        unique-opened="true"
-        router="true"
-      >
-        <el-submenu index="1">
-          <template slot="title">
-            <i class="el-icon-location"></i>
-            <span style='fontSize:18px;'>福建</span>
-          </template>
-          <el-menu-item index="n1c4">选项1</el-menu-item>
-          <el-menu-item index="n1c1">选项2</el-menu-item>
-          <el-menu-item index="n1c5">选项3</el-menu-item>
-          <el-menu-item index="n1c3">选项4</el-menu-item>
-          <el-menu-item index="n1c6">选项4</el-menu-item>
-        </el-submenu>
-        <el-submenu index="2">
-          <template slot="title">
-            <i class="el-icon-location"></i>
-            <span>海南</span>
-          </template>
-          <el-menu-item index="2-1">选项1</el-menu-item>
-          <el-menu-item index="2-2">选项2</el-menu-item>
-          <el-menu-item index="2-3">选项3</el-menu-item>
-          <el-menu-item index="2-4">选项4</el-menu-item>
-        </el-submenu>
-        <el-submenu index="3">
-          <template slot="title">
-            <i class="el-icon-location"></i>
-            <span>吉林</span>
-          </template>
-          <el-menu-item index="3-1">选项1</el-menu-item>
-          <el-menu-item index="3-2">选项2</el-menu-item>
-          <el-menu-item index="3-3">选项3</el-menu-item>
-          <el-menu-item index="3-4">选项4</el-menu-item>
-        </el-submenu>
-        <el-submenu index="4">
-          <template slot="title">
-            <i class="el-icon-location"></i>
-            <span>山东</span>
-          </template>
-          <el-menu-item index="4-1">选项1</el-menu-item>
-          <el-menu-item index="4-2">选项2</el-menu-item>
-          <el-menu-item index="4-3">选项3</el-menu-item>
-          <el-menu-item index="4-4">选项4</el-menu-item>
-        </el-submenu>
-      </el-menu>-->
       <div :class="{ leftactive: leftnum == 2 }" class="leftnavitem" @click="leftnav2">
         <router-link :to="{ name: 'n1c4' }" class="lefta">地图总览</router-link>
       </div>
@@ -65,9 +12,9 @@
         <router-link :to="{ name: 'n1c5' }" class="lefta">报警设置</router-link>
       </div>
       <!-- <div :class="{ leftactive: leftnum == 1 }" class="leftnavitem" @click="leftnav1">
-        <router-link :to="{ name: 'n1c1' }" class="lefta">雷达</router-link>
-      </div>
-      <div :class="{ leftactive: leftnum == 3 }" class="leftnavitem" @click="leftnav3">
+        <router-link :to="{ name: 'n1c6' }" class="lefta">test</router-link>
+      </div> -->
+      <!-- <div :class="{ leftactive: leftnum == 3 }" class="leftnavitem" @click="leftnav3">
         <router-link :to="{ name: 'n1c3' }" class="lefta">雨滴谱</router-link>
       </div>
       <div :class="{ leftactive: leftnum == 4 }" class="leftnavitem" @click="leftnav4">
