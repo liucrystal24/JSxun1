@@ -115,6 +115,10 @@
       <button>123</button>
     </bm-control>-->
 
+    <bm-control>
+      <button @click="changeicon">换图标</button>
+    </bm-control>
+
     <!-- 画折线线查件组，只需要在polyline.paths加入经纬度数组，即可 -->
 
     <!-- <bm-polyline
@@ -123,8 +127,8 @@
       :key="path.index"
       stroke-color="#42F942"
     ></bm-polyline>-->
-    <bm-polyline :path="recPath1" stroke-color="#0303FF"></bm-polyline>
-    <bm-polyline :path="recPath2" stroke-color="#0303FF"></bm-polyline>
+    <!-- <bm-polyline :path="recPath1" stroke-color="#0303FF"></bm-polyline> -->
+    <!-- <bm-polyline :path="recPath2" stroke-color="#0303FF"></bm-polyline> -->
     <!-- <bm-polyline :path="recPath3" stroke-color="#0303FF"></bm-polyline>
     <bm-polyline :path="recPath4" stroke-color="#FF02FF"></bm-polyline>
     <bm-polyline :path="recPath5" stroke-color="#FF0000"></bm-polyline>-->
@@ -141,19 +145,19 @@
     <!-- 巡测分类图标 -->
 
     <bm-marker
-      v-for="zuobiao in carpoints"
-      :key="zuobiao.id"
+      v-for="(zuobiao,index) in newarr1"
+      :key="index"
       :position="zuobiao.point"
       :dragging="false"
-      :icon="{url: require('@/assets/car.png'), size: {width: 32, height: 19}}"
+      :icon="{url: require('@/assets/icon1.png'), size: {width: 25, height: 25}}"
       @click="carmarker(zuobiao)"
     ></bm-marker>
     <bm-marker
-      v-for="zuobiao in mobilepoints"
-      :key="+'car'+zuobiao.id"
+      v-for="(zuobiao,index) in newarr2"
+      :key="index"
       :position="zuobiao.point"
       :dragging="false"
-      :icon="{url: require('@/assets/mobile.png'), size: {width: 20, height: 38}}"
+      :icon="{url: require('@/assets/update.gif'), size: {width: 25, height: 25}}"
       @click="carmarker(zuobiao)"
     ></bm-marker>
 
@@ -212,6 +216,7 @@ export default {
     return {
       center: { lng: 119.29035, lat: 26.1039 },
       zoom: 9,
+      iconurl: require("@/assets/car.png"),
       mapStyle: {
         styleJson: [
           {
@@ -291,18 +296,86 @@ export default {
         show: false,
         fea: ""
       },
+      stationPoints: [
+        { point: { lng: "118.5092", lat: "32.1732" }, id: "1", state: false },
+        { point: { lng: "118.6552", lat: "32.1754" }, id: "2", state: false },
+        { point: { lng: "118.7599", lat: "32.1735" }, id: "3", state: false },
+        { point: { lng: "118.8535", lat: "32.1752" }, id: "4", state: false },
+        { point: { lng: "118.9556", lat: "32.1772" }, id: "5", state: false },
+        {
+          point: { lng: "120.681396", lat: "31.704139" },
+          id: "6",
+          state: true
+        },
+        {
+          point: { lng: "120.625551", lat: "31.682505" },
+          id: "7",
+          state: true
+        },
+        {
+          point: { lng: "120.880729", lat: "31.462468" },
+          id: "8",
+          state: true
+        },
+        {
+          point: { lng: "120.758183", lat: "31.629683" },
+          id: "9",
+          state: true
+        }
+      ],
+      newarr1: [
+        { point: { lng: "118.5092", lat: "32.1732" }, id: "1", state: false },
+        { point: { lng: "118.6552", lat: "32.1754" }, id: "2", state: false },
+        { point: { lng: "118.7599", lat: "32.1735" }, id: "3", state: false },
+        { point: { lng: "118.8535", lat: "32.1752" }, id: "4", state: false },
+        { point: { lng: "118.9556", lat: "32.1772" }, id: "5", state: false }
+      ],
+      newarr2: [
+        {
+          point: { lng: "120.681396", lat: "31.704139" },
+          id: "6",
+          state: true
+        },
+        {
+          point: { lng: "120.625551", lat: "31.682505" },
+          id: "7",
+          state: true
+        },
+        {
+          point: { lng: "120.880729", lat: "31.462468" },
+          id: "8",
+          state: true
+        },
+        {
+          point: { lng: "120.758183", lat: "31.629683" },
+          id: "9",
+          state: true
+        }
+      ],
       carpoints: [
-        { point: { lng: "118.5092", lat: "32.173" }, id: "1" },
-        { point: { lng: "118.6552", lat: "32.1754" }, id: "2" },
-        { point: { lng: "118.7599", lat: "32.1735" }, id: "3" },
-        { point: { lng: "118.8535", lat: "32.175" }, id: "4" },
-        { point: { lng: "118.9556", lat: "32.177" }, id: "5" }
+        { point: { lng: "118.5092", lat: "32.1732" }, id: "1", state: false },
+        { point: { lng: "118.6552", lat: "32.1754" }, id: "2", state: false },
+        { point: { lng: "118.7599", lat: "32.1735" }, id: "3", state: false },
+        { point: { lng: "118.8535", lat: "32.1752" }, id: "4", state: false },
+        { point: { lng: "118.9556", lat: "32.1772" }, id: "5", state: false }
       ],
       mobilepoints: [
-        { point: { lng: "120.681396", lat: "31.704139" }, id: "1" },
-        { point: { lng: "120.625551", lat: "31.682505" }, id: "2" },
-        { point: { lng: "120.880729", lat: "31.462468" }, id: "3" },
-        { point: { lng: "120.758183", lat: "31.629683" }, id: "4" }
+        {
+          point: { lng: "120.681396", lat: "31.704139" },
+          id: "1",
+          state: true
+        },
+        {
+          point: { lng: "120.625551", lat: "31.682505" },
+          id: "2",
+          state: true
+        },
+        {
+          point: { lng: "120.880729", lat: "31.462468" },
+          id: "3",
+          state: true
+        },
+        { point: { lng: "120.758183", lat: "31.629683" }, id: "4", state: true }
       ],
       infoWindow: {
         show: false,
@@ -546,9 +619,66 @@ export default {
       this.infoWindow.show = true;
       this.infoWindow.position = { lng: data.point.lng, lat: data.point.lat };
       this.infoWindow.contents = data.id;
+      console.log(data.state);
+      setTimeout(() => {
+        data.state = "common";
+      }, 1000);
+    },
+    changeicon() {
+      setTimeout(() => {
+        // this.carpoints[2].state = true;
+        // this.carpoints[3].state = true;
+        this.stationPoints[5].state = false;
+        this.stationPoints[6].state = false;
+      }, 3000);
+      // console.log(this.carpoints);
+      // console.log(this.mobilepoints);
+      // for (let i = 0; i < this.carpoints.length; i++) {
+      //   let newstate = this.carpoints[i].state;
+      //   if (newstate === "update") {
+      //     this.mobilepoints.push(this.carpoints[i]);
+      //     this.carpoints.splice(i, 1);
+      //   }
+      // }
+      // console.log(this.carpoints);
+      // console.log(this.mobilepoints);
     }
   },
-  computed: {}
+  computed: {
+    updateNew() {
+      return JSON.parse(JSON.stringify(this.stationPoints));
+    }
+  },
+  watch: {
+    updateNew: {
+      handler(nv, ov) {
+        console.log(nv, ov);
+        // const arr1 = nv.carpoints;
+        // const arr2 = nv.mobilepoints;
+        this.newarr1 = [];
+        this.newarr2 = [];
+        for (let i = 0; i < nv.length; i++) {
+          const newstate = nv[i].state;
+          if (newstate) {
+            this.newarr2 = [nv[i], ...this.newarr2];
+          } else {
+            this.newarr1 = [nv[i], ...this.newarr1];
+          }
+        }
+        // for (let i = 0; i < arr2.length; i++) {
+        //   let newstate2 = arr2[i].state;
+        //   if (newstate2) {
+        //     this.newarr2 = [arr2[i], ...this.newarr2];
+        //   } else {
+        //     this.newarr1 = [arr2[i], ...this.newarr2];
+        //   }
+        // }
+        // this.stationPoints.carpoints = this.newarr1;
+        // this.stationPoints.mobilepoints = this.newarr2;
+      },
+      deep: true
+    }
+  }
 };
 </script>
 
