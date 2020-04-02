@@ -145,16 +145,16 @@
     <!-- 巡测分类图标 -->
 
     <bm-marker
-      v-for="(zuobiao,index) in newarr1"
-      :key="index"
+      v-for="zuobiao in newarr1"
+      :key="'station-'+zuobiao.id"
       :position="zuobiao.point"
       :dragging="false"
       :icon="{url: require('@/assets/icon1.png'), size: {width: 25, height: 25}}"
       @click="carmarker(zuobiao)"
     ></bm-marker>
     <bm-marker
-      v-for="(zuobiao,index) in newarr2"
-      :key="index"
+      v-for="zuobiao in newarr2"
+      :key="'station-'+zuobiao.id"
       :position="zuobiao.point"
       :dragging="false"
       :icon="{url: require('@/assets/update.gif'), size: {width: 25, height: 25}}"
@@ -653,6 +653,7 @@ export default {
     updateNew: {
       handler(nv, ov) {
         console.log(nv, ov);
+
         // const arr1 = nv.carpoints;
         // const arr2 = nv.mobilepoints;
         this.newarr1 = [];
@@ -665,6 +666,8 @@ export default {
             this.newarr1 = [nv[i], ...this.newarr1];
           }
         }
+        console.log(this.newarr1);
+        console.log(this.newarr2);
         // for (let i = 0; i < arr2.length; i++) {
         //   let newstate2 = arr2[i].state;
         //   if (newstate2) {
