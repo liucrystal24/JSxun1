@@ -5,21 +5,21 @@
         <i class="el-icon-s-data"></i>
         水文数据
       </div>
-      <div :class="{ leftactive: leftnum == 2 }" class="leftnavitem" @click="leftnav2">
+      <div :class="{ leftactive: leftnum == 4 }" class="leftnavitem" @click="leftnav4">
         <router-link :to="{ name: 'n1c4' }" class="lefta">地图总览</router-link>
       </div>
       <div :class="{ leftactive: leftnum == 5 }" @click="leftnav5" class="leftnavitem">
         <router-link :to="{ name: 'n1c5' }" class="lefta">报警设置</router-link>
       </div>
-      <!-- <div :class="{ leftactive: leftnum == 1 }" class="leftnavitem" @click="leftnav1">
-        <router-link :to="{ name: 'n1c6' }" class="lefta">test</router-link>
-      </div> -->
+      <div :class="{ leftactive: leftnum == 1 }" class="leftnavitem" @click="leftnav1">
+        <router-link :to="{ name: 'n1c1' }" class="lefta">站点管理</router-link>
+      </div>
       <!-- <div :class="{ leftactive: leftnum == 3 }" class="leftnavitem" @click="leftnav3">
         <router-link :to="{ name: 'n1c3' }" class="lefta">雨滴谱</router-link>
       </div>
       <div :class="{ leftactive: leftnum == 4 }" class="leftnavitem" @click="leftnav4">
         <router-link :to="{ name: 'n1c6' }" class="lefta">自动站</router-link>
-      </div> -->
+      </div>-->
       <div class="footer">
         <div class="comlogo">
           <img src="../assets/comlogo.png" />
@@ -57,7 +57,18 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$route);
+    let inum = this.$route.name.split("c")[1];
+    console.log(inum);
+    switch (inum) {
+      case '1':
+      case '4':
+      case '5':
+        this.leftnum = inum;
+        break;
+      default:
+        this.leftnum = 4;
+        break;
+    }
   }
 };
 </script>

@@ -68,7 +68,7 @@
         </el-col>
       </el-row>
       <div class="tableContainer">
-        <el-table :data="tableData" style="text-align:center">
+        <el-table :data="tableData" style="text-align:center" >
           <el-table-column label="设备编号" header-align="center" align="center">
             <template slot-scope="scope">
               <!-- <i class="el-icon-time"></i> -->
@@ -98,7 +98,7 @@
               <span style="margin-left:10px">{{ scope.row.riverheight }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="操作" header-align="center" align="center">
+          <el-table-column label="操作" header-align="center" align="center" width="160px">
             <template slot-scope="scope">
               <el-button size="mini" type="success" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
               <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>

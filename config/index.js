@@ -10,11 +10,11 @@ module.exports = {
     assetsSubDirectory: "static",
     assetsPublicPath: "/",
     proxyTable: {
-      "/": {
+      "/jsxun": {
         target: "http://127.0.0.1:7001", //此处不能用localhost:8080，需要用ip替换
         changeOrigin: true,
         pathRewrite: {
-          "^/": ""
+          "^/jsxun": "/"
         }
       }
     },

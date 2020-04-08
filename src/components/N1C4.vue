@@ -119,6 +119,10 @@
       <button @click="changeicon">换图标</button>
     </bm-control>
 
+    <bm-control style="marginLeft:50px">
+      <button @click="readPoint">读库测试</button>
+    </bm-control>
+
     <!-- 画折线线查件组，只需要在polyline.paths加入经纬度数组，即可 -->
 
     <!-- <bm-polyline
@@ -146,18 +150,24 @@
 
     <bm-marker
       v-for="zuobiao in newarr1"
-      :key="'station-'+zuobiao.id"
+      :key="'station-' + zuobiao.id"
       :position="zuobiao.point"
       :dragging="false"
-      :icon="{url: require('@/assets/icon1.png'), size: {width: 25, height: 25}}"
+      :icon="{
+        url: require('@/assets/icon1.png'),
+        size: { width: 25, height: 25 }
+      }"
       @click="carmarker(zuobiao)"
     ></bm-marker>
     <bm-marker
       v-for="zuobiao in newarr2"
-      :key="'station-'+zuobiao.id"
+      :key="'station-' + zuobiao.id"
       :position="zuobiao.point"
       :dragging="false"
-      :icon="{url: require('@/assets/update.gif'), size: {width: 25, height: 25}}"
+      :icon="{
+        url: require('@/assets/update.gif'),
+        size: { width: 25, height: 25 }
+      }"
       @click="carmarker(zuobiao)"
     ></bm-marker>
 
@@ -297,58 +307,94 @@ export default {
         fea: ""
       },
       stationPoints: [
-        { point: { lng: "118.5092", lat: "32.1732" }, id: "1", state: false },
-        { point: { lng: "118.6552", lat: "32.1754" }, id: "2", state: false },
-        { point: { lng: "118.7599", lat: "32.1735" }, id: "3", state: false },
-        { point: { lng: "118.8535", lat: "32.1752" }, id: "4", state: false },
-        { point: { lng: "118.9556", lat: "32.1772" }, id: "5", state: false },
+        {
+          point: { lng: "118.5092", lat: "32.1732" },
+          id: "jd01",
+          state: false
+        },
+        {
+          point: { lng: "118.6552", lat: "32.1754" },
+          id: "jd02",
+          state: false
+        },
+        {
+          point: { lng: "118.7599", lat: "32.1735" },
+          id: "jd03",
+          state: false
+        },
+        {
+          point: { lng: "118.8535", lat: "32.1752" },
+          id: "jd04",
+          state: false
+        },
+        {
+          point: { lng: "118.9556", lat: "32.1772" },
+          id: "jd05",
+          state: false
+        },
         {
           point: { lng: "120.681396", lat: "31.704139" },
-          id: "6",
+          id: "jd06",
           state: true
         },
         {
           point: { lng: "120.625551", lat: "31.682505" },
-          id: "7",
+          id: "jd07",
           state: true
         },
         {
           point: { lng: "120.880729", lat: "31.462468" },
-          id: "8",
+          id: "jd08",
           state: true
         },
         {
           point: { lng: "120.758183", lat: "31.629683" },
-          id: "9",
+          id: "jd09",
           state: true
         }
       ],
       newarr1: [
-        { point: { lng: "118.5092", lat: "32.1732" }, id: "1", state: false },
-        { point: { lng: "118.6552", lat: "32.1754" }, id: "2", state: false },
-        { point: { lng: "118.7599", lat: "32.1735" }, id: "3", state: false },
-        { point: { lng: "118.8535", lat: "32.1752" }, id: "4", state: false },
-        { point: { lng: "118.9556", lat: "32.1772" }, id: "5", state: false }
+        {
+          point: { lng: "118.5092", lat: "32.1732" },
+          id: "jd01",
+          state: false
+        },
+        {
+          point: { lng: "118.6552", lat: "32.1754" },
+          id: "jd02",
+          state: false
+        },
+        {
+          point: { lng: "118.7599", lat: "32.1735" },
+          id: "jd03",
+          state: false
+        },
+        {
+          point: { lng: "118.8535", lat: "32.1752" },
+          id: "jd04",
+          state: false
+        },
+        { point: { lng: "118.9556", lat: "32.1772" }, id: "jd05", state: false }
       ],
       newarr2: [
         {
           point: { lng: "120.681396", lat: "31.704139" },
-          id: "6",
+          id: "jd06",
           state: true
         },
         {
           point: { lng: "120.625551", lat: "31.682505" },
-          id: "7",
+          id: "jd07",
           state: true
         },
         {
           point: { lng: "120.880729", lat: "31.462468" },
-          id: "8",
+          id: "jd08",
           state: true
         },
         {
           point: { lng: "120.758183", lat: "31.629683" },
-          id: "9",
+          id: "jd09",
           state: true
         }
       ],
@@ -509,41 +555,11 @@ export default {
     },
 
     handler({ BMap, map }) {
-      console.log(BMap, map);
-      this.center.lng = 119.6052;
-      this.center.lat = 31.7754;
-      this.zoom = 9;
-      // const points = [
-      //   { lng: "118.7092", lat: "32.173" },
-      //   { lng: "118.7552", lat: "32.1754" },
-      //   { lng: "118.799", lat: "32.1735" },
-      //   { lng: "118.835", lat: "32.175" },
-      //   { lng: "118.856", lat: "32.177" },
-      //   { lng: "120.681396", lat: "31.704139" },
-      //   { lng: "120.625551", lat: "31.682505" },
-      //   { lng: "120.880729", lat: "31.462468" },
-      //   { lng: "120.758183", lat: "31.629683" }
-      // ];
-      // this.points = points;
-
-      // let url = "/FJzidongStationNum";
-      // this.axios.get(url, {}).then(
-      //   res => {
-      //     console.log(res.data.info.zidongStationNum);
-      //     let zidongStationNum = res.data.info.zidongStationNum;
-      //     for (let i = 0; i < zidongStationNum.length; i++) {
-      //       const position = {
-      //         lng: zidongStationNum[i].经度,
-      //         lat: zidongStationNum[i].纬度
-      //       };
-      //       points.push(position);
-      //     }
-      //     this.points = points;
-      //   },
-      //   res => {
-      //     console.log("err");
-      //   }
-      // );
+      // console.log(BMap, map);
+      this.center.lng = 119.556871;
+      this.center.lat = 32.433553;
+      this.zoom = 15;
+      this.$options.methods.readPoint.bind(this)()
     },
     toggle(name) {
       this[name].editing = !this[name].editing;
@@ -642,6 +658,33 @@ export default {
       // }
       // console.log(this.carpoints);
       // console.log(this.mobilepoints);
+    },
+    readPoint() {
+      let url = "/jsxun/api/bridgeRead";
+      this.axios.get(url, {}).then(
+        res => {
+          if (res.data.code === 1) {
+            console.log(res.data);
+            let bridgesArr = res.data.info.bridgeInfo;
+            let bridgesCookie = [];
+            for (let i = 0; i < bridgesArr.length; i++) {
+              const element = bridgesArr[i];
+              let bridgeCookie = {}
+              bridgeCookie.point = {
+                lng: bridgesArr[i].lon,
+                lat: bridgesArr[i].lat,
+              },
+              bridgeCookie.id = bridgesArr[i].bridgeID;
+              bridgeCookie.state = false
+              bridgesCookie.push(bridgeCookie)
+            }
+            this.stationPoints = bridgesCookie;
+          }
+        },
+        res => {
+          console.log("err");
+        }
+      );
     }
   },
   computed: {
@@ -668,16 +711,6 @@ export default {
         }
         console.log(this.newarr1);
         console.log(this.newarr2);
-        // for (let i = 0; i < arr2.length; i++) {
-        //   let newstate2 = arr2[i].state;
-        //   if (newstate2) {
-        //     this.newarr2 = [arr2[i], ...this.newarr2];
-        //   } else {
-        //     this.newarr1 = [arr2[i], ...this.newarr2];
-        //   }
-        // }
-        // this.stationPoints.carpoints = this.newarr1;
-        // this.stationPoints.mobilepoints = this.newarr2;
       },
       deep: true
     }

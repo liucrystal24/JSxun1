@@ -18,8 +18,14 @@ import { BmlMarkerClusterer } from "vue-baidu-map";
 
 import App from "./App";
 import router from "./router";
+Vue.config.productionTip = false;
 
 Vue.prototype.axios = axios;
+// 设置axios请求的token,可能是安全问题
+// axios.defaults.headers.common['token'] = 'f4c902c9ae5a2a9d8f84868ad064e706'
+//设置请求头
+// axios.defaults.headers.post["Content-type"] = "application/json"
+
 Vue.use(ElementUI);
 Vue.use(VCharts);
 Vue.use(BaiduMap, {
@@ -30,7 +36,7 @@ Vue.component("bml-marker-cluster", BmlMarkerClusterer);
 
 Vue.component('v-chart', ECharts)
 
-Vue.config.productionTip = false;
+
 
 /* eslint-disable no-new */
 new Vue({
