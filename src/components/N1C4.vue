@@ -221,7 +221,7 @@
 
 <script>
 export default {
-  name: "N1C2",
+  name: "N1C4",
   data() {
     return {
       center: { lng: 119.29035, lat: 26.1039 },
