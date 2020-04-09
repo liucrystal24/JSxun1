@@ -207,7 +207,7 @@ header {
   background-color: #fff;
 }
 .user{
-  position: fixed;
+  position: absolute;
   right:40px;
   top:20px;
 

@@ -147,7 +147,14 @@
     ></bm-point-collection>-->
 
     <!-- 巡测分类图标 -->
-
+    <bm-label
+      :content="item.bridgeName"
+      v-for="item in newarr1"
+      :key=" 'label' + item.id"
+      :position="item.point"
+      :labelStyle="{color: 'black', fontSize : '16px',border:'1px solid #000',backgroundColor:'#fff',fontWeight:'bolder'}"
+      :offset="{width:-35,height:-45}"
+    />
     <bm-marker
       v-for="zuobiao in newarr1"
       :key="'station-' + zuobiao.id"
@@ -174,31 +181,21 @@
     <!-- 点击出现windows -->
     <bm-info-window
       :position="infoWindow.position"
-      title="巡测信息"
       :show="infoWindow.show"
       @close="infoWindowClose"
       @open="infoWindowOpen"
     >
-      <!-- <p v-text="infoWindow.contents"></p> -->
-      <el-table :data="tableData" style="width: 100%;text-align:center">
-        <el-table-column label="时间" width="170" header-align="center" align="center">
+      <p v-text="infoWindow.contents" style="textAlign:center;"></p>
+      <el-table
+        :data="flowTable"
+        style="width: 100%;text-align:center"
+        :default-sort="{prop: 'testTime', order: 'descending'}"
+      >
+        <el-table-column prop="testTime" label="测量时间" sortable width="170"></el-table-column>
+        <el-table-column prop="flowData" label="流量" sortable width="130"></el-table-column>
+        <el-table-column label="流计表" header-align="center" align="center" width="160px">
           <template slot-scope="scope">
-            <i class="el-icon-time"></i>
-            <span style="margin-left:10px">{{ scope.row.date }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="平均流速(测速仪)" width="130" header-align="center" align="center">
-          <template slot-scope="scope">
-            <div slot="reference" class="name-wrapper">
-              <el-tag size="medium">{{ scope.row.cesuyi }}</el-tag>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column label="平均流速(adcp)" width="130" header-align="center" align="center">
-          <template slot-scope="scope">
-            <div slot="reference" class="name-wrapper">
-              <el-tag size="medium">{{ scope.row.adcp }}</el-tag>
-            </div>
+            <el-button size="mini" type="primary" @click="handleEdit(scope.$index, scope.row)">查看</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -353,76 +350,9 @@ export default {
           state: true
         }
       ],
-      newarr1: [
-        {
-          point: { lng: "118.5092", lat: "32.1732" },
-          id: "jd01",
-          state: false
-        },
-        {
-          point: { lng: "118.6552", lat: "32.1754" },
-          id: "jd02",
-          state: false
-        },
-        {
-          point: { lng: "118.7599", lat: "32.1735" },
-          id: "jd03",
-          state: false
-        },
-        {
-          point: { lng: "118.8535", lat: "32.1752" },
-          id: "jd04",
-          state: false
-        },
-        { point: { lng: "118.9556", lat: "32.1772" }, id: "jd05", state: false }
-      ],
-      newarr2: [
-        {
-          point: { lng: "120.681396", lat: "31.704139" },
-          id: "jd06",
-          state: true
-        },
-        {
-          point: { lng: "120.625551", lat: "31.682505" },
-          id: "jd07",
-          state: true
-        },
-        {
-          point: { lng: "120.880729", lat: "31.462468" },
-          id: "jd08",
-          state: true
-        },
-        {
-          point: { lng: "120.758183", lat: "31.629683" },
-          id: "jd09",
-          state: true
-        }
-      ],
-      carpoints: [
-        { point: { lng: "118.5092", lat: "32.1732" }, id: "1", state: false },
-        { point: { lng: "118.6552", lat: "32.1754" }, id: "2", state: false },
-        { point: { lng: "118.7599", lat: "32.1735" }, id: "3", state: false },
-        { point: { lng: "118.8535", lat: "32.1752" }, id: "4", state: false },
-        { point: { lng: "118.9556", lat: "32.1772" }, id: "5", state: false }
-      ],
-      mobilepoints: [
-        {
-          point: { lng: "120.681396", lat: "31.704139" },
-          id: "1",
-          state: true
-        },
-        {
-          point: { lng: "120.625551", lat: "31.682505" },
-          id: "2",
-          state: true
-        },
-        {
-          point: { lng: "120.880729", lat: "31.462468" },
-          id: "3",
-          state: true
-        },
-        { point: { lng: "120.758183", lat: "31.629683" }, id: "4", state: true }
-      ],
+      flowList: [],
+      newarr1: [],
+      newarr2: [],
       infoWindow: {
         show: false,
         position: {},
@@ -526,7 +456,8 @@ export default {
           cesuyi: "0.025",
           adcp: "0.039"
         }
-      ]
+      ],
+      flowTable: []
     };
   },
   methods: {
@@ -559,10 +490,13 @@ export default {
       this.center.lng = 119.556871;
       this.center.lat = 32.433553;
       this.zoom = 15;
-      this.$options.methods.readPoint.bind(this)()
+      this.$options.methods.readPoint.bind(this)();
     },
     toggle(name) {
       this[name].editing = !this[name].editing;
+    },
+    handleEdit(index, row) {
+      console.log(index, row);
     },
     syncPolyline(e) {
       if (!this.polyline.editing) {
@@ -632,13 +566,25 @@ export default {
       this.chartShow = false;
     },
     carmarker(data) {
+      //table 数据处理
+      console.log(data);
+      console.log(this.flowList);
+      this.flowTable = [];
+      for (let i = 0; i < this.flowList.length; i++) {
+        const element = this.flowList[i];
+        if (element.bridgeID === data.id) {
+          this.flowTable.push(element);
+        }
+      }
+      console.log(this.flowTable);
+      // table展示
       this.infoWindow.show = true;
       this.infoWindow.position = { lng: data.point.lng, lat: data.point.lat };
-      this.infoWindow.contents = data.id;
-      console.log(data.state);
-      setTimeout(() => {
-        data.state = "common";
-      }, 1000);
+      this.infoWindow.contents = data.bridgeName;
+      // console.log(data.state);
+      // setTimeout(() => {
+      //   data.state = "common";
+      // }, 1000);
     },
     changeicon() {
       setTimeout(() => {
@@ -647,17 +593,6 @@ export default {
         this.stationPoints[5].state = false;
         this.stationPoints[6].state = false;
       }, 3000);
-      // console.log(this.carpoints);
-      // console.log(this.mobilepoints);
-      // for (let i = 0; i < this.carpoints.length; i++) {
-      //   let newstate = this.carpoints[i].state;
-      //   if (newstate === "update") {
-      //     this.mobilepoints.push(this.carpoints[i]);
-      //     this.carpoints.splice(i, 1);
-      //   }
-      // }
-      // console.log(this.carpoints);
-      // console.log(this.mobilepoints);
     },
     readPoint() {
       let url = "/jsxun/api/bridgeRead";
@@ -669,16 +604,45 @@ export default {
             let bridgesCookie = [];
             for (let i = 0; i < bridgesArr.length; i++) {
               const element = bridgesArr[i];
-              let bridgeCookie = {}
+              let bridgeCookie = {};
               bridgeCookie.point = {
                 lng: bridgesArr[i].lon,
-                lat: bridgesArr[i].lat,
-              },
+                lat: bridgesArr[i].lat
+              };
               bridgeCookie.id = bridgesArr[i].bridgeID;
-              bridgeCookie.state = false
-              bridgesCookie.push(bridgeCookie)
+              bridgeCookie.bridgeName = bridgesArr[i].bridgeName;
+              bridgeCookie.state = false;
+              bridgesCookie.push(bridgeCookie);
             }
             this.stationPoints = bridgesCookie;
+          }
+        },
+        res => {
+          console.log("err");
+        }
+      );
+    },
+    readFlow() {
+      let url = "/jsxun/api/flowRead";
+      this.axios.get(url, {}).then(
+        res => {
+          if (res.data.code === 1) {
+            console.log(res.data);
+            let flowsArr = res.data.info.flowInfo;
+            let flowsCookie = [];
+            for (let i = 0; i < flowsArr.length; i++) {
+              const element = flowsArr[i];
+              let flowCookie = {};
+              flowCookie.bridgeID = flowsArr[i].bridgeID;
+              flowCookie.flowData = flowsArr[i].flowData;
+              flowCookie.testTime = flowsArr[i].testTime;
+              flowCookie.deviceType = flowsArr[i].deviceType;
+              flowCookie.fileUpload = flowsArr[i].fileUpload;
+              //state 留白
+              flowCookie.state = false;
+              flowsCookie.push(flowCookie);
+            }
+            this.flowList = flowsCookie;
           }
         },
         res => {
@@ -688,17 +652,26 @@ export default {
     }
   },
   computed: {
-    updateNew() {
+    updateStation() {
       return JSON.parse(JSON.stringify(this.stationPoints));
+    },
+    updateFlow() {
+      return JSON.parse(JSON.stringify(this.flowList));
     }
   },
+  mounted() {
+    this.readFlow();
+
+    // setInterval(() => {
+    //   console.log(new Date());
+    //   this.readFlow();
+    // }, 5000);
+
+  },
   watch: {
-    updateNew: {
+    updateStation: {
       handler(nv, ov) {
         console.log(nv, ov);
-
-        // const arr1 = nv.carpoints;
-        // const arr2 = nv.mobilepoints;
         this.newarr1 = [];
         this.newarr2 = [];
         for (let i = 0; i < nv.length; i++) {
@@ -713,6 +686,24 @@ export default {
         console.log(this.newarr2);
       },
       deep: true
+    },
+    updateFlow: {
+      // handler(nv, ov) {
+      //   console.log(nv, ov);
+      //   this.newarr1 = [];
+      //   this.newarr2 = [];
+      //   for (let i = 0; i < nv.length; i++) {
+      //     const newstate = nv[i].state;
+      //     if (newstate) {
+      //       this.newarr2 = [nv[i], ...this.newarr2];
+      //     } else {
+      //       this.newarr1 = [nv[i], ...this.newarr1];
+      //     }
+      //   }
+      //   console.log(this.newarr1);
+      //   console.log(this.newarr2);
+      // },
+      // deep: true
     }
   }
 };
