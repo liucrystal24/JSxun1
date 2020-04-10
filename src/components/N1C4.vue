@@ -155,6 +155,14 @@
       :labelStyle="{color: 'black', fontSize : '16px',border:'1px solid #000',backgroundColor:'#fff',fontWeight:'bolder'}"
       :offset="{width:-35,height:-45}"
     />
+    <bm-label
+      :content="item.bridgeName"
+      v-for="item in newarr2"
+      :key=" 'label' + item.id"
+      :position="item.point"
+      :labelStyle="{color: 'black', fontSize : '16px',border:'1px solid #000',backgroundColor:'#fff',fontWeight:'bolder'}"
+      :offset="{width:-35,height:-45}"
+    />
     <bm-marker
       v-for="zuobiao in newarr1"
       :key="'station-' + zuobiao.id"
@@ -191,6 +199,11 @@
         style="width: 100%;text-align:center"
         :default-sort="{prop: 'testTime', order: 'descending'}"
       >
+        <el-table-column label="测量方式" header-align="center" align="center" width="100px">
+          <template slot-scope="scope">
+            <img :src="deviceImg(scope.row.deviceType)" />
+          </template>
+        </el-table-column>
         <el-table-column prop="testTime" label="测量时间" sortable width="170"></el-table-column>
         <el-table-column prop="flowData" label="流量" sortable width="130"></el-table-column>
         <el-table-column label="流计表" header-align="center" align="center" width="160px">
@@ -201,18 +214,10 @@
       </el-table>
     </bm-info-window>
 
-    <!-- <bm-marker
-      :position="points.position[4]"
-      :dragging="true"
-      :icon="{url: require('@/assets/car.png'), size: {width: 32, height: 19}}"
-      :offset="{width:0,height:-20}"
-    ></bm-marker>
-    <bm-marker
-      :position="points[8]"
-      :dragging="true"
-      :icon="{url: require('@/assets/mobile.png'), size: {width: 20, height: 38}}"
-      :offset="{width:0,height:-40}"
-    ></bm-marker>-->
+    <!-- 图片显示框 -->
+    <bm-control class="resultContainer">
+      <img :src="jlimgDetail" />
+    </bm-control>
   </baidu-map>
 </template>
 
@@ -223,7 +228,8 @@ export default {
     return {
       center: { lng: 119.29035, lat: 26.1039 },
       zoom: 9,
-      iconurl: require("@/assets/car.png"),
+      iconurl: require("@/assets/car1.png"),
+      jlimgDetail: "",
       mapStyle: {
         styleJson: [
           {
@@ -304,51 +310,11 @@ export default {
         fea: ""
       },
       stationPoints: [
-        {
-          point: { lng: "118.5092", lat: "32.1732" },
-          id: "jd01",
-          state: false
-        },
-        {
-          point: { lng: "118.6552", lat: "32.1754" },
-          id: "jd02",
-          state: false
-        },
-        {
-          point: { lng: "118.7599", lat: "32.1735" },
-          id: "jd03",
-          state: false
-        },
-        {
-          point: { lng: "118.8535", lat: "32.1752" },
-          id: "jd04",
-          state: false
-        },
-        {
-          point: { lng: "118.9556", lat: "32.1772" },
-          id: "jd05",
-          state: false
-        },
-        {
-          point: { lng: "120.681396", lat: "31.704139" },
-          id: "jd06",
-          state: true
-        },
-        {
-          point: { lng: "120.625551", lat: "31.682505" },
-          id: "jd07",
-          state: true
-        },
-        {
-          point: { lng: "120.880729", lat: "31.462468" },
-          id: "jd08",
-          state: true
-        },
-        {
-          point: { lng: "120.758183", lat: "31.629683" },
-          id: "jd09",
-          state: true
-        }
+        // {
+        //   point: { lng: "118.5092", lat: "32.1732" },
+        //   id: "jd01",
+        //   state: false
+        // },
       ],
       flowList: [],
       newarr1: [],
@@ -497,6 +463,28 @@ export default {
     },
     handleEdit(index, row) {
       console.log(index, row);
+      let url = "/jsxun/api/flowImage";
+      // console.log(row.id);
+      this.axios({
+        method: "post",
+        url: url,
+        data: { ID: row.id },
+        responseType: "arraybuffer"
+      })
+        // 方法一
+        .then(res => {
+          console.log(res)
+          console.log(res.data)
+            let imgbuffer = res.data
+            console.log(imgbuffer)
+            let blob = new Blob([imgbuffer], { type: "image/jpeg" });
+            const url1 = window.URL.createObjectURL(blob);
+            console.log(url1); // 产生一个类似 blob:d3958f5c-0777-0845-9dcf-2cb28783acaf 这样的URL字符串
+            this.jlimgDetail = url1;
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     syncPolyline(e) {
       if (!this.polyline.editing) {
@@ -569,6 +557,21 @@ export default {
       //table 数据处理
       console.log(data);
       console.log(this.flowList);
+
+      //图标重新分组变化
+      let url = "/jsxun/api/bridgeState0";
+      this.axios.get(url, { params: { bridgeID: data.id } }).then(
+        res => {
+          if (res.data.code === 1) {
+            console.log(res.data);
+            this.$options.methods.readPoint.bind(this)();
+          }
+        },
+        res => {
+          console.log("err");
+        }
+      );
+
       this.flowTable = [];
       for (let i = 0; i < this.flowList.length; i++) {
         const element = this.flowList[i];
@@ -581,10 +584,6 @@ export default {
       this.infoWindow.show = true;
       this.infoWindow.position = { lng: data.point.lng, lat: data.point.lat };
       this.infoWindow.contents = data.bridgeName;
-      // console.log(data.state);
-      // setTimeout(() => {
-      //   data.state = "common";
-      // }, 1000);
     },
     changeicon() {
       setTimeout(() => {
@@ -611,7 +610,8 @@ export default {
               };
               bridgeCookie.id = bridgesArr[i].bridgeID;
               bridgeCookie.bridgeName = bridgesArr[i].bridgeName;
-              bridgeCookie.state = false;
+              // 读点时候不能赋值，应该一开始赋值好 0/1
+              bridgeCookie.state = bridgesArr[i].state;
               bridgesCookie.push(bridgeCookie);
             }
             this.stationPoints = bridgesCookie;
@@ -633,6 +633,7 @@ export default {
             for (let i = 0; i < flowsArr.length; i++) {
               const element = flowsArr[i];
               let flowCookie = {};
+              flowCookie.id = flowsArr[i].ID;
               flowCookie.bridgeID = flowsArr[i].bridgeID;
               flowCookie.flowData = flowsArr[i].flowData;
               flowCookie.testTime = flowsArr[i].testTime;
@@ -649,6 +650,16 @@ export default {
           console.log("err");
         }
       );
+    },
+    deviceImg(device) {
+      console.log(device);
+      if (device === "Mobile") {
+        return require("@/assets/Mobile.png");
+      } else if (device === "ADCP") {
+        return require("@/assets/ADCP.jpg");
+      } else {
+        return require("@/assets/Car.png");
+      }
     }
   },
   computed: {
@@ -666,7 +677,6 @@ export default {
     //   console.log(new Date());
     //   this.readFlow();
     // }, 5000);
-
   },
   watch: {
     updateStation: {
@@ -676,7 +686,7 @@ export default {
         this.newarr2 = [];
         for (let i = 0; i < nv.length; i++) {
           const newstate = nv[i].state;
-          if (newstate) {
+          if (newstate == "1") {
             this.newarr2 = [nv[i], ...this.newarr2];
           } else {
             this.newarr1 = [nv[i], ...this.newarr1];
@@ -688,22 +698,26 @@ export default {
       deep: true
     },
     updateFlow: {
-      // handler(nv, ov) {
-      //   console.log(nv, ov);
-      //   this.newarr1 = [];
-      //   this.newarr2 = [];
-      //   for (let i = 0; i < nv.length; i++) {
-      //     const newstate = nv[i].state;
-      //     if (newstate) {
-      //       this.newarr2 = [nv[i], ...this.newarr2];
-      //     } else {
-      //       this.newarr1 = [nv[i], ...this.newarr1];
-      //     }
-      //   }
-      //   console.log(this.newarr1);
-      //   console.log(this.newarr2);
-      // },
-      // deep: true
+      handler(nv, ov) {
+        console.log(nv, ov);
+        for (let i = 0; i < nv.length; i++) {
+          // const newstate = nv[i].state;
+          console.log(nv[i].bridgeID);
+          let url = "/jsxun/api/bridgeState1";
+          this.axios.get(url, { params: { bridgeID: nv[i].bridgeID } }).then(
+            res => {
+              if (res.data.code === 1) {
+                console.log(res.data);
+              }
+            },
+            res => {
+              console.log("err");
+            }
+          );
+        }
+        this.readPoint();
+      },
+      deep: true
     }
   }
 };
