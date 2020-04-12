@@ -13,13 +13,13 @@
             <div class="navcontent" @click="navchange1">
               <router-link :to="{name:'n1c4'}" class="nava" :class="{nav_active:navshow == 1}">
                 <img src="./assets/river.png" alt class="navimg" />
-                <div class="navtext">水文数据</div>
+                <div class="navtext">实时数据</div>
               </router-link>
             </div>
             <div class="navcontent" @click="navchange2">
               <router-link :to="{name:'n2c1'}" class="nava" :class="{nav_active:navshow == 2}">
                 <img src="./assets/workflow.png" alt class="navimg" />
-                <div class="navtext">测流审核</div>
+                <div class="navtext">测流管理</div>
               </router-link>
             </div>
             <div class="navcontent" @click="navchange3">

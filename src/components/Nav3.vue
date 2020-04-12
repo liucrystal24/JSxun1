@@ -11,9 +11,12 @@
       <div :class="{ leftactive: leftnum == 2 }" @click="leftnav2" class="leftnavitem">
         <router-link :to="{ name: 'n3c2' }" class="lefta">断面图统计</router-link>
       </div>
+      <div :class="{ leftactive: leftnum == 3 }" @click="leftnav3" class="leftnavitem">
+        <router-link :to="{ name: 'n3c3' }" class="lefta">报警设置</router-link>
+      </div>
       <!-- <div :class="{ leftactive: leftnum == 3 }" class="leftnavitem" @click="leftnav3">
         <router-link :to="{ name: 'n2c3' }" class="lefta">测流信息审核</router-link>
-      </div> -->
+      </div>-->
       <div class="footer">
         <div class="comlogo">
           <img src="../assets/comlogo.png" />
@@ -40,17 +43,17 @@ export default {
     leftnav2() {
       this.leftnum = 2;
     },
-    // leftnav3() {
-    //   this.leftnum = 3;
-    // }
+    leftnav3() {
+      this.leftnum = 3;
+    }
   },
   mounted() {
     let inum = this.$route.name.split("c")[1];
     console.log(inum);
     switch (inum) {
-      case '1':
-      case '2':
-      case '3':
+      case "1":
+      case "2":
+      case "3":
         this.leftnum = inum;
         break;
       default:

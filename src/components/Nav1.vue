@@ -8,9 +8,9 @@
       <div :class="{ leftactive: leftnum == 4 }" class="leftnavitem" @click="leftnav4">
         <router-link :to="{ name: 'n1c4' }" class="lefta">地图总览</router-link>
       </div>
-      <div :class="{ leftactive: leftnum == 5 }" @click="leftnav5" class="leftnavitem">
+      <!-- <div :class="{ leftactive: leftnum == 5 }" @click="leftnav5" class="leftnavitem">
         <router-link :to="{ name: 'n1c5' }" class="lefta">报警设置</router-link>
-      </div>
+      </div> -->
       <div :class="{ leftactive: leftnum == 1 }" class="leftnavitem" @click="leftnav1">
         <router-link :to="{ name: 'n1c1' }" class="lefta">站点管理</router-link>
       </div>

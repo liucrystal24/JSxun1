@@ -114,14 +114,14 @@
       <button @click="toggle('polyline')">{{ polyline.editing ? '停止绘制' : '开始绘制' }}</button>
       <button>123</button>
     </bm-control>-->
-
+<!-- 
     <bm-control>
       <button @click="changeicon">换图标</button>
     </bm-control>
 
     <bm-control style="marginLeft:50px">
       <button @click="readPoint">读库测试</button>
-    </bm-control>
+    </bm-control> -->
 
     <!-- 画折线线查件组，只需要在polyline.paths加入经纬度数组，即可 -->
 
@@ -215,8 +215,11 @@
     </bm-info-window>
 
     <!-- 图片显示框 -->
-    <bm-control class="resultContainer">
-      <img :src="jlimgDetail" />
+    <bm-control class="resultContainer" v-if="jlimgshow">
+      <div class="jlclose" @click="jlimgclose">
+        <img src="@/assets/jlclose.png" />
+      </div>
+      <img :src="jlimgDetail" class="jlimg" />
     </bm-control>
   </baidu-map>
 </template>
@@ -317,6 +320,7 @@ export default {
         // },
       ],
       flowList: [],
+      flowListLength: 0,
       newarr1: [],
       newarr2: [],
       infoWindow: {
@@ -423,7 +427,8 @@ export default {
           adcp: "0.039"
         }
       ],
-      flowTable: []
+      flowTable: [],
+      jlimgshow: false
     };
   },
   methods: {
@@ -473,14 +478,25 @@ export default {
       })
         // 方法一
         .then(res => {
-          console.log(res)
-          console.log(res.data)
-            let imgbuffer = res.data
-            console.log(imgbuffer)
+          console.log(res.data.byteLength);
+          const bytelength = res.data.byteLength;
+          if (bytelength < 100) {
+            console.log("no photos");
+            this.$alert("本次记录没有计流表", "提示", {
+              confirmButtonText: "确定",
+              callback: action => {
+                console.log(action);
+              }
+            });
+          } else {
+            let imgbuffer = res.data;
+            console.log(imgbuffer);
             let blob = new Blob([imgbuffer], { type: "image/jpeg" });
             const url1 = window.URL.createObjectURL(blob);
             console.log(url1); // 产生一个类似 blob:d3958f5c-0777-0845-9dcf-2cb28783acaf 这样的URL字符串
             this.jlimgDetail = url1;
+            this.jlimgshow = true;
+          }
         })
         .catch(err => {
           console.log(err);
@@ -644,6 +660,7 @@ export default {
               flowsCookie.push(flowCookie);
             }
             this.flowList = flowsCookie;
+            this.flowListLength = flowsCookie.length;
           }
         },
         res => {
@@ -660,6 +677,9 @@ export default {
       } else {
         return require("@/assets/Car.png");
       }
+    },
+    jlimgclose() {
+      this.jlimgshow = false;
     }
   },
   computed: {
@@ -676,7 +696,8 @@ export default {
     // setInterval(() => {
     //   console.log(new Date());
     //   this.readFlow();
-    // }, 5000);
+    // }, 10000);
+
   },
   watch: {
     updateStation: {
@@ -700,24 +721,28 @@ export default {
     updateFlow: {
       handler(nv, ov) {
         console.log(nv, ov);
-        for (let i = 0; i < nv.length; i++) {
-          // const newstate = nv[i].state;
-          console.log(nv[i].bridgeID);
-          let url = "/jsxun/api/bridgeState1";
-          this.axios.get(url, { params: { bridgeID: nv[i].bridgeID } }).then(
-            res => {
-              if (res.data.code === 1) {
-                console.log(res.data);
+        let nochange = nv.length == ov.length;
+        if (!nochange) {
+          let changeIndex = nv.length - ov.length;
+          for (let i = ov.length; i < nv.length; i++) {
+            console.log(nv[i].bridgeID);
+            let url = "/jsxun/api/bridgeState1";
+            this.axios.get(url, { params: { bridgeID: nv[i].bridgeID } }).then(
+              res => {
+                if (res.data.code === 1) {
+                  console.log(res.data);
+                }
+              },
+              res => {
+                console.log("err");
               }
-            },
-            res => {
-              console.log("err");
-            }
-          );
+            );
+          }
+          this.readPoint();
+        }else{
+          console.log('nochange')
         }
-        this.readPoint();
-      },
-      deep: true
+      }
     }
   }
 };
@@ -749,12 +774,28 @@ export default {
   margin-left: 70px;
 }
 .resultContainer {
-  width: 800px;
+  /* width: 800px; */
+  height: 95%;
+  box-shadow: 8px 8px 5px #888888;
   background-color: #fff;
   position: absolute;
   left: 50% !important;
   top: 50% !important;
   transform: translate(-50%, -50%);
+}
+.resultContainer .jlimg {
+  height: 100%;
+}
+.jlclose {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 20px;
+  height: 20px;
+}
+.jlclose > img {
+  width: 100%;
+  cursor: pointer;
 }
 .resultheader {
   background-color: #4b9efc;

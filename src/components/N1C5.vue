@@ -1,36 +1,22 @@
 <template>
   <div>
+    <div class="areaSelect">
+      <span style="width:75px;display:inline-block;">地区选择</span>
+      <el-select v-model="selectValue" placeholder="请选择地区">
+        <el-option
+          v-for="item in areaOptions"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        ></el-option>
+      </el-select>
+    </div>
     <div class="searchcontainer">
-      <!-- <el-row class="searchtitle">
-        <el-col :span="2">
-          <div style="textAlign:right;padding-right:25px;">
-            <img src="../assets/warning.png" width="40px" />
-          </div>
-        </el-col>
-        <el-col :span="22">
-          <div class="titletext">报警设置</div>
-        </el-col>
-      </el-row> -->
-      <!-- <div class="chartcontainer">
-        <div class="chartcontent" id="test">
-          <ve-gauge
-            :data="shuiweichart.chartData"
-            :settings="shuiweichart.chartSettings"
-            class="vg"
-          ></ve-gauge>
-        </div>
-        <div>水位：123</div>
-      </div>
-      <div class="chartcontainer">
-        <ve-gauge :data="shuiweichart.chartData" :settings="shuiweichart.chartSettings"></ve-gauge>
-      </div>
-      <div class="chartcontainer">
-        <ve-gauge :data="shuiweichart.chartData" :settings="shuiweichart.chartSettings"></ve-gauge>
-      </div>
-      <div class="chartcontainer">
-        <ve-gauge :data="shuiweichart.chartData" :settings="shuiweichart.chartSettings"></ve-gauge>
-      </div>-->
-      <div class="tps">
+      <Chart :defaultNum="230" title="水位"></Chart>
+      <Chart :defaultNum="150" title="流量"></Chart>
+      <Chart :defaultNum="90" title="流速"></Chart>
+      <Chart :defaultNum="210" title="测流后水位"></Chart>
+      <!-- <div class="tps">
         <p>水位</p>
         <div class="tps_charts">
           <v-chart
@@ -42,25 +28,17 @@
         </div>
         <div class="wariningContainer">
           <div class="warningitem">
-            <label for="">报警开关:</label>
-            <el-switch
-              v-model="warningSettings.shuiwei.watch"
-              active-text="开"
-              inactive-text="关"
-            ></el-switch>
+            <label for>报警开关:</label>
+            <el-switch v-model="warningSettings.shuiwei.watch" active-text="开" inactive-text="关"></el-switch>
           </div>
           <div class="warningitem">
-            <label for="">数值:</label>
-            <el-input
-              v-model="warningSettings.shuiwei.num"
-              style="width:30%;"
-            ></el-input>
+            <label for>数值:</label>
+            <el-input v-model="warningSettings.shuiwei.num" style="width:30%;"></el-input>
             <el-button
               type="primary"
               size="mini"
               @click="shuiweiChange(warningSettings.shuiwei.num)"
-              >修改</el-button
-            >
+            >修改</el-button>
           </div>
         </div>
       </div>
@@ -76,20 +54,17 @@
         </div>
         <div class="wariningContainer">
           <div class="warningitem">
-            <label for="">报警开关:</label>
-            <el-switch
-              v-model="warningSettings.flowNum.watch"
-              active-text="开"
-              inactive-text="关"
-            ></el-switch>
+            <label for>报警开关:</label>
+            <el-switch v-model="warningSettings.flowNum.watch" active-text="开" inactive-text="关"></el-switch>
           </div>
           <div class="warningitem">
-            <label for="">数值:</label>
-            <el-input
-              v-model="warningSettings.flowNum.num"
-              style="width:30%;"
-            ></el-input>
-            <el-button type="primary" size="mini" @click="flowNumChange(warningSettings.flowNum.num)">修改</el-button>
+            <label for>数值:</label>
+            <el-input v-model="warningSettings.flowNum.num" style="width:30%;"></el-input>
+            <el-button
+              type="primary"
+              size="mini"
+              @click="flowNumChange(warningSettings.flowNum.num)"
+            >修改</el-button>
           </div>
         </div>
       </div>
@@ -105,20 +80,17 @@
         </div>
         <div class="wariningContainer">
           <div class="warningitem">
-            <label for="">报警开关:</label>
-            <el-switch
-              v-model="warningSettings.flowSpeed.watch"
-              active-text="开"
-              inactive-text="关"
-            ></el-switch>
+            <label for>报警开关:</label>
+            <el-switch v-model="warningSettings.flowSpeed.watch" active-text="开" inactive-text="关"></el-switch>
           </div>
           <div class="warningitem">
-            <label for="">数值:</label>
-            <el-input
-              v-model="warningSettings.flowSpeed.num"
-              style="width:30%;"
-            ></el-input>
-            <el-button type="primary" size="mini" @click="flowSpeedChange(warningSettings.flowSpeed.num)">修改</el-button>
+            <label for>数值:</label>
+            <el-input v-model="warningSettings.flowSpeed.num" style="width:30%;"></el-input>
+            <el-button
+              type="primary"
+              size="mini"
+              @click="flowSpeedChange(warningSettings.flowSpeed.num)"
+            >修改</el-button>
           </div>
         </div>
       </div>
@@ -134,29 +106,28 @@
         </div>
         <div class="wariningContainer">
           <div class="warningitem">
-            <label for="">报警开关:</label>
-            <el-switch
-              v-model="warningSettings.flowHeight.watch"
-              active-text="开"
-              inactive-text="关"
-            ></el-switch>
+            <label for>报警开关:</label>
+            <el-switch v-model="warningSettings.flowHeight.watch" active-text="开" inactive-text="关"></el-switch>
           </div>
           <div class="warningitem">
-            <label for="">数值:</label>
-            <el-input
-              v-model="warningSettings.flowHeight.num"
-              style="width:30%;"
-            ></el-input>
-            <el-button type="primary" size="mini" @click="flowHeightChange(warningSettings.flowHeight.num)">修改</el-button>
+            <label for>数值:</label>
+            <el-input v-model="warningSettings.flowHeight.num" style="width:30%;"></el-input>
+            <el-button
+              type="primary"
+              size="mini"
+              @click="flowHeightChange(warningSettings.flowHeight.num)"
+            >修改</el-button>
           </div>
         </div>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
 
 <script>
 import echarts from "echarts";
+import Chart from "./chart.vue";
+
 export default {
   name: "N1C5",
   data() {
@@ -550,7 +521,30 @@ export default {
           num: 80
         }
       },
-      testnum: 10
+      testnum: 10,
+      areaOptions: [
+        {
+          value: "选项1",
+          label: "地区一"
+        },
+        {
+          value: "选项2",
+          label: "地区二"
+        },
+        {
+          value: "选项3",
+          label: "地区三"
+        },
+        {
+          value: "选项4",
+          label: "地区四"
+        },
+        {
+          value: "选项5",
+          label: "地区五"
+        }
+      ],
+      selectValue: ""
     };
   },
   methods: {
@@ -600,18 +594,28 @@ export default {
     // testnum() {
     //   return 13;
     // }
-  }
+  },
+  components: { Chart }
 };
 </script>
 
 <style scoped>
 .searchcontainer {
   /* float: left; */
+  /* position:relative; */
   width: 80%;
   height: 100%;
   margin: 0 auto;
   box-sizing: border-box;
   /* border-right: 1px solid #324098; */
+}
+.areaSelect {
+  width: 200px;
+  position: absolute;
+  top:180px;
+  left:220px;
+  z-index: 1000;
+  /* border: 1px solid #000; */
 }
 .resultcontainer {
   float: left;
@@ -664,7 +668,6 @@ export default {
   /* line-height: 10px; */
 }
 /deep/ .el-input__inner {
-  width: 60px;
-  height: 28px;
+  width: 120px;
 }
 </style>

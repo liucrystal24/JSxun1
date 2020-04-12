@@ -120,6 +120,11 @@ export default new Router({
           path: "n3c2",
           name: "n3c2",
           component: N3C2
+        },
+        {
+          path: "n3c3",
+          name: "n3c3",
+          component: N1C5
         }
       ]
     },
