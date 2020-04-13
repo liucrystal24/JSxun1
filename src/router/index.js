@@ -1,5 +1,8 @@
 import Vue from "vue";
 import Router from "vue-router";
+
+import Login from "@/components/login";
+
 import Nav1 from "@/components/Nav1";
 import Nav2 from "@/components/Nav2";
 import Nav3 from "@/components/Nav3";
@@ -12,7 +15,6 @@ import N1C3 from "@/components/N1C3";
 import N1C4 from "@/components/N1C4";
 import N1C5 from "@/components/N1C5";
 import N1C6 from "@/components/N1C6";
-import ChartTest from "@/components/chart";
 
 import N2C1 from "@/components/N2C1";
 import N2C2 from "@/components/N2C2";
@@ -36,6 +38,11 @@ Vue.use(Router);
 export default new Router({
   // mode: 'history',
   routes: [
+    // {
+    //   path: "/",
+    //   name: "login",
+    //   component: Login
+    // },
     {
       path: "/",
       name: "index",

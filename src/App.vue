@@ -45,18 +45,20 @@
       </div>
       <!-- <div class="projectname">人工增雨随机化试验样本数据库</div> -->
     </header>
-
+    <Login class="login" v-if="loginshow" @onChange="loginstate"></Login>
     <router-view class="navchildren" />
   </div>
 </template>
 
 <script>
+import Login from "./Login";
 export default {
   name: "App",
   data() {
     return {
       navshow: 1,
-      userimg:require("@/assets/user.png")
+      userimg: require("@/assets/user.png"),
+      loginshow: true
     };
   },
   methods: {
@@ -74,11 +76,15 @@ export default {
     },
     navchange5() {
       this.navshow = 5;
+    },
+    loginstate(val) {
+      this.loginshow = val;
     }
   },
   mounted() {
-    this.navshow = this.$route.path.split('/')[1].split('nav')[1]
+    this.navshow = this.$route.path.split("/")[1].split("nav")[1];
   },
+  components: { Login }
 };
 </script>
 
@@ -93,6 +99,15 @@ body,
   height: 100%;
   min-height: 608px;
   min-width: 1080px;
+}
+.login {
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: #ddd;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
 }
 .logo {
   width: 100px;
@@ -203,13 +218,12 @@ header {
   padding-top: 150px;
   box-sizing: border-box;
 }
-.el-avatar{
+.el-avatar {
   background-color: #fff;
 }
-.user{
+.user {
   position: absolute;
-  right:40px;
-  top:20px;
-
+  right: 40px;
+  top: 20px;
 }
 </style>
