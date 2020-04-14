@@ -114,14 +114,14 @@
       <button @click="toggle('polyline')">{{ polyline.editing ? '停止绘制' : '开始绘制' }}</button>
       <button>123</button>
     </bm-control>-->
-<!-- 
+    <!-- 
     <bm-control>
       <button @click="changeicon">换图标</button>
     </bm-control>
 
     <bm-control style="marginLeft:50px">
       <button @click="readPoint">读库测试</button>
-    </bm-control> -->
+    </bm-control>-->
 
     <!-- 画折线线查件组，只需要在polyline.paths加入经纬度数组，即可 -->
 
@@ -428,7 +428,8 @@ export default {
         }
       ],
       flowTable: [],
-      jlimgshow: false
+      jlimgshow: false,
+      flow10: ""
     };
   },
   methods: {
@@ -680,6 +681,22 @@ export default {
     },
     jlimgclose() {
       this.jlimgshow = false;
+    },
+    flowUpdate10() {
+      this.flow10 = setInterval(
+        this.$options.methods.flowupdateson.bind(this),
+        10000
+      );
+    },
+    flowupdateson() {
+      let route1 = this.$route.name;
+      console.log(new Date());
+      console.log(route1);
+      if (route1 === "n1c4") {
+        this.$options.methods.readFlow.bind(this)();
+      } else {
+        clearInterval(this.flow10);
+      }
     }
   },
   computed: {
@@ -692,12 +709,11 @@ export default {
   },
   mounted() {
     this.readFlow();
-
     // setInterval(() => {
-    //   console.log(new Date());
-    //   this.readFlow();
+    // console.log(new Date());
+    // this.readFlow();
+    this.flowUpdate10();
     // }, 10000);
-
   },
   watch: {
     updateStation: {
@@ -739,8 +755,8 @@ export default {
             );
           }
           this.readPoint();
-        }else{
-          console.log('nochange')
+        } else {
+          console.log("nochange");
         }
       }
     }
