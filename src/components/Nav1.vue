@@ -95,7 +95,8 @@ export default {
   },
   mounted() {
     let inum = this.$route.name.split("c")[1];
-    console.log(inum);
+    // console.log(inum);
+    // console.log(this.$route.name);
     switch (inum) {
       case "1":
       case "4":
