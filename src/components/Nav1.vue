@@ -23,8 +23,6 @@
         <el-menu
           default-active="n1c4"
           class="el-menu-vertical-demo"
-          @open="handleOpen"
-          @close="handleClose"
           background-color="#6995EB"
           text-color="#fff"
           active-text-color="#ffd04b"
