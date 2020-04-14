@@ -36,7 +36,7 @@ import N5C1 from "@/components/N5C1";
 Vue.use(Router);
 
 export default new Router({
-  // mode: 'history',
+  mode: 'history',
   routes: [
     // {
     //   path: "/",
