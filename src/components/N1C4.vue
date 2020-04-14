@@ -740,21 +740,25 @@ export default {
         let nochange = nv.length == ov.length;
         if (!nochange) {
           let changeIndex = nv.length - ov.length;
-          for (let i = ov.length; i < nv.length; i++) {
-            console.log(nv[i].bridgeID);
-            let url = "/jsxun/api/bridgeState1";
-            this.axios.get(url, { params: { bridgeID: nv[i].bridgeID } }).then(
-              res => {
-                if (res.data.code === 1) {
-                  console.log(res.data);
+          if(changeIndex > 0){
+            for (let i = ov.length; i < nv.length; i++) {
+              console.log(nv[i].bridgeID);
+              let url = "/jsxun/api/bridgeState1";
+              this.axios.get(url, { params: { bridgeID: nv[i].bridgeID } }).then(
+                res => {
+                  if (res.data.code === 1) {
+                    console.log(res.data);
+                  }
+                },
+                res => {
+                  console.log("err");
                 }
-              },
-              res => {
-                console.log("err");
-              }
-            );
+              );
+            }
+            this.readPoint();
+          }else{
+            console.log('数据库发生手动删减！')
           }
-          this.readPoint();
         } else {
           console.log("nochange");
         }
