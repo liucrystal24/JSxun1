@@ -1,8 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
 
-import Login from "@/components/login";
-
 import Nav1 from "@/components/Nav1";
 import Nav2 from "@/components/Nav2";
 import Nav3 from "@/components/Nav3";
@@ -10,11 +8,8 @@ import Nav4 from "@/components/Nav4";
 import Nav5 from "@/components/Nav5";
 
 import N1C1 from "@/components/N1C1";
-import N1C2 from "@/components/N1C2";
-import N1C3 from "@/components/N1C3";
 import N1C4 from "@/components/N1C4";
 import N1C5 from "@/components/N1C5";
-import N1C6 from "@/components/N1C6";
 
 import N2C1 from "@/components/N2C1";
 import N2C2 from "@/components/N2C2";
@@ -32,17 +27,37 @@ import N4C5 from "@/components/N4C5";
 
 import N5C1 from "@/components/N5C1";
 
+// const Nav1 = r => require.ensure([],()=>r(require('@/components/Nav1')),'Nav1')
+// const Nav2 = r => require.ensure([],()=>r(require('@/components/Nav2')),'Nav2')
+// const Nav3 = r => require.ensure([],()=>r(require('@/components/Nav3')),'Nav3')
+// const Nav4 = r => require.ensure([],()=>r(require('@/components/Nav4')),'Nav4')
+// const Nav5 = r => require.ensure([],()=>r(require('@/components/Nav5')),'Nav5')
+
+// const N1C1 = r => require.ensure([],()=>r(require('@/components/N1C1')),'N1C1')
+// const N1C4 = r => require.ensure([],()=>r(require('@/components/N1C4')),'N1C4')
+// const N1C5 = r => require.ensure([],()=>r(require('@/components/N1C5')),'N1C5')
+
+// const N2C1 = r => require.ensure([],()=>r(require('@/components/N2C1')),'N2C1')
+// const N2C2 = r => require.ensure([],()=>r(require('@/components/N2C2')),'N2C2')
+// const N2C3 = r => require.ensure([],()=>r(require('@/components/N2C3')),'N2C3')
+// const TaskPercent = r => require.ensure([],()=>r(require('@/components/TaskPercent')),'TaskPercent')
+
+// const N3C1 = r => require.ensure([],()=>r(require('@/components/N3C1')),'N3C1')
+// const N3C2 = r => require.ensure([],()=>r(require('@/components/N3C2')),'N3C2')
+
+// const N4C1 = r => require.ensure([],()=>r(require('@/components/N3C2')),'N3C2')
+// const N4C2 = r => require.ensure([],()=>r(require('@/components/N4C2')),'N4C2')
+// const N4C3 = r => require.ensure([],()=>r(require('@/components/N4C3')),'N4C3')
+// const N4C4 = r => require.ensure([],()=>r(require('@/components/N4C4')),'N4C4')
+// const N4C5 = r => require.ensure([],()=>r(require('@/components/N4C5')),'N4C5')
+
+// const N5C1 = r => require.ensure([],()=>r(require('@/components/N5C1')),'N5C1')
 
 Vue.use(Router);
 
 export default new Router({
   mode: 'history',
   routes: [
-    // {
-    //   path: "/",
-    //   name: "login",
-    //   component: Login
-    // },
     {
       path: "/",
       name: "index",
@@ -50,7 +65,6 @@ export default new Router({
     },
     {
       path: "/nav1",
-      // name: 'Nav1',
       component: Nav1,
       children: [
         {
@@ -59,29 +73,9 @@ export default new Router({
           component: N1C1
         },
         {
-          path: "n1c2",
-          name: "n1c2",
-          component: N1C2
-        },
-        {
-          path: "n1c3",
-          name: "n1c3",
-          component: N1C3
-        },
-        {
           path: "n1c4",
           name: "n1c4",
           component: N1C4
-        },
-        {
-          path: "n1c5",
-          name: "n1c5",
-          component: N1C5
-        },
-        {
-          path: "n1c6",
-          name: "n1c6",
-          component: N1C6
         },
       ]
     },
