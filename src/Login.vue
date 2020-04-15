@@ -65,8 +65,8 @@ export default {
   },
   mounted() {},
   methods: {
-    onSubmit(){
-      this.$emit('onChange',this.loginsuccess)
+    onSubmit() {
+      this.$emit("onChange", this.loginsuccess);
     }
   }
 };
@@ -134,7 +134,7 @@ header {
   height: 100%;
   padding-top: 100px;
   box-sizing: border-box;
-  background-image: url("assets/river.jpg");
+  background-image: url("assets/river1.jpg");
   /* filter: blur(2px); */
 }
 .loginContent {
