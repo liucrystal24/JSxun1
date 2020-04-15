@@ -221,6 +221,12 @@
       </div>
       <img :src="jlimgDetail" class="jlimg" />
     </bm-control>
+    <bm-control class="loadingWindow" v-if="loadingshow">
+      <div class="loading_pic">
+        <img src="@/assets/loading.gif" />
+      </div>
+      <div class="loading_text">图片获取中……</div>
+    </bm-control>
   </baidu-map>
 </template>
 
@@ -429,6 +435,7 @@ export default {
       ],
       flowTable: [],
       jlimgshow: false,
+      loadingshow: false,
       flow10: ""
     };
   },
@@ -471,6 +478,7 @@ export default {
       console.log(index, row);
       let url = "/jsxun/api/flowImage";
       // console.log(row.id);
+      // this.loadingshow = true;
       this.axios({
         method: "post",
         url: url,
@@ -480,8 +488,10 @@ export default {
         // 方法一
         .then(res => {
           console.log(res.data.byteLength);
+          this.loadingshow = true;
           const bytelength = res.data.byteLength;
           if (bytelength < 100) {
+            this.loadingshow = false;
             console.log("no photos");
             this.$alert("本次记录没有计流表", "提示", {
               confirmButtonText: "确定",
@@ -495,7 +505,9 @@ export default {
             let blob = new Blob([imgbuffer], { type: "image/jpeg" });
             const url1 = window.URL.createObjectURL(blob);
             console.log(url1); // 产生一个类似 blob:d3958f5c-0777-0845-9dcf-2cb28783acaf 这样的URL字符串
+            this.loadingshow = false;
             this.jlimgDetail = url1;
+            // this.loadingshow = false;
             this.jlimgshow = true;
           }
         })
@@ -740,24 +752,26 @@ export default {
         let nochange = nv.length == ov.length;
         if (!nochange) {
           let changeIndex = nv.length - ov.length;
-          if(changeIndex > 0){
+          if (changeIndex > 0) {
             for (let i = ov.length; i < nv.length; i++) {
               console.log(nv[i].bridgeID);
               let url = "/jsxun/api/bridgeState1";
-              this.axios.get(url, { params: { bridgeID: nv[i].bridgeID } }).then(
-                res => {
-                  if (res.data.code === 1) {
-                    console.log(res.data);
+              this.axios
+                .get(url, { params: { bridgeID: nv[i].bridgeID } })
+                .then(
+                  res => {
+                    if (res.data.code === 1) {
+                      console.log(res.data);
+                    }
+                  },
+                  res => {
+                    console.log("err");
                   }
-                },
-                res => {
-                  console.log("err");
-                }
-              );
+                );
             }
             this.readPoint();
-          }else{
-            console.log('数据库发生手动删减！')
+          } else {
+            console.log("数据库发生手动删减！");
           }
         } else {
           console.log("nochange");
@@ -802,6 +816,7 @@ export default {
   left: 50% !important;
   top: 50% !important;
   transform: translate(-50%, -50%);
+  z-index: 2500;
 }
 .resultContainer .jlimg {
   height: 100%;
@@ -833,5 +848,26 @@ export default {
   margin-top: 1px;
   float: right;
   margin-right: 5px;
+}
+.loadingWindow {
+  width: 250px;
+  height: 90px;
+  position: absolute;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%);
+  border: 1px solid #777777;
+  background-color: #ffffff;
+  border-radius: 5px;
+  text-align: center;
+  z-index: 2000;
+}
+.loading_pic {
+  height: 60px;
+  line-height: 75px;
+}
+.loading_text {
+  height: 30px;
+  line-height: 10px;
 }
 </style>
