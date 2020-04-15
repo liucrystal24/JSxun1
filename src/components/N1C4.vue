@@ -216,10 +216,19 @@
 
     <!-- 图片显示框 -->
     <bm-control class="resultContainer" v-if="jlimgshow">
+      <div class="bigger" @click="jlimgbigger">
+        <img src="@/assets/bigger.png" alt />
+      </div>
       <div class="jlclose" @click="jlimgclose">
         <img src="@/assets/jlclose.png" />
       </div>
       <img :src="jlimgDetail" class="jlimg" />
+    </bm-control>
+    <bm-control class="resultContainerBigger" v-if="jlimgBiggershow">
+      <div class="jlclose" @click="jlimgBiggerclose">
+        <img src="@/assets/jlclose.png" class="jlimg" />
+      </div>
+      <img :src="jlimgDetail" />
     </bm-control>
     <bm-control class="loadingWindow" v-if="loadingshow">
       <div class="loading_pic">
@@ -435,6 +444,7 @@ export default {
       ],
       flowTable: [],
       jlimgshow: false,
+      jlimgBiggershow: false,
       loadingshow: false,
       flow10: ""
     };
@@ -508,7 +518,8 @@ export default {
             this.loadingshow = false;
             this.jlimgDetail = url1;
             // this.loadingshow = false;
-            this.jlimgshow = true;
+            // this.jlimgshow = true;
+            this.jlimgBiggershow = true;
           }
         })
         .catch(err => {
@@ -694,6 +705,12 @@ export default {
     jlimgclose() {
       this.jlimgshow = false;
     },
+    jlimgbigger() {
+      this.jlimgBiggershow = true;
+    },
+    jlimgBiggerclose() {
+      this.jlimgBiggershow = false;
+    },
     flowUpdate10() {
       this.flow10 = setInterval(
         this.$options.methods.flowupdateson.bind(this),
@@ -821,12 +838,38 @@ export default {
 .resultContainer .jlimg {
   height: 100%;
 }
+.resultContainerBigger {
+  width: 1014px;
+  height: 95%;
+  box-shadow: 8px 8px 5px #888888;
+  background-color: #fff;
+  position: absolute;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%);
+  z-index: 3000;
+  overflow-y: auto;
+}
+.resultContainerBigger .jlimg {
+  width: 100%;
+}
 .jlclose {
   position: absolute;
   right: 10px;
   top: 10px;
   width: 20px;
   height: 20px;
+}
+.bigger {
+  position: absolute;
+  right: 10px;
+  top: 50px;
+  width: 30px;
+  height: 30px;
+}
+.bigger > img {
+  width: 100%;
+  cursor: pointer;
 }
 .jlclose > img {
   width: 100%;
