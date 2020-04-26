@@ -36,7 +36,10 @@ Vue.component("bml-marker-cluster", BmlMarkerClusterer);
 
 Vue.component('v-chart', ECharts)
 
-
+// photo-preview
+// import preview from 'vue-photo-preview';
+// import 'vue-photo-preview/dist/skin.css';
+// Vue.use(preview);
 
 /* eslint-disable no-new */
 new Vue({

@@ -224,11 +224,24 @@
       </div>
       <img :src="jlimgDetail" class="jlimg" />
     </bm-control>
+
     <bm-control class="resultContainerBigger" v-if="jlimgBiggershow">
-      <div class="jlclose" @click="jlimgBiggerclose">
-        <img src="@/assets/jlclose.png" class="jlimg" />
+      <div class='resultContainerTitle'>
+        <div class="jlclose" @click="jlimgBiggerclose">
+          <img src="@/assets/jlclose.png" class="jlimg" />
+        </div>
       </div>
-      <img :src="jlimgDetail" />
+      <div class="resultContainerImg">
+        <img 
+          :src="jlimgDetail" 
+          class="xuanfu"
+          :class="{xuanfuinit:xuanfufirst == 1}"
+          id='moveDiv'
+          @mousedown="down" @touchstart="down"
+          @mousemove.prevent="move" @touchmove.prevent="move"
+          @mouseup="end" @touchend="end"
+        />
+      </div>
     </bm-control>
     <bm-control class="loadingWindow" v-if="loadingshow">
       <div class="loading_pic">
@@ -244,6 +257,17 @@ export default {
   name: "N1C4",
   data() {
     return {
+      // 流计表图片移动
+      flags: false,
+      position: { x: 0, y: 0 },
+      nx: '', 
+      ny: '', 
+      dx: '', 
+      dy: '', 
+      xPum: '', 
+      yPum: '',
+      xuanfufirst:1,
+      // 地图信息
       center: { lng: 119.29035, lat: 26.1039 },
       zoom: 9,
       iconurl: require("@/assets/car1.png"),
@@ -450,6 +474,45 @@ export default {
     };
   },
   methods: {
+    // 实现移动端拖拽
+    down(){
+      this.flags = true;
+      // this.xuanfufirst = 0;
+      var touch;
+      if(event.touches){
+          touch = event.touches[0];
+      }else {
+          touch = event;
+      }
+      this.position.x = touch.clientX;
+      this.position.y = touch.clientY;
+      this.dx = moveDiv.offsetLeft;
+      this.dy = moveDiv.offsetTop;
+    },
+    move(){
+      if(this.flags){
+        var touch ;
+        if(event.touches){
+            touch = event.touches[0];
+        }else {
+            touch = event;
+        }
+        this.nx = touch.clientX - this.position.x;
+        this.ny = touch.clientY - this.position.y;
+        this.xPum = this.dx+this.nx;
+        this.yPum = this.dy+this.ny;
+        moveDiv.style.left = this.xPum+"px";
+        moveDiv.style.top = this.yPum +"px";
+        //阻止页面的滑动默认事件；如果碰到滑动问题，1.2 请注意是否获取到 touchmove
+        document.addEventListener("touchmove",function(){
+            event.preventDefault();
+        },false);
+      }
+    },
+    //鼠标释放时候的函数
+    end(){
+      this.flags = false;
+    },
     //drawer
     handleClose(done) {
       if (this.loading) {
@@ -486,40 +549,53 @@ export default {
     },
     handleEdit(index, row) {
       console.log(index, row);
+      this.xuanfufirst = 1;
       let url = "/jsxun/api/flowImage";
+      //moveDiv.addClass('xuanfuinit')
       // console.log(row.id);
       // this.loadingshow = true;
       this.axios({
         method: "post",
         url: url,
         data: { ID: row.id },
-        responseType: "arraybuffer"
+        // responseType: "arraybuffer"
       })
         // 方法一
         .then(res => {
-          console.log(res.data.byteLength);
+          //console.log(res.data.byteLength);
           this.loadingshow = true;
-          const bytelength = res.data.byteLength;
-          if (bytelength < 100) {
+          //const bytelength = res.data.byteLength;
+          const datacode = res.data.code;
+          if (datacode == 0) {
             this.loadingshow = false;
             console.log("no photos");
-            this.$alert("本次记录没有计流表", "提示", {
+            this.$alert("本次记录没有流计表", "提示", {
               confirmButtonText: "确定",
               callback: action => {
                 console.log(action);
               }
             });
           } else {
-            let imgbuffer = res.data;
-            console.log(imgbuffer);
-            let blob = new Blob([imgbuffer], { type: "image/jpeg" });
-            const url1 = window.URL.createObjectURL(blob);
-            console.log(url1); // 产生一个类似 blob:d3958f5c-0777-0845-9dcf-2cb28783acaf 这样的URL字符串
-            this.loadingshow = false;
-            this.jlimgDetail = url1;
+            // blob 方法一
+            // --------------------------
+            //console.log(res);
+            //let imgbuffer = res.data;
+            //console.log(imgbuffer);
+            // let blob = new Blob([imgbuffer], { type: "image/jpeg" });
+            // const url1 = window.URL.createObjectURL(blob);
+            // console.log(url1); // 产生一个类似 blob:d3958f5c-0777-0845-9dcf-2cb28783acaf 这样的URL字符串
             // this.loadingshow = false;
-            // this.jlimgshow = true;
+            // this.jlimgDetail = url1;
+            // this.jlimgBiggershow = true;
+            // ---------------
+            // 方法二
+            console.log(res.data)
+            let imgurl = 'data:image/png;base64,'+res.data;
+            console.log(imgurl)
+            this.loadingshow = false;
+            this.jlimgDetail = imgurl;
             this.jlimgBiggershow = true;
+
           }
         })
         .catch(err => {
@@ -678,7 +754,7 @@ export default {
               flowCookie.flowData = flowsArr[i].flowData;
               flowCookie.testTime = flowsArr[i].testTime;
               flowCookie.deviceType = flowsArr[i].deviceType;
-              flowCookie.fileUpload = flowsArr[i].fileUpload;
+              // flowCookie.fileUpload = flowsArr[i].fileUpload;
               //state 留白
               flowCookie.state = false;
               flowsCookie.push(flowCookie);
@@ -839,24 +915,55 @@ export default {
   height: 100%;
 }
 .resultContainerBigger {
-  width: 1014px;
-  height: 95%;
+  width: 80%;
+  height: 80%;
   box-shadow: 8px 8px 5px #888888;
   background-color: #fff;
   position: absolute;
   left: 50% !important;
   top: 50% !important;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -55%);
   z-index: 3000;
-  overflow-y: auto;
+  overflow: hidden;
+
 }
-.resultContainerBigger .jlimg {
-  width: 100%;
+.resultContainerTitle{
+  width:100%;
+  height:30px;
+  position: absolute;
+  background-color: #1d6ec7;
+  z-index:3000;
+}
+.resultContainerImg{
+  position: relative;
+  padding-top:30px;
+  width:100%;
+  height:100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.resultContainerImg .jlimg {
+  width:1012px;
+  position: absolute;
+  left: 50% !important;
+  transform: translate(-47%,0);
+  /* width: 100%; */
+}
+.resultContainerImg .xuanfu{
+  width:800px;
+  position:fixed;
+  left: 50% !important;
+  transform: translate(-50%,0);
+}
+
+.xuanfuinit{
+  left: 50% !important;
+  transform: translate(-47%,0);
 }
 .jlclose {
   position: absolute;
-  right: 10px;
-  top: 10px;
+  right: 5px;
+  top: 5px;
   width: 20px;
   height: 20px;
 }
