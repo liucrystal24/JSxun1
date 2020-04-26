@@ -226,20 +226,23 @@
     </bm-control>
 
     <bm-control class="resultContainerBigger" v-if="jlimgBiggershow">
-      <div class='resultContainerTitle'>
+      <div class="resultContainerTitle">
         <div class="jlclose" @click="jlimgBiggerclose">
           <img src="@/assets/jlclose.png" class="jlimg" />
         </div>
       </div>
       <div class="resultContainerImg">
-        <img 
-          :src="jlimgDetail" 
+        <img
+          :src="jlimgDetail"
           class="xuanfu"
           :class="{xuanfuinit:xuanfufirst == 1}"
-          id='moveDiv'
-          @mousedown="down" @touchstart="down"
-          @mousemove.prevent="move" @touchmove.prevent="move"
-          @mouseup="end" @touchend="end"
+          id="moveDiv"
+          @mousedown="down"
+          @touchstart="down"
+          @mousemove.prevent="move"
+          @touchmove.prevent="move"
+          @mouseup="end"
+          @touchend="end"
         />
       </div>
     </bm-control>
@@ -260,13 +263,13 @@ export default {
       // 流计表图片移动
       flags: false,
       position: { x: 0, y: 0 },
-      nx: '', 
-      ny: '', 
-      dx: '', 
-      dy: '', 
-      xPum: '', 
-      yPum: '',
-      xuanfufirst:1,
+      nx: "",
+      ny: "",
+      dx: "",
+      dy: "",
+      xPum: "",
+      yPum: "",
+      xuanfufirst: 1,
       // 地图信息
       center: { lng: 119.29035, lat: 26.1039 },
       zoom: 9,
@@ -475,42 +478,46 @@ export default {
   },
   methods: {
     // 实现移动端拖拽
-    down(){
+    down() {
       this.flags = true;
       // this.xuanfufirst = 0;
       var touch;
-      if(event.touches){
-          touch = event.touches[0];
-      }else {
-          touch = event;
+      if (event.touches) {
+        touch = event.touches[0];
+      } else {
+        touch = event;
       }
       this.position.x = touch.clientX;
       this.position.y = touch.clientY;
       this.dx = moveDiv.offsetLeft;
       this.dy = moveDiv.offsetTop;
     },
-    move(){
-      if(this.flags){
-        var touch ;
-        if(event.touches){
-            touch = event.touches[0];
-        }else {
-            touch = event;
+    move() {
+      if (this.flags) {
+        var touch;
+        if (event.touches) {
+          touch = event.touches[0];
+        } else {
+          touch = event;
         }
         this.nx = touch.clientX - this.position.x;
         this.ny = touch.clientY - this.position.y;
-        this.xPum = this.dx+this.nx;
-        this.yPum = this.dy+this.ny;
-        moveDiv.style.left = this.xPum+"px";
-        moveDiv.style.top = this.yPum +"px";
+        this.xPum = this.dx + this.nx;
+        this.yPum = this.dy + this.ny;
+        moveDiv.style.left = this.xPum + "px";
+        moveDiv.style.top = this.yPum + "px";
         //阻止页面的滑动默认事件；如果碰到滑动问题，1.2 请注意是否获取到 touchmove
-        document.addEventListener("touchmove",function(){
+        document.addEventListener(
+          "touchmove",
+          function() {
             event.preventDefault();
-        },false);
+          },
+          false
+        );
       }
     },
     //鼠标释放时候的函数
-    end(){
+    end() {
       this.flags = false;
     },
     //drawer
@@ -557,7 +564,7 @@ export default {
       this.axios({
         method: "post",
         url: url,
-        data: { ID: row.id },
+        data: { ID: row.id }
         // responseType: "arraybuffer"
       })
         // 方法一
@@ -589,13 +596,12 @@ export default {
             // this.jlimgBiggershow = true;
             // ---------------
             // 方法二
-            console.log(res.data)
-            let imgurl = 'data:image/png;base64,'+res.data;
-            console.log(imgurl)
+            console.log(res.data);
+            let imgurl = "data:image/png;base64," + res.data;
+            console.log(imgurl);
             this.loadingshow = false;
             this.jlimgDetail = imgurl;
             this.jlimgBiggershow = true;
-
           }
         })
         .catch(err => {
@@ -774,8 +780,10 @@ export default {
         return require("@/assets/Mobile.png");
       } else if (device === "ADCP") {
         return require("@/assets/ADCP.jpg");
+      } else if (device === "Car") {
+        return require("@/assets/car.png");
       } else {
-        return require("@/assets/Car.png");
+        return require("@/assets/ljdefault.png");
       }
     },
     jlimgclose() {
@@ -925,40 +933,39 @@ export default {
   transform: translate(-50%, -55%);
   z-index: 3000;
   overflow: hidden;
-
 }
-.resultContainerTitle{
-  width:100%;
-  height:30px;
+.resultContainerTitle {
+  width: 100%;
+  height: 30px;
   position: absolute;
   background-color: #1d6ec7;
-  z-index:3000;
+  z-index: 3000;
 }
-.resultContainerImg{
+.resultContainerImg {
   position: relative;
-  padding-top:30px;
-  width:100%;
-  height:100%;
+  padding-top: 30px;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   box-sizing: border-box;
 }
 .resultContainerImg .jlimg {
-  width:1012px;
+  width: 1012px;
   position: absolute;
   left: 50% !important;
-  transform: translate(-47%,0);
+  transform: translate(-47%, 0);
   /* width: 100%; */
 }
-.resultContainerImg .xuanfu{
-  width:800px;
-  position:fixed;
+.resultContainerImg .xuanfu {
+  width: 800px;
+  position: fixed;
   left: 50% !important;
-  transform: translate(-50%,0);
+  transform: translate(-50%, 0);
 }
 
-.xuanfuinit{
+.xuanfuinit {
   left: 50% !important;
-  transform: translate(-47%,0);
+  transform: translate(-47%, 0);
 }
 .jlclose {
   position: absolute;
