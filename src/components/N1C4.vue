@@ -35,7 +35,10 @@
           </el-form-item>
           <el-form-item label="要素">
             <el-select v-model="form.fea" placeholder="请选择要素">
-              <el-option label="10分钟平均风速" value="10分钟平均风速"></el-option>
+              <el-option
+                label="10分钟平均风速"
+                value="10分钟平均风速"
+              ></el-option>
               <!-- <el-option label="区域二" value="beijing"></el-option> -->
             </el-select>
           </el-form-item>
@@ -80,7 +83,9 @@
             ></el-time-select>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onSubmit" class="submitbutton">查询</el-button>
+            <el-button type="primary" @click="onSubmit" class="submitbutton"
+              >查询</el-button
+            >
           </el-form-item>
         </el-form>
       </el-collapse-transition>
@@ -89,7 +94,12 @@
     <!-- 查询图表 -->
     <bm-control class="resultContainer">
       <div class="resultheader" v-if="chartShow">
-        <el-button type="danger" icon="el-icon-close" class="closebutton" @click="chartclose"></el-button>
+        <el-button
+          type="danger"
+          icon="el-icon-close"
+          class="closebutton"
+          @click="chartclose"
+        ></el-button>
       </div>
       <ve-line
         class="resultContent"
@@ -150,18 +160,30 @@
     <bm-label
       :content="item.bridgeName"
       v-for="item in newarr1"
-      :key=" 'label' + item.id"
+      :key="'label' + item.id"
       :position="item.point"
-      :labelStyle="{color: 'black', fontSize : '16px',border:'1px solid #000',backgroundColor:'#fff',fontWeight:'bolder'}"
-      :offset="{width:-35,height:-45}"
+      :labelStyle="{
+        color: 'black',
+        fontSize: '16px',
+        border: '1px solid #000',
+        backgroundColor: '#fff',
+        fontWeight: 'bolder'
+      }"
+      :offset="{ width: -35, height: -45 }"
     />
     <bm-label
       :content="item.bridgeName"
       v-for="item in newarr2"
-      :key=" 'label' + item.id"
+      :key="'label' + item.id"
       :position="item.point"
-      :labelStyle="{color: 'black', fontSize : '16px',border:'1px solid #000',backgroundColor:'#fff',fontWeight:'bolder'}"
-      :offset="{width:-35,height:-45}"
+      :labelStyle="{
+        color: 'black',
+        fontSize: '16px',
+        border: '1px solid #000',
+        backgroundColor: '#fff',
+        fontWeight: 'bolder'
+      }"
+      :offset="{ width: -35, height: -45 }"
     />
     <bm-marker
       v-for="zuobiao in newarr1"
@@ -197,18 +219,43 @@
       <el-table
         :data="flowTable"
         style="width: 100%;text-align:center"
-        :default-sort="{prop: 'testTime', order: 'descending'}"
+        :default-sort="{ prop: 'testTime', order: 'descending' }"
       >
-        <el-table-column label="测量方式" header-align="center" align="center" width="100px">
+        <el-table-column
+          label="测量方式"
+          header-align="center"
+          align="center"
+          width="100px"
+        >
           <template slot-scope="scope">
             <img :src="deviceImg(scope.row.deviceType)" />
           </template>
         </el-table-column>
-        <el-table-column prop="testTime" label="测量时间" sortable width="170"></el-table-column>
-        <el-table-column prop="flowData" label="流量" sortable width="130"></el-table-column>
-        <el-table-column label="流计表" header-align="center" align="center" width="160px">
+        <el-table-column
+          prop="testTime"
+          label="测量时间"
+          sortable
+          width="170"
+        ></el-table-column>
+        <el-table-column
+          prop="flowData"
+          label="流量"
+          sortable
+          width="130"
+        ></el-table-column>
+        <el-table-column
+          label="流计表"
+          header-align="center"
+          align="center"
+          width="160px"
+        >
           <template slot-scope="scope">
-            <el-button size="mini" type="primary" @click="handleEdit(scope.$index, scope.row)">查看</el-button>
+            <el-button
+              size="mini"
+              type="primary"
+              @click="handleEdit(scope.$index, scope.row)"
+              >查看</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -235,7 +282,7 @@
         <img
           :src="jlimgDetail"
           class="xuanfu"
-          :class="{xuanfuinit:xuanfufirst == 1}"
+          :class="{ xuanfuinit: xuanfufirst == 1 }"
           id="moveDiv"
           @mousedown="down"
           @touchstart="down"
@@ -695,11 +742,37 @@ export default {
       );
 
       this.flowTable = [];
+      let flowTableCookies = [];
+      let flowIDCookies = [];
+      let flowHisCookies = [];
+      let dateNow = parseInt(new Date().getTime() / 1000); //s
+
+      // 取出当前ID所有记录放入 flowTableCookies;
       for (let i = 0; i < this.flowList.length; i++) {
         const element = this.flowList[i];
         if (element.bridgeID === data.id) {
-          this.flowTable.push(element);
+          flowTableCookies.push(element);
         }
+      }
+
+      // 取出一小时内的数据
+      for (let i = 0; i < flowTableCookies.length; i++) {
+        const element = flowTableCookies[i];
+        if (i < 3) {
+          flowHisCookies.push(element);
+        }
+        let date1 = parseInt(new Date(element.testTime).getTime() / 1000); //s
+        let dis = dateNow - date1; //s
+        if (dis <= 3600) {
+          flowIDCookies.push(element);
+        }
+      }
+
+      // 如果一小时内有数据，则显示一小时内的数据，否则显示历史最近的三条
+      if (flowIDCookies.length > 0) {
+        this.flowTable = flowIDCookies;
+      } else {
+        this.flowTable = flowHisCookies;
       }
       console.log(this.flowTable);
       // table展示
