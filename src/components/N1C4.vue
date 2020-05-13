@@ -119,42 +119,25 @@
       :copyright="[{ id: 1, content: '南京云卫通软件技术有限公司' }]"
     ></bm-copyright>
 
-    <!-- 按钮插件 bm-control-->
-    <!-- <bm-control>
-      <button @click="toggle('polyline')">{{ polyline.editing ? '停止绘制' : '开始绘制' }}</button>
-      <button>123</button>
-    </bm-control>-->
-    <!-- 
-    <bm-control>
-      <button @click="changeicon">换图标</button>
+    <!-- 更新小时 -->
+    <bm-control class="updateHourContainer">
+      <div
+        style="float:left;width:120px;line-height:50px;padding-left:20px;color:#fff"
+      >
+        流量更新时间
+      </div>
+      <div style="float:left;width:90px;padding-top:5px;">
+        <el-select
+          v-model="hourform.hour"
+          placeholder="1小时"
+          @change="updateHour"
+        >
+          <el-option label="1小时" value="1"></el-option>
+          <el-option label="2小时" value="2"></el-option>
+          <el-option label="3小时" value="3"></el-option>
+        </el-select>
+      </div>
     </bm-control>
-
-    <bm-control style="marginLeft:50px">
-      <button @click="readPoint">读库测试</button>
-    </bm-control>-->
-
-    <!-- 画折线线查件组，只需要在polyline.paths加入经纬度数组，即可 -->
-
-    <!-- <bm-polyline
-      :path="path"
-      v-for="path of polyline.paths"
-      :key="path.index"
-      stroke-color="#42F942"
-    ></bm-polyline>-->
-    <!-- <bm-polyline :path="recPath1" stroke-color="#0303FF"></bm-polyline> -->
-    <!-- <bm-polyline :path="recPath2" stroke-color="#0303FF"></bm-polyline> -->
-    <!-- <bm-polyline :path="recPath3" stroke-color="#0303FF"></bm-polyline>
-    <bm-polyline :path="recPath4" stroke-color="#FF02FF"></bm-polyline>
-    <bm-polyline :path="recPath5" stroke-color="#FF0000"></bm-polyline>-->
-
-    <!-- 站点 -->
-    <!-- <bm-point-collection
-      :points="points"
-      shape="BMAP_POINT_SHAPE_CIRCLE"
-      color="red"
-      size="BMAP_POINT_SIZE_SMALL"
-      @click="clickHandler"
-    ></bm-point-collection>-->
 
     <!-- 巡测分类图标 -->
     <bm-label
@@ -185,6 +168,7 @@
       }"
       :offset="{ width: -35, height: -45 }"
     />
+    <!-- 没有信息绿点 -->
     <bm-marker
       v-for="zuobiao in newarr1"
       :key="'station-' + zuobiao.id"
@@ -196,6 +180,7 @@
       }"
       @click="carmarker(zuobiao)"
     ></bm-marker>
+    <!-- 闪烁红点 -->
     <bm-marker
       v-for="zuobiao in newarr2"
       :key="'station-' + zuobiao.id"
@@ -520,7 +505,10 @@ export default {
       jlimgshow: false,
       jlimgBiggershow: false,
       loadingshow: false,
-      flow10: ""
+      flow10: "",
+      hourform: {
+        hour: "1小时"
+      }
     };
   },
   methods: {
@@ -755,7 +743,7 @@ export default {
         }
       }
 
-      // 取出一小时内的数据
+      // flowHisCookies : 最新三条，用于补齐/flowIDCookies : 一小时最新
       for (let i = 0; i < flowTableCookies.length; i++) {
         const element = flowTableCookies[i];
         if (i < 3) {
@@ -763,13 +751,15 @@ export default {
         }
         let date1 = parseInt(new Date(element.testTime).getTime() / 1000); //s
         let dis = dateNow - date1; //s
-        if (dis <= 3600) {
+        console.log(this.updatehour);
+        let uphour = parseInt(this.hourform.hour.split("小")[0]);
+        if (dis <= uphour * 60 * 60) {
           flowIDCookies.push(element);
         }
       }
 
-      // 如果一小时内有数据，则显示一小时内的数据，否则显示历史最近的三条
-      if (flowIDCookies.length > 0) {
+      // 如果一小时内有3条及以上数据，则显示一小时内的数据，否则显示最新的三条
+      if (flowIDCookies.length >= 3) {
         this.flowTable = flowIDCookies;
       } else {
         this.flowTable = flowHisCookies;
@@ -779,14 +769,6 @@ export default {
       this.infoWindow.show = true;
       this.infoWindow.position = { lng: data.point.lng, lat: data.point.lat };
       this.infoWindow.contents = data.bridgeName;
-    },
-    changeicon() {
-      setTimeout(() => {
-        // this.carpoints[2].state = true;
-        // this.carpoints[3].state = true;
-        this.stationPoints[5].state = false;
-        this.stationPoints[6].state = false;
-      }, 3000);
     },
     readPoint() {
       let url = "/jsxun/api/bridgeRead";
@@ -883,6 +865,9 @@ export default {
       } else {
         clearInterval(this.flow10);
       }
+    },
+    updateHour() {
+      console.log(this.hourform.hour);
     }
   },
   computed: {
@@ -905,10 +890,12 @@ export default {
     updateStation: {
       handler(nv, ov) {
         console.log(nv, ov);
+        // newarr1 绿 / newarr2 闪
         this.newarr1 = [];
         this.newarr2 = [];
         for (let i = 0; i < nv.length; i++) {
           const newstate = nv[i].state;
+          // 判断是否为一小时内的数值，不是的话仍然放入 newarr1
           if (newstate == "1") {
             this.newarr2 = [nv[i], ...this.newarr2];
           } else {
@@ -925,27 +912,61 @@ export default {
         console.log(nv, ov);
         let nochange = nv.length == ov.length;
         if (!nochange) {
-          let changeIndex = nv.length - ov.length;
-          if (changeIndex > 0) {
-            for (let i = ov.length; i < nv.length; i++) {
-              console.log(nv[i].bridgeID);
-              let url = "/jsxun/api/bridgeState1";
-              this.axios
-                .get(url, { params: { bridgeID: nv[i].bridgeID } })
-                .then(
-                  res => {
-                    if (res.data.code === 1) {
-                      console.log(res.data);
+          if (ov.length != 0) {
+            let changeIndex = nv.length - ov.length;
+            if (changeIndex > 0) {
+              for (let i = ov.length; i < nv.length; i++) {
+                console.log(nv[i].bridgeID);
+                let url = "/jsxun/api/bridgeState1";
+                this.axios
+                  .get(url, { params: { bridgeID: nv[i].bridgeID } })
+                  .then(
+                    res => {
+                      if (res.data.code === 1) {
+                        console.log(res.data);
+                      }
+                    },
+                    res => {
+                      console.log("err");
                     }
-                  },
-                  res => {
-                    console.log("err");
+                  );
+              }
+              this.readPoint();
+            } else {
+              console.log("数据库发生手动删减！");
+            }
+          } else {
+            console.log("第一次是否闪烁");
+            console.log(nv);
+            let datenow = parseInt(new Date().getTime() / 1000);
+            let HourIDCookies = [];
+            let HourIDOnly = [];
+            for (let i = 0; i < nv.length; i++) {
+              const element = nv[i];
+              let date1 = parseInt(new Date(element.testTime).getTime() / 1000); //s
+              let dis = datenow - date1; //s
+              let uphour = parseInt(this.hourform.hour.split("小")[0]);
+              if (dis <= uphour * 60 * 60) {
+                HourIDCookies.push(element.bridgeID);
+              }
+            }
+            HourIDOnly = [...new Set(HourIDCookies)];
+            console.log(HourIDOnly);
+            for (let i = 0; i < HourIDOnly.length; i++) {
+              const element = HourIDOnly[i];
+              let url = "/jsxun/api/bridgeState1";
+              this.axios.get(url, { params: { bridgeID: element } }).then(
+                res => {
+                  if (res.data.code === 1) {
+                    console.log(res.data);
                   }
-                );
+                },
+                res => {
+                  console.log("err");
+                }
+              );
             }
             this.readPoint();
-          } else {
-            console.log("数据库发生手动删减！");
           }
         } else {
           console.log("nochange");
@@ -1099,5 +1120,10 @@ export default {
 .loading_text {
   height: 30px;
   line-height: 10px;
+}
+.updateHourContainer {
+  background-color: #4b9efc;
+  height: 50px;
+  width: 260px;
 }
 </style>
