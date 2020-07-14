@@ -134,7 +134,9 @@ header {
   height: 100%;
   padding-top: 100px;
   box-sizing: border-box;
-  background-image: url("assets/river1.jpg");
+  background-image: url("assets/loginback.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
   /* filter: blur(2px); */
 }
 .loginContent {

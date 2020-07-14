@@ -35,10 +35,7 @@
           </el-form-item>
           <el-form-item label="要素">
             <el-select v-model="form.fea" placeholder="请选择要素">
-              <el-option
-                label="10分钟平均风速"
-                value="10分钟平均风速"
-              ></el-option>
+              <el-option label="10分钟平均风速" value="10分钟平均风速"></el-option>
               <!-- <el-option label="区域二" value="beijing"></el-option> -->
             </el-select>
           </el-form-item>
@@ -83,9 +80,7 @@
             ></el-time-select>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onSubmit" class="submitbutton"
-              >查询</el-button
-            >
+            <el-button type="primary" @click="onSubmit" class="submitbutton">查询</el-button>
           </el-form-item>
         </el-form>
       </el-collapse-transition>
@@ -94,12 +89,7 @@
     <!-- 查询图表 -->
     <bm-control class="resultContainer">
       <div class="resultheader" v-if="chartShow">
-        <el-button
-          type="danger"
-          icon="el-icon-close"
-          class="closebutton"
-          @click="chartclose"
-        ></el-button>
+        <el-button type="danger" icon="el-icon-close" class="closebutton" @click="chartclose"></el-button>
       </div>
       <ve-line
         class="resultContent"
@@ -121,17 +111,9 @@
 
     <!-- 更新小时 -->
     <bm-control class="updateHourContainer">
-      <div
-        style="float:left;width:120px;line-height:50px;padding-left:20px;color:#fff"
-      >
-        流量更新时间
-      </div>
+      <div style="float:left;width:120px;line-height:50px;padding-left:20px;color:#fff">流量更新时间</div>
       <div style="float:left;width:90px;padding-top:5px;">
-        <el-select
-          v-model="hourform.hour"
-          placeholder="1小时"
-          @change="updateHour"
-        >
+        <el-select v-model="hourform.hour" placeholder="1小时" @change="updateHour">
           <el-option label="1小时" value="1"></el-option>
           <el-option label="2小时" value="2"></el-option>
           <el-option label="3小时" value="3"></el-option>
@@ -206,41 +188,16 @@
         style="width: 100%;text-align:center"
         :default-sort="{ prop: 'testTime', order: 'descending' }"
       >
-        <el-table-column
-          label="测量方式"
-          header-align="center"
-          align="center"
-          width="100px"
-        >
+        <el-table-column label="测量方式" header-align="center" align="center" width="100px">
           <template slot-scope="scope">
             <img :src="deviceImg(scope.row.deviceType)" />
           </template>
         </el-table-column>
-        <el-table-column
-          prop="testTime"
-          label="测量时间"
-          sortable
-          width="170"
-        ></el-table-column>
-        <el-table-column
-          prop="flowData"
-          label="流量"
-          sortable
-          width="130"
-        ></el-table-column>
-        <el-table-column
-          label="流计表"
-          header-align="center"
-          align="center"
-          width="160px"
-        >
+        <el-table-column prop="testTime" label="测量时间" sortable width="170"></el-table-column>
+        <el-table-column prop="flowData" label="流量" sortable width="130"></el-table-column>
+        <el-table-column label="流计表" header-align="center" align="center" width="160px">
           <template slot-scope="scope">
-            <el-button
-              size="mini"
-              type="primary"
-              @click="handleEdit(scope.$index, scope.row)"
-              >查看</el-button
-            >
+            <el-button size="mini" type="primary" @click="handleEdit(scope.$index, scope.row)">查看</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -751,7 +708,6 @@ export default {
         }
         let date1 = parseInt(new Date(element.testTime).getTime() / 1000); //s
         let dis = dateNow - date1; //s
-        console.log(this.updatehour);
         let uphour = parseInt(this.hourform.hour.split("小")[0]);
         if (dis <= uphour * 60 * 60) {
           flowIDCookies.push(element);
@@ -775,7 +731,10 @@ export default {
       this.axios.get(url, {}).then(
         res => {
           if (res.data.code === 1) {
-            console.log(res.data);
+            // 排查 jd01 亮
+            // console.log('---jd01---')
+            // console.log(res.data);
+            console.log("重写 station");
             let bridgesArr = res.data.info.bridgeInfo;
             let bridgesCookie = [];
             for (let i = 0; i < bridgesArr.length; i++) {
@@ -792,6 +751,7 @@ export default {
               bridgesCookie.push(bridgeCookie);
             }
             this.stationPoints = bridgesCookie;
+            console.log(this.stationPoints);
           }
         },
         res => {
@@ -804,7 +764,7 @@ export default {
       this.axios.get(url, {}).then(
         res => {
           if (res.data.code === 1) {
-            console.log(res.data);
+            // console.log(res.data);
             let flowsArr = res.data.info.flowInfo;
             let flowsCookie = [];
             for (let i = 0; i < flowsArr.length; i++) {
@@ -859,7 +819,7 @@ export default {
     flowupdateson() {
       let route1 = this.$route.name;
       console.log(new Date());
-      console.log(route1);
+      // console.log(route1);
       if (route1 === "n1c4") {
         this.$options.methods.readFlow.bind(this)();
       } else {
@@ -889,32 +849,38 @@ export default {
   watch: {
     updateStation: {
       handler(nv, ov) {
-        console.log(nv, ov);
+        // console.log(nv, ov);
         // newarr1 绿 / newarr2 闪
         this.newarr1 = [];
         this.newarr2 = [];
         for (let i = 0; i < nv.length; i++) {
           const newstate = nv[i].state;
-          // 判断是否为一小时内的数值，不是的话仍然放入 newarr1
+          // 判断是否为一小时内的数值，不是的话仍然放入 newarr1?
           if (newstate == "1") {
             this.newarr2 = [nv[i], ...this.newarr2];
           } else {
             this.newarr1 = [nv[i], ...this.newarr1];
           }
         }
-        console.log(this.newarr1);
-        console.log(this.newarr2);
+        // console.log(this.newarr1);
+        // console.log(this.newarr2);
       },
       deep: true
     },
     updateFlow: {
       handler(nv, ov) {
-        console.log(nv, ov);
+        // console.log(nv, ov);
         let nochange = nv.length == ov.length;
         if (!nochange) {
           if (ov.length != 0) {
+            console.log("走了 ov! = 0");
             let changeIndex = nv.length - ov.length;
+            console.log("----");
+            console.log(nv);
+            console.log(ov);
+            console.log("----");
             if (changeIndex > 0) {
+              nv.reverse();
               for (let i = ov.length; i < nv.length; i++) {
                 console.log(nv[i].bridgeID);
                 let url = "/jsxun/api/bridgeState1";
@@ -924,6 +890,8 @@ export default {
                     res => {
                       if (res.data.code === 1) {
                         console.log(res.data);
+                        console.log("---update point---");
+                        this.readPoint();
                       }
                     },
                     res => {
@@ -931,7 +899,8 @@ export default {
                     }
                   );
               }
-              this.readPoint();
+              //console.log("---update point---");
+              //this.readPoint();
             } else {
               console.log("数据库发生手动删减！");
             }
@@ -1051,7 +1020,7 @@ export default {
   /* width: 100%; */
 }
 .resultContainerImg .xuanfu {
-  width: 800px;
+  width: 100%;
   position: fixed;
   left: 50% !important;
   transform: translate(-50%, 0);
