@@ -58,17 +58,50 @@
           <el-menu-item index="4-4">选项4</el-menu-item>
         </el-submenu>
       </el-menu>-->
-      <div :class="{ leftactive: leftnum == 1 }" class="leftnavitem" @click="leftnav1">
-        <router-link :to="{ name: 'n2c1' }" class="lefta">测流设备管理</router-link>
+      <div
+        :class="{ leftactive: leftnum == 1 }"
+        class="leftnavitem"
+        @click="leftnav1"
+      >
+        <router-link :to="{ name: 'n2c1' }" class="lefta"
+          >测流设备管理</router-link
+        >
       </div>
-      <div :class="{ leftactive: leftnum == 2 }" @click="leftnav2" class="leftnavitem">
-        <router-link :to="{ name: 'n2c2' }" class="lefta">测流信息安排</router-link>
+      <div
+        :class="{ leftactive: leftnum == 5 }"
+        class="leftnavitem"
+        @click="leftnav5"
+      >
+        <router-link :to="{ name: 'n2c5' }" class="lefta"
+          >测流设备轨迹</router-link
+        >
       </div>
-      <div :class="{ leftactive: leftnum == 3 }" class="leftnavitem" @click="leftnav3">
-        <router-link :to="{ name: 'n2c3' }" class="lefta">测流信息审核</router-link>
+      <div
+        :class="{ leftactive: leftnum == 2 }"
+        @click="leftnav2"
+        class="leftnavitem"
+      >
+        <router-link :to="{ name: 'n2c2' }" class="lefta"
+          >测流信息安排</router-link
+        >
       </div>
-      <div :class="{ leftactive: leftnum == 4 }" class="leftnavitem" @click="leftnav4">
-        <router-link :to="{ name: 'n2c4' }" class="lefta">测流信息录入</router-link>
+      <div
+        :class="{ leftactive: leftnum == 3 }"
+        class="leftnavitem"
+        @click="leftnav3"
+      >
+        <router-link :to="{ name: 'n2c3' }" class="lefta"
+          >测流信息审核</router-link
+        >
+      </div>
+      <div
+        :class="{ leftactive: leftnum == 4 }"
+        class="leftnavitem"
+        @click="leftnav4"
+      >
+        <router-link :to="{ name: 'n2c4' }" class="lefta"
+          >测流信息录入</router-link
+        >
       </div>
       <div class="footer">
         <div class="comlogo">
@@ -101,6 +134,9 @@ export default {
     },
     leftnav4() {
       this.leftnum = 4;
+    },
+    leftnav5() {
+      this.leftnum = 5;
     }
   },
   mounted() {
@@ -111,6 +147,7 @@ export default {
       case "2":
       case "3":
       case "4":
+      case "5":
         this.leftnum = inum;
         break;
       default:
