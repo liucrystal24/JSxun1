@@ -20,7 +20,7 @@
           style="width:60%;margin:0 auto;"
         >
           <el-form-item label="地区">
-            <el-select v-model="loginInfo.userArea" placeholder="请选择登录地区">
+            <el-select v-model="loginInfo.city" placeholder="请选择登录地区">
               <el-option label="江苏省" value="js"></el-option>
               <el-option label="南京市" value="nj"></el-option>
               <el-option label="无锡市" value="wx"></el-option>
@@ -38,7 +38,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="账号">
-            <el-input v-model="loginInfo.userName" placeholder="请输入账号"></el-input>
+            <el-input v-model="loginInfo.username" placeholder="请输入账号"></el-input>
           </el-form-item>
           <el-form-item label="密码">
             <el-input placeholder="请输入密码" v-model="loginInfo.password" show-password></el-input>
@@ -56,8 +56,8 @@ export default {
   data() {
     return {
       loginInfo: {
-        userArea: "",
-        userName: "",
+        city: "",
+        username: "",
         password: ""
       },
       loginsuccess: false
@@ -66,7 +66,35 @@ export default {
   mounted() {},
   methods: {
     onSubmit() {
-      this.$emit("onChange", this.loginsuccess);
+      let url = "/jsxun/api/login";
+      console.log(1);
+      this.axios
+        .get(url, {
+          params: {
+            username: this.loginInfo.username,
+            password: this.loginInfo.password,
+            city: this.loginInfo.city
+          }
+        })
+        .then(
+          res => {
+            if (res.data.code === 1) {
+              console.log("1");
+              this.$emit("onChange", this.loginsuccess);
+            } else {
+              console.log("0");
+              this.$alert("账号或密码错误，请重新输入", "提示", {
+                confirmButtonText: "确定",
+                callback: action => {
+                  console.log(action);
+                }
+              });
+            }
+          },
+          res => {
+            console.log("err");
+          }
+        );
     }
   }
 };

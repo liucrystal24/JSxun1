@@ -3,8 +3,8 @@
     <div class="searchcontainer">
       <el-row class="searchtitle">
         <el-col :span="3">
-          <div class>
-            <img src="../assets/back.png" width="40px" @click="history" />
+          <div>
+            <img src="../assets/back.png" width="40px" @click="history" class="backbutton" />
           </div>
         </el-col>
         <el-col :span="4" style="textAlign:right;">
@@ -18,7 +18,7 @@
       </el-row>
       <div class="timecontainer">
         <el-timeline>
-          <el-timeline-item
+          <!-- <el-timeline-item
             v-for="(activity, index) in activities"
             :key="index"
             :icon="activity.icon"
@@ -26,7 +26,32 @@
             :color="activity.color"
             :size="activity.size"
             :timestamp="activity.timestamp"
-          >{{activity.content}}</el-timeline-item>
+          >{{activity.content}}</el-timeline-item>-->
+          <el-timeline-item timestamp="2018/4/3" placement="top">
+            <el-card>
+              <h4>任务发布</h4>
+              <p>林东 2018/4/3 20:46</p>
+            </el-card>
+          </el-timeline-item>
+          <el-timeline-item timestamp="2018/4/5" placement="top">
+            <el-card>
+              <h4>一审已完成</h4>
+              <p>林东 2018/4/5 20:46</p>
+            </el-card>
+          </el-timeline-item>
+          <el-timeline-item timestamp="2018/4/10" placement="top">
+            <el-card>
+              <h4>二审已完成</h4>
+              <p>林东 2018/4/10 20:46</p>
+            </el-card>
+          </el-timeline-item>
+          <el-timeline-item timestamp="2018/4/12" placement="top">
+            <el-card>
+              <h4>任务已完成</h4>
+              <p>林东 2018/4/12 20:46</p>
+              <el-button type="primary" size="small" class="routeButton" @click="taskRoute">查看任务轨迹</el-button>
+            </el-card>
+          </el-timeline-item>
         </el-timeline>
       </div>
     </div>
@@ -150,6 +175,11 @@ export default {
     },
     history() {
       this.$router.go(-1);
+    },
+    taskRoute() {
+      this.$router.push({
+        name: "taskRoute"
+      });
     }
   },
   beforeRouteEnter(to, from, next) {
@@ -201,5 +231,12 @@ export default {
 }
 .leftcontent {
   width: 90%;
+}
+.backbutton {
+  cursor: pointer;
+  /* width: 200px; */
+}
+.routeButton {
+  margin-top: 5px;
 }
 </style>

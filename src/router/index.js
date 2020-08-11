@@ -16,6 +16,7 @@ import N2C2 from "@/components/N2C2";
 import N2C3 from "@/components/N2C3";
 import N2C4 from "@/components/N2C4";
 import TaskPercent from "@/components/TaskPercent";
+import taskRoute from "@/components/taskRoute";
 
 import N3C1 from "@/components/N3C1";
 import N3C2 from "@/components/N3C2";
@@ -57,7 +58,7 @@ import N5C1 from "@/components/N5C1";
 Vue.use(Router);
 
 export default new Router({
-  mode: 'history',
+  mode: "history",
   routes: [
     {
       path: "/",
@@ -77,7 +78,7 @@ export default new Router({
           path: "n1c4",
           name: "n1c4",
           component: N1C4
-        },
+        }
       ]
     },
     {
@@ -109,6 +110,12 @@ export default new Router({
           path: "TaskPercent",
           name: "TaskPercent",
           component: TaskPercent,
+          props: true
+        },
+        {
+          path: "taskRoute",
+          name: "taskRoute",
+          component: taskRoute,
           props: true
         }
       ]
