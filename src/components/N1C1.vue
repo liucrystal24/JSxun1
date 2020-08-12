@@ -169,7 +169,6 @@ export default {
     },
     addBridge() {
       let url = "/jsxun/api/bridgeAdd";
-      let that = this;
       this.axios({
         method: "post",
         url: url,

@@ -16,6 +16,7 @@ import N2C2 from "@/components/N2C2";
 import N2C3 from "@/components/N2C3";
 import N2C4 from "@/components/N2C4";
 import N2C5 from "@/components/N2C5";
+import N2C6 from "@/components/N2C6";
 import TaskPercent from "@/components/TaskPercent";
 import taskRoute from "@/components/taskRoute";
 
@@ -112,6 +113,11 @@ export default new Router({
           path: "n2c5",
           name: "n2c5",
           component: N2C5
+        },
+        {
+          path: "n2c6",
+          name: "n2c6",
+          component: N2C6
         },
         {
           path: "TaskPercent",
