@@ -1,7 +1,12 @@
 <template>
   <div>
     <div class="searchcontainer">
-      <el-scrollbar native="true" noresize="true" class="scrollcontainer" wrap-style="overflow-x:hidden;">
+      <el-scrollbar
+        native="true"
+        noresize="true"
+        class="scrollcontainer"
+        wrap-style="overflow-x:hidden;"
+      >
         <el-row class="searchtitle">
           <el-col :span="6">
             <div class>
@@ -14,17 +19,24 @@
         </el-row>
         <el-form ref="form" :model="form" label-width="30%" class="leftcontent">
           <el-form-item label="设备ID">
-            <el-input v-model="form.deviceid" placeholder="请填写设备ID"></el-input>
+            <el-select v-model="form.deviceid" placeholder="请选择设备ID" style="width:100%">
+              <el-option label="0" value="0"></el-option>
+              <!-- <el-option label="0" value="nj22"></el-option> -->
+            </el-select>
           </el-form-item>
           <el-form-item label="截面编号">
-            <el-input v-model="form.duanid" placeholder="请填写截面编号"></el-input>
+            <!-- <el-input v-model="form.duanid" placeholder="请填写截面编号"></el-input> -->
+            <el-select v-model="form.duanid" placeholder="请选择设备类型" style="width:100%">
+              <el-option label="v1" value="v1"></el-option>
+              <!-- <el-option label="nj22" value="nj22"></el-option> -->
+            </el-select>
           </el-form-item>
           <el-form-item label="桥梁编号">
-            <el-input v-model="form.bridgeid" placeholder="请填写桥梁编号"></el-input>
-            <!-- <el-select v-model="form.region" placeholder="请填写桥梁编号" style="width:100%">
-            <el-option label="北斗手机" value="mobile"></el-option>
-            <el-option label="测流车" value="car"></el-option>
-            </el-select>-->
+            <!-- <el-input v-model="form.bridgeid" placeholder="请填写桥梁编号"></el-input> -->
+            <el-select v-model="form.bridgeid" placeholder="请填写桥梁编号" style="width:100%">
+              <el-option label="nj11" value="nj11"></el-option>
+              <el-option label="nj22" value="nj22"></el-option>
+            </el-select>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="searchleida">查询</el-button>
@@ -45,7 +57,14 @@
           <div class="titletext">断面信息统计图</div>
         </el-col>
       </el-row>
-      <el-alert title="统计图显示" type="warning" description="选择左边的条件，点击查询按钮" show-icon style="width:80%;margin:0 auto;" v-if='!chartShow'></el-alert>
+      <el-alert
+        title="统计图显示"
+        type="warning"
+        description="选择左边的条件，点击查询按钮"
+        show-icon
+        style="width:80%;margin:0 auto;"
+        v-if="!chartShow"
+      ></el-alert>
       <div class="tableContainer" v-if="chartShow">
         <ve-line
           class="resultContent"
@@ -113,31 +132,31 @@ export default {
         rows: [
           {
             左水边距离: "0",
-            河底高层: "21.1"
+            河底高层: "24.1"
           },
           {
             左水边距离: "10",
-            河底高层: "17"
+            河底高层: "15"
           },
           {
             左水边距离: "15",
-            河底高层: "14.5"
+            河底高层: "12"
           },
           {
             左水边距离: "20",
-            河底高层: "14"
+            河底高层: "10"
           },
           {
             左水边距离: "25",
-            河底高层: "13.8"
+            河底高层: "8"
           },
           {
             左水边距离: "30",
-            河底高层: "13.5"
+            河底高层: "11"
           },
           {
             左水边距离: "35",
-            河底高层: "14.2"
+            河底高层: "13"
           },
           {
             左水边距离: "40",
@@ -145,7 +164,7 @@ export default {
           },
           {
             左水边距离: "45",
-            河底高层: "21.1"
+            河底高层: "24.1"
           }
         ]
       },
@@ -176,9 +195,20 @@ export default {
   },
   methods: {
     searchleida() {
-      console.log(1);
-      this.chartShow = true;
-      // this.chartcontainershow = true;
+      if (
+        this.form.deviceid === "" ||
+        this.form.duanid === "" ||
+        this.form.bridgeid === ""
+      ) {
+        this.$alert("请选择筛选条件", "提示", {
+          confirmButtonText: "确定",
+          callback: action => {
+            console.log(action);
+          }
+        });
+      } else {
+        this.chartShow = true;
+      }
     },
     handleEdit(index, row) {
       console.log(index, row);

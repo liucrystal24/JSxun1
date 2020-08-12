@@ -1,7 +1,12 @@
 <template>
   <div>
     <div class="searchcontainer">
-      <el-scrollbar native="true" noresize="true" class="scrollcontainer" wrap-style="overflow-x:hidden;" >
+      <el-scrollbar
+        native="true"
+        noresize="true"
+        class="scrollcontainer"
+        wrap-style="overflow-x:hidden;"
+      >
         <el-row class="searchtitle">
           <el-col :span="6">
             <div class>
@@ -68,27 +73,33 @@
         </el-col>
       </el-row>
       <div class="tableContainer">
-        <el-table :data="tableData" style="text-align:center" >
+        <el-table
+          :data="tableData.slice(
+              (currentPage - 1) * pageSize,
+              currentPage * pageSize
+            )"
+          style="text-align:center"
+        >
           <el-table-column label="设备编号" header-align="center" align="center">
             <template slot-scope="scope">
               <!-- <i class="el-icon-time"></i> -->
-              <span style="margin-left:10px">{{ scope.row.deviceid }}</span>
+              <span style="margin-left:10px">{{ scope.row.DeviceID }}</span>
             </template>
           </el-table-column>
           <el-table-column label="截面编号" header-align="center" align="center">
             <template slot-scope="scope">
               <!-- <div slot="reference" class="name-wrapper"> -->
               <!-- <el-tag size="medium">{{ scope.row.name }}</el-tag> -->
-              <span style="margin-left:10px">{{ scope.row.duanid }}</span>
+              <span style="margin-left:10px">{{ scope.row.Number }}</span>
               <!-- </div> -->
             </template>
           </el-table-column>
           <el-table-column label="桥梁编号" header-align="center" align="center">
             <template slot-scope="scope">
-              <span style="margin-left:10px">{{ scope.row.bridgeid }}</span>
+              <span style="margin-left:10px">{{ scope.row.BridgeNum }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="左水边距离" header-align="center" align="center">
+          <!-- <el-table-column label="左水边距离" header-align="center" align="center">
             <template slot-scope="scope">
               <span style="margin-left:10px">{{ scope.row.leftdis }}</span>
             </template>
@@ -97,7 +108,7 @@
             <template slot-scope="scope">
               <span style="margin-left:10px">{{ scope.row.riverheight }}</span>
             </template>
-          </el-table-column>
+          </el-table-column>-->
           <el-table-column label="操作" header-align="center" align="center" width="160px">
             <template slot-scope="scope">
               <el-button size="mini" type="success" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
@@ -106,6 +117,18 @@
           </el-table-column>
         </el-table>
       </div>
+      <el-pagination
+        class="page_list"
+        background
+        layout="sizes,prev, pager, next"
+        :page-sizes="[5,10]"
+        :page-size="pageSize"
+        :total="tableData.length"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :hide-on-single-page="true"
+      ></el-pagination>
     </div>
   </div>
 </template>
@@ -126,34 +149,13 @@ export default {
       fileList: [],
       tableData: [
         {
-          deviceid: "0",
-          duanid: "v1",
-          bridgeid: "nj11",
-          leftdis: "10",
-          riverheight: "17"
-        },
-        {
-          deviceid: "0",
-          duanid: "v1",
-          bridgeid: "nj11",
-          leftdis: "10",
-          riverheight: "17"
-        },
-        {
-          deviceid: "0",
-          duanid: "v1",
-          bridgeid: "nj12",
-          leftdis: "15",
-          riverheight: "30"
-        },
-        {
-          deviceid: "0",
-          duanid: "v1",
-          bridgeid: "nj12",
-          leftdis: "20",
-          riverheight: "29"
+          DeviceId: "0",
+          Number: "v1",
+          BridgeNum: "nj11"
         }
-      ]
+      ],
+      currentPage: 1,
+      pageSize: 5
     };
   },
   methods: {
@@ -183,7 +185,30 @@ export default {
     },
     beforeRemove(file, fileList) {
       return this.$confirm(`确定移除 ${file.name}？`);
+    },
+    duanRead() {
+      let url = "/jsxun/api/duanRead";
+      this.axios.get(url, {}).then(
+        res => {
+          if (res.data.code === 1) {
+            console.log(res.data.info);
+            this.tableData = res.data.info;
+          }
+        },
+        res => {
+          console.log("err");
+        }
+      );
+    },
+    handleSizeChange: function(size) {
+      this.pageSize = size;
+    },
+    handleCurrentChange: function(currentPage) {
+      this.currentPage = currentPage;
     }
+  },
+  mounted() {
+    this.duanRead();
   }
 };
 </script>
@@ -222,8 +247,10 @@ export default {
 .leftcontent {
   width: 90%;
 }
+.page_list {
+  margin-top: 10px;
+}
 /* .el-scrollbar__wrap {
   overflow-x: hidden;
 } */
-
 </style>
