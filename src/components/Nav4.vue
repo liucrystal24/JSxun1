@@ -20,12 +20,12 @@
       <div :class="{ leftactive: leftnum == 5 }" class="leftnavitem" @click="leftnav5">
         <router-link :to="{ name: 'n4c5' }" class="lefta">瞬时单位线率定</router-link>
       </div>
-      <div class="footer">
+      <!-- <div class="footer">
         <div class="comlogo">
           <img src="../assets/comlogo.png" />
         </div>
         <div class="leftcompany">南京中网卫星通信股份有限公司</div>
-      </div>
+      </div> -->
     </div>
     <router-view class="rightchild"></router-view>
   </div>

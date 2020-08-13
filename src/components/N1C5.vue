@@ -614,7 +614,7 @@ export default {
   position: absolute;
   top:180px;
   left:220px;
-  z-index: 1000;
+  z-index: 500;
   /* border: 1px solid #000; */
 }
 .resultcontainer {

@@ -11,18 +11,19 @@
       <div :class="{ leftactive: leftnum == 2 }" @click="leftnav2" class="leftnavitem">
         <router-link :to="{ name: 'n3c2' }" class="lefta">断面图统计</router-link>
       </div>
+      <div :class="{ leftactive: leftnum == 4 }" @click="leftnav4" class="leftnavitem">
+        <router-link :to="{ name: 'n3c4' }" class="lefta">断面历史查询</router-link>
+      </div>
       <div :class="{ leftactive: leftnum == 3 }" @click="leftnav3" class="leftnavitem">
         <router-link :to="{ name: 'n3c3' }" class="lefta">报警设置</router-link>
       </div>
-      <!-- <div :class="{ leftactive: leftnum == 3 }" class="leftnavitem" @click="leftnav3">
-        <router-link :to="{ name: 'n2c3' }" class="lefta">测流信息审核</router-link>
-      </div>-->
-      <div class="footer">
+
+      <!-- <div class="footer">
         <div class="comlogo">
           <img src="../assets/comlogo.png" />
         </div>
         <div class="leftcompany">南京中网卫星通信股份有限公司</div>
-      </div>
+      </div> -->
     </div>
     <router-view class="rightchild"></router-view>
   </div>
@@ -45,6 +46,9 @@ export default {
     },
     leftnav3() {
       this.leftnum = 3;
+    },
+    leftnav4() {
+      this.leftnum = 4;
     }
   },
   mounted() {
@@ -54,6 +58,7 @@ export default {
       case "1":
       case "2":
       case "3":
+      case "4":
         this.leftnum = inum;
         break;
       default:

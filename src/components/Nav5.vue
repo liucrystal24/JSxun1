@@ -58,29 +58,21 @@
           <el-menu-item index="4-4">选项4</el-menu-item>
         </el-submenu>
       </el-menu>-->
-      <div
-        :class="{ leftactive: leftnum == 1 }"
-        class="leftnavitem"
-        @click="leftnav1"
-      >
+      <div :class="{ leftactive: leftnum == 1 }" class="leftnavitem" @click="leftnav1">
         <router-link :to="{ name: 'n5c1' }" class="lefta">用户权限</router-link>
       </div>
-      <div
-        :class="{ leftactive: leftnum == 2 }"
-        @click="leftnav2"
-        class="leftnavitem"
-      >
+      <div :class="{ leftactive: leftnum == 2 }" @click="leftnav2" class="leftnavitem">
         <router-link :to="{ name: 'n5c2' }" class="lefta">用户轨迹</router-link>
       </div>
       <!-- <div :class="{ leftactive: leftnum == 3 }" class="leftnavitem" @click="leftnav3">
         <router-link :to="{ name: 'n2c3' }" class="lefta">测流信息审核</router-link>
-      </div> -->
-      <div class="footer">
+      </div>-->
+      <!-- <div class="footer">
         <div class="comlogo">
           <img src="../assets/comlogo.png" />
         </div>
         <div class="leftcompany">南京中网卫星通信股份有限公司</div>
-      </div>
+      </div>-->
     </div>
     <router-view class="rightchild"></router-view>
   </div>

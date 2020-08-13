@@ -17,11 +17,13 @@ import N2C3 from "@/components/N2C3";
 import N2C4 from "@/components/N2C4";
 import N2C5 from "@/components/N2C5";
 import N2C6 from "@/components/N2C6";
+import N2C7 from "@/components/N2C7";
 import TaskPercent from "@/components/TaskPercent";
 import taskRoute from "@/components/taskRoute";
 
 import N3C1 from "@/components/N3C1";
 import N3C2 from "@/components/N3C2";
+import N3C4 from "@/components/N3C4";
 
 import N4C1 from "@/components/N4C1";
 import N4C2 from "@/components/N4C2";
@@ -120,6 +122,11 @@ export default new Router({
           component: N2C6
         },
         {
+          path: "n2c7",
+          name: "n2c7",
+          component: N2C7
+        },
+        {
           path: "TaskPercent",
           name: "TaskPercent",
           component: TaskPercent,
@@ -152,6 +159,11 @@ export default new Router({
           path: "n3c3",
           name: "n3c3",
           component: N1C5
+        },
+        {
+          path: "n3c4",
+          name: "n3c4",
+          component: N3C4
         }
       ]
     },

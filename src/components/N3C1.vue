@@ -148,11 +148,11 @@ export default {
       },
       fileList: [],
       tableData: [
-        {
-          DeviceId: "0",
-          Number: "v1",
-          BridgeNum: "nj11"
-        }
+        // {
+        //   DeviceId: "0",
+        //   Number: "v1",
+        //   BridgeNum: "nj11"
+        // }
       ],
       currentPage: 1,
       pageSize: 5
