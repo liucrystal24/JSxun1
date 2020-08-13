@@ -9,51 +9,61 @@
         <el-table-column label="任务状态" header-align="center" align="center">
           <template slot-scope="scope">
             <div slot="reference" class="name-wrapper">
-              <el-tag size="medium" :type="taskstate(scope.row.state)">{{ scope.row.state }}</el-tag>
+              <el-tag size="medium" :type="taskstate(scope.row.taskState)">{{ scope.row.taskState }}</el-tag>
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="发布日期" header-align="center" align="center">
+        <el-table-column label="发布日期" header-align="center" align="center" width="185">
           <template slot-scope="scope">
             <i class="el-icon-time"></i>
-            <span style="margin-left:10px">{{ scope.row.date }}</span>
+            <span style="margin-left:10px">{{ scope.row.publishTime }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="执行日期" header-align="center" align="center" width="185">
+          <template slot-scope="scope">
+            <i class="el-icon-time"></i>
+            <span style="margin-left:10px">{{ scope.row.DoTime }}</span>
           </template>
         </el-table-column>
         <el-table-column label="测流地址" header-align="center" align="center">
           <template slot-scope="scope">
-            <!-- <div slot="reference" class="name-wrapper"> -->
-            <!-- <el-tag size="medium">{{ scope.row.name }}</el-tag> -->
-            <span style="margin-left:10px">{{ scope.row.address }}</span>
-            <!-- </div> -->
+            <span style="margin-left:10px">{{ scope.row.publishAddress }}</span>
           </template>
         </el-table-column>
         <el-table-column label="设备类型" header-align="center" align="center">
           <template slot-scope="scope">
-            <!-- <div slot="reference" class="name-wrapper"> -->
-            <span style="margin-left:10px">{{ scope.row.device }}</span>
-            <!-- <el-tag size="medium">{{ scope.row.device }}</el-tag> -->
-            <!-- </div> -->
+            <span style="margin-left:10px">{{ scope.row.deviceType }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="承包单位" header-align="center" align="center">
+        <el-table-column label="设备ID" header-align="center" align="center">
           <template slot-scope="scope">
-            <span style="margin-left:10px">{{ scope.row.company }}</span>
+            <span style="margin-left:10px">{{ scope.row.deviceID }}</span>
           </template>
         </el-table-column>
         <el-table-column label="项目负责人" header-align="center" align="center">
           <template slot-scope="scope">
-            <span style="margin-left:10px">{{ scope.row.proleader }}</span>
+            <span style="margin-left:10px">{{ scope.row.mandoName }}</span>
           </template>
         </el-table-column>
         <el-table-column label="发布人员" header-align="center" align="center">
           <template slot-scope="scope">
-            <span style="margin-left:10px">{{ scope.row.subleader }}</span>
+            <span style="margin-left:10px">{{ scope.row.manPublishName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="任务备注"
+          header-align="center"
+          align="center"
+          :show-overflow-tooltip="taskstyle"
+        >
+          <template slot-scope="scope">
+            <span style="margin-left:10px;width:100px;">{{ scope.row.publishTips }}</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" header-align="center" align="center">
           <template slot-scope="scope">
             <el-button size="mini" type="success" @click="handleEdit(scope.$index, scope.row)">审核</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            <!-- <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button> -->
           </template>
         </el-table-column>
       </el-table>
@@ -67,61 +77,27 @@ export default {
   name: "N2C3",
   data() {
     return {
-      tableData: [
-        {
-          address: "苏州市吴中区",
-          device: "北斗手机",
-          company: "南京中网卫星",
-          proleader: "吴爱国",
-          date: "2019-02-03",
-          defaultdate: new Date(2014, 8, 10),
-          subleader: "林动",
-          state: "已发布" //已发布-一审中-二审中-正在执行-已完成
-        },
-        {
-          address: "苏州市吴中区",
-          device: "测流车",
-          company: "南京中网卫星",
-          proleader: "吴爱国",
-          date: "2019-02-03",
-          defaultdate: new Date(2014, 8, 10),
-          subleader: "林动",
-          state: "一审中" //已发布-一审中-二审中-正在执行-已完成
-        },
-        {
-          address: "苏州市吴中区",
-          device: "北斗手机",
-          company: "南京中网卫星",
-          proleader: "吴爱国",
-          date: "2019-02-03",
-          defaultdate: new Date(2014, 8, 10),
-          subleader: "林动",
-          state: "二审中" //已发布-一审中-二审中-正在执行-已完成
-        },
-        {
-          address: "苏州市吴中区",
-          device: "北斗手机",
-          company: "南京中网卫星",
-          proleader: "吴爱国",
-          date: "2019-02-03",
-          defaultdate: new Date(2014, 8, 10),
-          subleader: "林动",
-          state: "正在执行" //已发布-一审中-二审中-正在执行-已完成
-        },
-        {
-          address: "苏州市吴中区",
-          device: "北斗手机",
-          company: "南京中网卫星",
-          proleader: "吴爱国",
-          date: "2019-02-03",
-          defaultdate: new Date(2014, 8, 10),
-          subleader: "林动",
-          state: "已完成" //已发布-一审中-二审中-正在执行-已完成
-        }
-      ]
+      tableData: [],
+      taskstyle: true
     };
   },
   methods: {
+    taskRead() {
+      let url = "/jsxun/api/taskRead";
+      this.axios.get(url, {}).then(
+        res => {
+          if (res.data.code === 1) {
+            console.log(res.data.info);
+            this.tableData = res.data.info;
+          } else {
+            console.log("error");
+          }
+        },
+        res => {
+          console.log("networkerr");
+        }
+      );
+    },
     taskstate(i) {
       switch (i) {
         case "已发布":
@@ -140,13 +116,16 @@ export default {
       this.$router.push({
         name: "TaskPercent",
         params: {
-          address: row.address,
-          device: row.device,
-          company: row.company,
-          proleader: row.proleader,
-          date: row.date,
-          subleader: row.subleader,
-          state: row.state
+          publishTime: row.publishTime,
+          DoTime: row.DoTime,
+          taskState: row.taskState,
+          publishAddress: row.publishAddress,
+          deviceID: row.deviceID,
+          deviceType: row.deviceType,
+          mandoID: row.mandoID,
+          mandoName: row.mandoName,
+          manPublishName: row.manPublishName,
+          publishTips: row.publishTips
         }
       });
       console.log(i, row);
@@ -154,6 +133,9 @@ export default {
     handleDelete(i, row) {
       console.log(i, row);
     }
+  },
+  mounted() {
+    this.taskRead();
   }
 };
 </script>

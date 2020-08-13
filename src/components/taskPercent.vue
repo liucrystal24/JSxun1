@@ -68,19 +68,31 @@
       </el-row>
       <div class="tableContainer">
         <el-form ref="form" :model="form" label-width="30%" class="leftcontent" size="mini">
-          <el-form-item label="测流地址">
-            <el-input v-model="form.address" placeholder="请填写测流地址" disabled></el-input>
+          <el-form-item label="发布时间">
+            <el-input v-model="form.publishTime" placeholder="请填写测流地址" disabled></el-input>
           </el-form-item>
-          <el-form-item label="使用设备">
-            <el-input v-model="form.device" placeholder="请填写测流地址" disabled></el-input>
+          <el-form-item label="执行时间">
+            <el-input v-model="form.DoTime" placeholder="请填写测流地址" disabled></el-input>
           </el-form-item>
-          <el-form-item label="测流承包单位">
-            <el-input v-model="form.company" placeholder="请填写测流承包单位" disabled></el-input>
+          <el-form-item label="发布测流地址">
+            <el-input v-model="form.publishAddress" placeholder="请填写测流承包单位" disabled></el-input>
           </el-form-item>
-          <el-form-item label="测流负责人">
-            <el-input v-model="form.proleader" placeholder="请填写测流负责人" disabled></el-input>
+          <el-form-item label="测流设备ID">
+            <el-input v-model="form.deviceID" placeholder="请填写测流负责人" disabled></el-input>
           </el-form-item>
-          <el-form-item label="测流日期">
+          <el-form-item label="测流设备类型">
+            <el-input v-model="form.deviceType" placeholder="请填写测流负责人" disabled></el-input>
+          </el-form-item>
+          <el-form-item label="执行人姓名">
+            <el-input v-model="form.mandoName" placeholder="请填写测流负责人" disabled></el-input>
+          </el-form-item>
+          <el-form-item label="发布人姓名">
+            <el-input v-model="form.manPublishName" placeholder="请填写测流负责人" disabled></el-input>
+          </el-form-item>
+          <el-form-item label="发布任务备注">
+            <el-input v-model="form.publishTips" placeholder="请填写测流负责人" disabled></el-input>
+          </el-form-item>
+          <!-- <el-form-item label="测流日期">
             <el-date-picker
               type="date"
               placeholder="请选择测流日期"
@@ -88,22 +100,16 @@
               style="width: 100%;"
               :default-value="form.defaultdate"
               disabled
-            ></el-date-picker>
-          </el-form-item>
-          <el-form-item label="发布人员">
-            <el-input v-model="form.subleader" placeholder="请填写发布人员" disabled></el-input>
-          </el-form-item>
-          <el-form-item label="任务备注">
-            <el-input type="textarea" v-model="form.info" disabled></el-input>
-          </el-form-item>
+          ></el-date-picker>-->
+          <!-- </el-form-item> -->
           <el-form-item label="审核是否通过">
-            <el-radio-group v-model="form.resource">
+            <el-radio-group v-model="form.stateChange">
               <el-radio label="通过"></el-radio>
               <el-radio label="不通过"></el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="check">确认</el-button>
+            <el-button type="primary" @click="taskCheck">确认</el-button>
             <el-button>取消</el-button>
           </el-form-item>
         </el-form>
@@ -123,26 +129,31 @@
 export default {
   name: "taskPercent",
   props: [
-    "address",
-    "device",
-    "company",
-    "proleader",
-    "date",
-    "subleader",
-    "state"
+    "publishTime",
+    "DoTime",
+    "taskState",
+    "publishAddress",
+    "deviceID",
+    "deviceType",
+    "mandoID",
+    "mandoName",
+    "manPublishName",
+    "publishTips"
   ],
   data() {
     return {
       msg: "taskPercent",
       form: {
-        address: this.address,
-        device: this.device,
-        company: this.company,
-        proleader: this.proleader,
-        date: this.date,
-        defaultdate: new Date(2014, 8, 10),
-        subleader: this.subleader,
-        info: "记得及时联系中指部，上传巡测位置"
+        publishTime: this.publishTime,
+        DoTime: this.DoTime,
+        taskState: this.taskState,
+        publishAddress: this.publishAddress,
+        deviceID: this.deviceID,
+        deviceType: this.deviceType,
+        mandoID: this.mandoID,
+        mandoName: this.mandoName,
+        manPublishName: this.manPublishName,
+        publishTips: this.publishTips
       },
       activities: [
         {
@@ -170,21 +181,27 @@ export default {
     };
   },
   methods: {
-    check() {
-      console.log(1);
+    taskCheck() {
+      // console.log(1);
+      this.$alert("完成审核", "提示", {
+        confirm: "确定"
+      });
     },
     history() {
-      this.$router.go(-1);
+      // this.$router.go(-1);
+      this.$router.push({
+        name: "n2c3"
+      });
     },
     taskRoute() {
       this.$router.push({
-        name: "taskRoute"
+        name: "taskRoute",
+        params: this.form
       });
     }
   },
   beforeRouteEnter(to, from, next) {
     console.log(to);
-    console.log(this);
     next();
   }
 };

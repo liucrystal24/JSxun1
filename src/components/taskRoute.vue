@@ -252,7 +252,19 @@
 
 <script>
 export default {
-  name: "N1C4",
+  name: "taskRoute",
+  props: [
+    "publishTime",
+    "DoTime",
+    "taskState",
+    "publishAddress",
+    "deviceID",
+    "deviceType",
+    "mandoID",
+    "mandoName",
+    "manPublishName",
+    "publishTips"
+  ],
   data() {
     return {
       // 流计表图片移动
@@ -395,12 +407,28 @@ export default {
       flow10: "",
       hourform: {
         hour: "1小时"
+      },
+      taskData: {
+        publishTime: this.publishTime,
+        DoTime: this.DoTime,
+        taskState: this.taskState,
+        publishAddress: this.publishAddress,
+        deviceID: this.deviceID,
+        deviceType: this.deviceType,
+        mandoID: this.mandoID,
+        mandoName: this.mandoName,
+        manPublishName: this.manPublishName,
+        publishTips: this.publishTips
       }
     };
   },
   methods: {
     history() {
-      this.$router.go(-1);
+      // this.$router.go(-1);
+      this.$router.push({
+        name: "TaskPercent",
+        params: this.taskData
+      });
     },
     // 实现移动端拖拽
     down() {
@@ -772,6 +800,10 @@ export default {
     updateHour() {
       console.log(this.hourform.hour);
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    console.log(to);
+    next();
   },
   computed: {
     updateStation() {

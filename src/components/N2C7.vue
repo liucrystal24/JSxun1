@@ -55,7 +55,7 @@
           </div>
         </el-col>
         <el-col :span="20">
-          <div class="titletext">断面历史信息</div>
+          <div class="titletext">水位、流量历史信息</div>
         </el-col>
       </el-row>
       <el-alert
