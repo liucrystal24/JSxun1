@@ -20,7 +20,7 @@
         <el-form ref="form" :model="form" label-width="30%" class="leftcontent">
           <el-form-item label="设备ID">
             <el-select v-model="form.deviceid" placeholder="请选择设备ID" style="width:100%">
-              <el-option label="0" value="0"></el-option>
+              <el-option label="1001" value="1001"></el-option>
               <!-- <el-option label="0" value="nj22"></el-option> -->
             </el-select>
           </el-form-item>

@@ -102,9 +102,9 @@ export default {
       switch (i) {
         case "已发布":
           return "";
-        case "一审中":
+        case "一审完成":
           return "danger";
-        case "二审中":
+        case "二审完成":
           return "danger";
         case "正在执行":
           return "warning";
@@ -113,6 +113,7 @@ export default {
       }
     },
     handleEdit(i, row) {
+      // console.log(row);
       this.$router.push({
         name: "TaskPercent",
         params: {
@@ -125,7 +126,12 @@ export default {
           mandoID: row.mandoID,
           mandoName: row.mandoName,
           manPublishName: row.manPublishName,
-          publishTips: row.publishTips
+          publishTips: row.publishTips,
+          stateTime1: row.stateTime1,
+          stateTime2: row.stateTime2,
+          stateTime3: row.stateTime3,
+          stateTime4: row.stateTime4,
+          ID: row.ID
         }
       });
       console.log(i, row);

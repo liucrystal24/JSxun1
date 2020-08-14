@@ -81,12 +81,12 @@
               <span style="margin-left:10px">{{ scope.row.userName }}</span>
             </template>
           </el-table-column> -->
-          <el-table-column label="操作" header-align="center" align="center">
+          <!-- <el-table-column label="操作" header-align="center" align="center">
             <template slot-scope="scope">
               <el-button size="mini" type="success" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
               <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
             </template>
-          </el-table-column>
+          </el-table-column> -->
         </el-table>
       </div>
     </div>

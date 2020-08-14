@@ -34,13 +34,13 @@
             <i class="el-icon-menu navicon"></i>
             <span slot="title">站点管理</span>
           </el-menu-item>
-          <el-submenu index="2">
+          <el-submenu index="nav1">
             <template slot="title">
               <span class="navBlank"></span>
               <i class="el-icon-location navicon"></i>
               <span>地区选择</span>
             </template>
-            <el-menu-item index="n1c2" disabled>江苏省</el-menu-item>
+            <el-menu-item index="n1c4">江苏省</el-menu-item>
             <el-menu-item index="n1c2" disabled>南京市</el-menu-item>
             <el-menu-item index="n1c3" disabled>无锡市</el-menu-item>
             <el-menu-item index="n1c6" disabled>徐州市</el-menu-item>
@@ -50,7 +50,7 @@
             <el-menu-item index="n1c9" disabled>连云港市</el-menu-item>
             <el-menu-item index="n1c9" disabled>淮安市</el-menu-item>
             <el-menu-item index="n1c9" disabled>盐城市</el-menu-item>
-            <el-menu-item index="n1c4">扬州市</el-menu-item>
+            <el-menu-item index="n1c4" disabled>扬州市</el-menu-item>
             <el-menu-item index="n1c9" disabled>镇江市</el-menu-item>
             <el-menu-item index="n1c9" disabled>泰州市</el-menu-item>
             <el-menu-item index="n1c9" disabled>宿迁市</el-menu-item>
@@ -199,5 +199,4 @@ a {
 .navicon {
   color: #fff;
 }
-
 </style>

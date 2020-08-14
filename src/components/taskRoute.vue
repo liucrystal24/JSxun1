@@ -263,7 +263,12 @@ export default {
     "mandoID",
     "mandoName",
     "manPublishName",
-    "publishTips"
+    "publishTips",
+    "stateTime1",
+    "stateTime2",
+    "stateTime3",
+    "stateTime4",
+    "ID"
   ],
   data() {
     return {
@@ -418,7 +423,12 @@ export default {
         mandoID: this.mandoID,
         mandoName: this.mandoName,
         manPublishName: this.manPublishName,
-        publishTips: this.publishTips
+        publishTips: this.publishTips,
+        stateTime1: this.stateTime1,
+        stateTime2: this.stateTime2,
+        stateTime3: this.stateTime3,
+        stateTime4: this.stateTime4,
+        ID: this.ID
       }
     };
   },
