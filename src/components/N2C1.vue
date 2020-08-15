@@ -30,7 +30,7 @@
         </el-form-item>
         <el-form-item label="使用用户名">
           <el-input v-model="form.userName" placeholder="请填写使用用户名"></el-input>
-        </el-form-item> -->
+        </el-form-item>-->
         <el-form-item>
           <el-button type="primary" @click="deviceAdd">新增</el-button>
           <el-button>取消</el-button>
@@ -80,13 +80,13 @@
             <template slot-scope="scope">
               <span style="margin-left:10px">{{ scope.row.userName }}</span>
             </template>
-          </el-table-column> -->
-          <!-- <el-table-column label="操作" header-align="center" align="center">
+          </el-table-column>-->
+          <el-table-column label="操作" header-align="center" align="center">
             <template slot-scope="scope">
-              <el-button size="mini" type="success" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+              <!-- <el-button size="mini" type="success" @click="handleEdit(scope.$index, scope.row)">编辑</el-button> -->
               <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
             </template>
-          </el-table-column> -->
+          </el-table-column>
         </el-table>
       </div>
     </div>
@@ -124,7 +124,48 @@ export default {
       console.log(index, row);
     },
     handleDelete(index, row) {
-      console.log(index, row);
+      this.$confirm("此操作将永久删除设备信息, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          let url = "/jsxun/api/deviceDelete";
+          this.axios.get(url, { params: { deviceID: row.deviceID } }).then(
+            res => {
+              if (res.data.code === 1) {
+                this.$options.methods.deviceRead.bind(this)();
+                this.$message({
+                  type: "success",
+                  message: "删除成功!"
+                });
+                // this.$alert("删除成功", "提示", {
+                //   confirm: "确定"
+                // });
+              } else {
+                this.$alert("删除失败，请检查网络连接", "提示", {
+                  confirm: "确定"
+                });
+              }
+            },
+            res => {
+              console.log("err");
+            }
+          );
+          // this.$message({
+          //   type: "success",
+          //   message: "删除成功!"
+          // });
+        })
+        .catch(() => {
+          // this.$alert("删除成功", "提示", {
+          //   confirm: "确定"
+          // });
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
     },
     deviceRead() {
       let url = "/jsxun/api/deviceRead";
@@ -144,7 +185,7 @@ export default {
       let deviceEle = {
         deviceID: this.form.deviceID,
         deviceName: this.form.deviceName,
-        deviceType: this.form.deviceType,
+        deviceType: this.form.deviceType
         // userID: this.form.userID,
         // userName: this.form.userName
       };

@@ -13,7 +13,7 @@
     </div>
     <div class="searchcontainer">
       <Chart :defaultNum="230" title="水位"></Chart>
-      <Chart :defaultNum="150" title="流量"></Chart>
+      <Chart :defaultNum="200" title="流量"></Chart>
       <Chart :defaultNum="90" title="流速"></Chart>
       <Chart :defaultNum="210" title="测流后水位"></Chart>
       <!-- <div class="tps">

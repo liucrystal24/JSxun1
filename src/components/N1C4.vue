@@ -203,6 +203,35 @@
       </el-table>
     </bm-info-window>
 
+    <!-- flowWarning 框 -->
+    <bm-control>
+      <div class="flowWarningContainer">
+        <div class="flowWarningTitle">
+          <img src="../assets/flowWarning2.gif" class="flowWarningPng" />
+          异常流量监控
+        </div>
+        <el-table :data="flowWarningTable" style="text-align:center">
+          <el-table-column label="站点ID" header-align="center" align="center">
+            <template slot-scope="scope">
+              <span style="margin-left:10px">{{ scope.row.bridgeID }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="时间" header-align="center" align="center" width='180'>
+            <template slot-scope="scope">
+              <span style="margin-left:10px">{{ scope.row.testTime }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="流量" header-align="center" align="center">
+            <template slot-scope="scope">
+              <div slot="reference" class="name-wrapper">
+                <el-tag size="medium">{{ scope.row.flowData }}</el-tag>
+              </div>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+    </bm-control>
+
     <!-- 图片显示框 -->
     <bm-control class="resultContainer" v-if="jlimgshow">
       <div class="bigger" @click="jlimgbigger">
@@ -465,7 +494,9 @@ export default {
       flow10: "",
       hourform: {
         hour: "1小时"
-      }
+      },
+      flowWarningTable: [],
+      flowWarningNum:200
     };
   },
   methods: {
@@ -905,6 +936,16 @@ export default {
               console.log("数据库发生手动删减！");
             }
           } else {
+            // 页面重新加载，选择最新的流量超标情况，并在左上方报警
+            // 数组需要清零，并重新 push 赋值
+            this.flowWarningTable = [];
+            for (let i = 0; i < nv.length; i++) {
+              let element = nv[i];
+              if (element.flowData - this.flowWarningNum > 0) {
+                this.flowWarningTable.push(element);
+              }
+            }
+            // 没有真正的新流量上传，只是，页面重新加载
             console.log("第一次是否闪烁");
             console.log(nv);
             let datenow = parseInt(new Date().getTime() / 1000);
@@ -1094,5 +1135,27 @@ export default {
   background-color: #4b9efc;
   height: 50px;
   width: 260px;
+}
+.flowWarningContainer {
+  background-color: #fff;
+  position: fixed;
+  width: 360px;
+  right: 0;
+  top: 150px;
+  border: 1px solid #000;
+}
+.flowWarningTitle {
+  display: flex;
+  /* text-align: center; */
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  height: 30px;
+  line-height: 30px;
+  padding: 7px 0;
+}
+.flowWarningPng {
+  height: 25px;
+  margin-right: 10px;
 }
 </style>
