@@ -107,17 +107,17 @@
           </el-table-column>
           <el-table-column label="平均流速（m/s）" header-align="center" align="center">
             <template slot-scope="scope">
-              <span style="margin-left:10px">{{ scope.row.TotalQ }}</span>
+              <span style="margin-left:10px">{{ scope.row.QperArea }}</span>
             </template>
           </el-table-column>
           <el-table-column label="平均水深（m）" header-align="center" align="center">
             <template slot-scope="scope">
-              <span style="margin-left:10px">{{ scope.row.MaxWaterSpeed }}</span>
+              <span style="margin-left:10px">{{ scope.row.MeanWaterDepth }}</span>
             </template>
           </el-table-column>
           <el-table-column label="最大水深（m）" header-align="center" align="center">
             <template slot-scope="scope">
-              <span style="margin-left:10px">{{ scope.row.MeanWaterDepth }}</span>
+              <span style="margin-left:10px">{{ scope.row.MaxWaterDepth }}</span>
             </template>
           </el-table-column>
           <el-table-column label="水面宽（m）" header-align="center" align="center">
