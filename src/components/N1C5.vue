@@ -13,7 +13,7 @@
     </div>
     <div class="searchcontainer">
       <Chart :defaultNum="230" title="水位"></Chart>
-      <Chart :defaultNum="200" title="流量"></Chart>
+      <Chart :defaultNum="warningNum[0].flowMaxNum" title="流量" v-if="warningNum.length>0"></Chart>
       <Chart :defaultNum="90" title="流速"></Chart>
       <Chart :defaultNum="210" title="测流后水位"></Chart>
       <!-- <div class="tps">
@@ -525,7 +525,7 @@ export default {
       areaOptions: [
         {
           value: "选项1",
-          label: "地区一"
+          label: "江苏省"
         },
         {
           value: "选项2",
@@ -544,7 +544,8 @@ export default {
           label: "地区五"
         }
       ],
-      selectValue: ""
+      selectValue: "",
+      warningNum: []
     };
   },
   methods: {
@@ -582,10 +583,36 @@ export default {
     },
     flowHeightChange(e) {
       this.flowHeight_options.series[0].data[0].value = e;
+    },
+    flowWarningRead() {
+      let url = "/jsxun/api/flowWarningRead";
+      this.axios.get(url, {}).then(
+        res => {
+          if (res.data.code === 1) {
+            this.warningNum.push(res.data.info[0]);
+            console.log(this.warningNum);
+          } else {
+            console.log("no warning");
+          }
+        },
+        res => {
+          console.log("networkerr");
+        }
+      );
+    },
+    isChart() {
+      if (this.warningNum === {}) {
+        return false;
+      } else {
+        return true;
+      }
     }
   },
+  created() {},
   mounted() {
+    this.flowWarningRead();
     window.addEventListener("resize", this.resizeTheChart);
+    this.selectValue = this.areaOptions[0].value;
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.resizeTheChart);
@@ -612,8 +639,8 @@ export default {
 .areaSelect {
   width: 200px;
   position: absolute;
-  top:180px;
-  left:220px;
+  top: 180px;
+  left: 220px;
   z-index: 500;
   /* border: 1px solid #000; */
 }

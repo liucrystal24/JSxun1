@@ -10,10 +10,10 @@
       ></v-chart>
     </div>
     <div class="wariningContainer">
-      <div class="warningitem">
+      <!-- <div class="warningitem">
         <label for>报警开关:</label>
         <el-switch v-model="warningshow" active-text="开" inactive-text="关"></el-switch>
-      </div>
+      </div>-->
       <div class="warningitem">
         <label for>数值:</label>
         <el-input v-model="warningNum" style="width:30%;"></el-input>
@@ -33,7 +33,6 @@ export default {
       required: true
     },
     defaultNum: {
-      type: Number,
       required: true
     }
   },
@@ -41,7 +40,8 @@ export default {
     return {
       warningshow: true,
       warningNum: this.$props.defaultNum,
-      sontitle:this.$props.title,
+      chartWarningData: "",
+      sontitle: this.$props.title,
       chart_options: {
         tooltip: {
           formatter: "{a} : {c} m"
@@ -126,7 +126,32 @@ export default {
   },
   methods: {
     warningChange(e) {
-      this.chart_options.series[0].data[0].value = e;
+      let updateData = e;
+      // 对流量进行监控
+      if (this.$props.title === "流量") {
+        // 此处 bridgeID写死,看具体需求
+        let url = "/jsxun/api/flowWarningUpdate";
+        let updateType = "flowMaxNum";
+        this.axios({
+          method: "post",
+          url: url,
+          data: { type: updateType, updateData: updateData }
+        })
+          .then(res => {
+            const datacode = res.data.code;
+            if (datacode == 1) {
+              this.chart_options.series[0].data[0].value = updateData;
+              this.$alert("修改成功", "提示", {
+                confirm: "确定"
+              });
+            } else {
+              console.log("error");
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
     },
     resizeTheChart() {
       if (this.$refs.chart_creditChart) {
@@ -139,6 +164,13 @@ export default {
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.resizeTheChart);
+  },
+  watch: {
+    // defaultNum: function(nv) {
+    //   console.log("val监听:", nv);
+    //   this.$props.defaultNum = nv;
+    //   this.warningNum = nv;
+    // }
   }
 };
 </script>

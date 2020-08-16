@@ -206,30 +206,53 @@
     <!-- flowWarning 框 -->
     <bm-control>
       <div class="flowWarningContainer">
-        <div class="flowWarningTitle">
-          <img src="../assets/flowWarning2.gif" class="flowWarningPng" />
-          异常流量监控
+        <div>
+          <div class="flowWarningTitle">
+            <img src="../assets/flowWarning2.gif" class="flowWarningPng" />
+            异常流量监控
+          </div>
+          <el-table
+            :data="flowWarningTable.slice(
+              (currentPage - 1) * pageSize,
+              currentPage * pageSize
+            )"
+            style="text-align:center"
+          >
+            <el-table-column label="站点ID" header-align="center" align="center">
+              <template slot-scope="scope">
+                <span style="margin-left:10px">{{ scope.row.bridgeID }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="时间" header-align="center" align="center" width="180">
+              <template slot-scope="scope">
+                <span style="margin-left:10px">{{ scope.row.testTime }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="流量" header-align="center" align="center">
+              <template slot-scope="scope">
+                <div slot="reference" class="name-wrapper">
+                  <el-tag size="medium">{{ scope.row.flowData }}</el-tag>
+                </div>
+              </template>
+            </el-table-column>
+          </el-table>
         </div>
-        <el-table :data="flowWarningTable" style="text-align:center">
-          <el-table-column label="站点ID" header-align="center" align="center">
-            <template slot-scope="scope">
-              <span style="margin-left:10px">{{ scope.row.bridgeID }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="时间" header-align="center" align="center" width='180'>
-            <template slot-scope="scope">
-              <span style="margin-left:10px">{{ scope.row.testTime }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="流量" header-align="center" align="center">
-            <template slot-scope="scope">
-              <div slot="reference" class="name-wrapper">
-                <el-tag size="medium">{{ scope.row.flowData }}</el-tag>
-              </div>
-            </template>
-          </el-table-column>
-        </el-table>
+        <el-pagination
+          class="page_list"
+          background
+          layout="prev, pager, next"
+          :page-sizes="[5]"
+          :page-size="pageSize"
+          :total="flowWarningTable.length"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :hide-on-single-page="true"
+        ></el-pagination>
       </div>
+    </bm-control>
+    <bm-control>
+      <div></div>
     </bm-control>
 
     <!-- 图片显示框 -->
@@ -496,7 +519,9 @@ export default {
         hour: "1小时"
       },
       flowWarningTable: [],
-      flowWarningNum:200
+      currentPage: 1,
+      pageSize: 5,
+      WarningNum: {}
     };
   },
   methods: {
@@ -859,6 +884,27 @@ export default {
     },
     updateHour() {
       console.log(this.hourform.hour);
+    },
+    flowWarningRead() {
+      let url = "/jsxun/api/flowWarningRead";
+      this.axios.get(url, {}).then(
+        res => {
+          if (res.data.code === 1) {
+            this.warningNum = res.data.info[0];
+          } else {
+            console.log("no warning");
+          }
+        },
+        res => {
+          console.log("networkerr");
+        }
+      );
+    },
+    handleSizeChange: function(size) {
+      this.pageSize = size;
+    },
+    handleCurrentChange: function(currentPage) {
+      this.currentPage = currentPage;
     }
   },
   computed: {
@@ -870,6 +916,7 @@ export default {
     }
   },
   mounted() {
+    this.flowWarningRead();
     this.readFlow();
     // setInterval(() => {
     // console.log(new Date());
@@ -941,7 +988,7 @@ export default {
             this.flowWarningTable = [];
             for (let i = 0; i < nv.length; i++) {
               let element = nv[i];
-              if (element.flowData - this.flowWarningNum > 0) {
+              if (element.flowData - this.warningNum.flowMaxNum > 0) {
                 this.flowWarningTable.push(element);
               }
             }
@@ -1138,6 +1185,7 @@ export default {
 }
 .flowWarningContainer {
   background-color: #fff;
+  /* height: 500px; */
   position: fixed;
   width: 360px;
   right: 0;
@@ -1157,5 +1205,9 @@ export default {
 .flowWarningPng {
   height: 25px;
   margin-right: 10px;
+}
+.page_list {
+  margin: 10px 0;
+  text-align: center;
 }
 </style>
