@@ -4,11 +4,10 @@ import Vue from "vue";
 import axios from "axios";
 import VCharts from "v-charts";
 
-import ECharts from 'vue-echarts'
-import 'echarts/lib/component/tooltip'
-import 'echarts/lib/component/title'
-import 'echarts/lib/component/legend'
-
+// import ECharts from 'vue-echarts'
+// import 'echarts/lib/component/tooltip'
+// import 'echarts/lib/component/title'
+// import 'echarts/lib/component/legend'
 
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
@@ -34,7 +33,7 @@ Vue.use(BaiduMap, {
 });
 Vue.component("bml-marker-cluster", BmlMarkerClusterer);
 
-Vue.component('v-chart', ECharts)
+// Vue.component('v-chart', ECharts)
 
 // photo-preview
 // import preview from 'vue-photo-preview';

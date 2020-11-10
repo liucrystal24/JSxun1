@@ -15,6 +15,14 @@ module.exports = {
   entry: {
     app: './src/main.js'
   },
+  // 采用cdn加速，减少第三方库过多导致打包js过大： 第三方库名:引用别名
+  externals:{
+    'vue':'Vue',
+    'axios':'axios',
+    'element-ui':'ElementUI',
+    'v-charts':'VCharts',
+    // 'vue-baidu-map':'BaiduMap',
+  },
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
