@@ -20,6 +20,7 @@ module.exports = {
     'vue':'Vue',
     'axios':'axios',
     'element-ui':'ElementUI',
+    'echarts':'echarts',
     'v-charts':'VCharts',
     // 'vue-baidu-map':'BaiduMap',
   },
