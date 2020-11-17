@@ -17,13 +17,15 @@ import N2C3 from "@/components/N2C3";
 import N2C4 from "@/components/N2C4";
 import N2C5 from "@/components/N2C5";
 import N2C6 from "@/components/N2C6";
-import N2C7 from "@/components/N2C7";
 import TaskPercent from "@/components/TaskPercent";
 import taskRoute from "@/components/taskRoute";
 
 import N3C1 from "@/components/N3C1";
 import N3C2 from "@/components/N3C2";
 import N3C4 from "@/components/N3C4";
+import N3C5 from "@/components/N3C5";
+import N3C6 from "@/components/N3C6";
+import N3C7 from "@/components/N3C7";
 
 import N4C1 from "@/components/N4C1";
 import N4C2 from "@/components/N4C2";
@@ -33,6 +35,7 @@ import N4C5 from "@/components/N4C5";
 
 import N5C1 from "@/components/N5C1";
 import N5C2 from "@/components/N5C2";
+import N5C3 from "@/components/N5C3";
 
 // const Nav1 = r => require.ensure([],()=>r(require('@/components/Nav1')),'Nav1')
 // const Nav2 = r => require.ensure([],()=>r(require('@/components/Nav2')),'Nav2')
@@ -122,11 +125,6 @@ export default new Router({
           component: N2C6
         },
         {
-          path: "n2c7",
-          name: "n2c7",
-          component: N2C7
-        },
-        {
           path: "TaskPercent",
           name: "TaskPercent",
           component: TaskPercent,
@@ -164,6 +162,21 @@ export default new Router({
           path: "n3c4",
           name: "n3c4",
           component: N3C4
+        },
+        {
+          path: "n3c5",
+          name: "n3c5",
+          component: N3C5
+        },
+        {
+          path: "n3c6",
+          name: "n3c6",
+          component: N3C6
+        },
+        {
+          path: "n3c7",
+          name: "n3c7",
+          component: N3C7
         }
       ]
     },
@@ -213,6 +226,11 @@ export default new Router({
           path: "n5c2",
           name: "n5c2",
           component: N5C2
+        },
+        {
+          path: "n5c3",
+          name: "n5c3",
+          component: N5C3
         }
       ]
     }

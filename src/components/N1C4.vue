@@ -195,6 +195,7 @@
         </el-table-column>
         <el-table-column prop="testTime" label="测量时间" sortable width="170"></el-table-column>
         <el-table-column prop="flowData" label="流量" sortable width="130"></el-table-column>
+        <el-table-column prop="flowAvg" label="平均流速" sortable width="130"></el-table-column>
         <el-table-column label="流计表" header-align="center" align="center" width="160px">
           <template slot-scope="scope">
             <el-button size="mini" type="primary" @click="handleEdit(scope.$index, scope.row)">查看</el-button>
@@ -829,6 +830,7 @@ export default {
               flowCookie.id = flowsArr[i].ID;
               flowCookie.bridgeID = flowsArr[i].bridgeID;
               flowCookie.flowData = flowsArr[i].flowData;
+              flowCookie.flowAvg = flowsArr[i].flowAvg;
               flowCookie.testTime = flowsArr[i].testTime;
               flowCookie.deviceType = flowsArr[i].deviceType;
               // flowCookie.fileUpload = flowsArr[i].fileUpload;

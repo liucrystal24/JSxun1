@@ -18,16 +18,12 @@
           </el-col>
         </el-row>
         <el-form ref="form" :model="form" label-width="30%" class="leftcontent">
-          <el-form-item label="设备ID">
-            <el-select
-              v-model="form.deviceid"
-              placeholder="请选择设备ID"
-              style="width:100%"
-            >
-              <el-option label="1001" value="1001"></el-option>
-              <el-option label="1002" value="1002"></el-option>
-              <el-option label="1003" value="1003"></el-option>
-              <el-option label="1004" value="1004"></el-option>
+          <el-form-item label="设备信息">
+            <el-select v-model="form.deviceid" placeholder="请选择设备" style="width:100%">
+              <el-option label="1001(扬州)" value="1001"></el-option>
+              <el-option label="1002(扬州)" value="1002"></el-option>
+              <el-option label="1003(扬州)" value="1003"></el-option>
+              <el-option label="1004(南京)" value="1004"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="起始日期">
@@ -110,28 +106,13 @@
               style="width: 100%;text-align:center"
               :default-sort="{ prop: 'testTime', order: 'descending' }"
             >
-              <el-table-column
-                label="测量方式"
-                header-align="center"
-                align="center"
-                width="100px"
-              >
+              <el-table-column label="测量方式" header-align="center" align="center" width="100px">
                 <template slot-scope="scope">
                   <img :src="deviceImg(scope.row.deviceType)" />
                 </template>
               </el-table-column>
-              <el-table-column
-                prop="testTime"
-                label="测量时间"
-                sortable
-                width="170"
-              ></el-table-column>
-              <el-table-column
-                prop="flowData"
-                label="流量"
-                sortable
-                width="130"
-              ></el-table-column>
+              <el-table-column prop="testTime" label="测量时间" sortable width="170"></el-table-column>
+              <el-table-column prop="flowData" label="流量" sortable width="130"></el-table-column>
               <!-- <el-table-column
                 label="流计表"
                 header-align="center"
@@ -146,7 +127,7 @@
                     >查看</el-button
                   >
                 </template>
-              </el-table-column> -->
+              </el-table-column>-->
             </el-table>
           </bm-info-window>
         </baidu-map>

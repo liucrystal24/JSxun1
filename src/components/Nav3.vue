@@ -8,14 +8,20 @@
       <div :class="{ leftactive: leftnum == 1 }" class="leftnavitem" @click="leftnav1">
         <router-link :to="{ name: 'n3c1' }" class="lefta">断面信息管理</router-link>
       </div>
-      <div :class="{ leftactive: leftnum == 2 }" @click="leftnav2" class="leftnavitem">
+      <!-- <div :class="{ leftactive: leftnum == 2 }" @click="leftnav2" class="leftnavitem">
         <router-link :to="{ name: 'n3c2' }" class="lefta">断面图统计</router-link>
-      </div>
+      </div> -->
+      <div :class="{ leftactive: leftnum == 6 }" @click="leftnav6" class="leftnavitem">
+        <router-link :to="{ name: 'n3c6' }" class="lefta">断面水位查询</router-link>
+      </div>     
+      <div :class="{ leftactive: leftnum == 7 }" @click="leftnav7" class="leftnavitem">
+        <router-link :to="{ name: 'n3c7' }" class="lefta">断面流量查询</router-link>
+      </div>      
       <div :class="{ leftactive: leftnum == 4 }" @click="leftnav4" class="leftnavitem">
         <router-link :to="{ name: 'n3c4' }" class="lefta">断面历史查询</router-link>
       </div>
-      <div :class="{ leftactive: leftnum == 3 }" @click="leftnav3" class="leftnavitem">
-        <router-link :to="{ name: 'n3c3' }" class="lefta">报警设置</router-link>
+      <div :class="{ leftactive: leftnum == 5 }" @click="leftnav5" class="leftnavitem">
+        <router-link :to="{ name: 'n3c5' }" class="lefta">报警设置</router-link>
       </div>
 
       <!-- <div class="footer">
@@ -34,7 +40,7 @@ export default {
   name: "Nav3",
   data() {
     return {
-      leftnum: 1
+      leftnum: 6
     };
   },
   methods: {
@@ -49,6 +55,15 @@ export default {
     },
     leftnav4() {
       this.leftnum = 4;
+    },
+    leftnav5() {
+      this.leftnum = 5;
+    },
+    leftnav6() {
+      this.leftnum = 6;
+    },    
+    leftnav7() {
+      this.leftnum = 7;
     }
   },
   mounted() {
@@ -59,10 +74,13 @@ export default {
       case "2":
       case "3":
       case "4":
+      case "5":
+      case "6":
+      case "7":
         this.leftnum = inum;
         break;
       default:
-        this.leftnum = 3;
+        this.leftnum = 6;
         break;
     }
     // this.leftnum = this.$route.name.split("c")[1];

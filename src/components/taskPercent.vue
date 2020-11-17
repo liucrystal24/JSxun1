@@ -33,29 +33,29 @@
               <!-- <p>林东 2018/4/3 20:46</p> -->
             </el-card>
           </el-timeline-item>
-          <el-timeline-item :timestamp="form.stateTime1" placement="top" v-if="handleTimeline(1)">
-            <el-card>
-              <h4>一审已完成</h4>
-              <!-- <p>林东 2018/4/5 20:46</p> -->
-            </el-card>
-          </el-timeline-item>
-          <el-timeline-item :timestamp="form.stateTime2" placement="top" v-if="handleTimeline(2)">
-            <el-card>
-              <h4>二审已完成</h4>
-              <!-- <p>林东 2018/4/10 20:46</p> -->
-            </el-card>
-          </el-timeline-item>
-          <el-timeline-item :timestamp="form.stateTime3" placement="top" v-if="handleTimeline(3)">
+          <el-timeline-item :timestamp="form.stateTime3" placement="top" v-if="handleTimeline(1)">
             <el-card>
               <h4>正在执行</h4>
               <!-- <p>林东 2018/4/10 20:46</p> -->
             </el-card>
           </el-timeline-item>
-          <el-timeline-item :timestamp="form.stateTime4" placement="top" v-if="handleTimeline(4)">
+          <el-timeline-item :timestamp="form.stateTime4" placement="top" v-if="handleTimeline(2)">
             <el-card>
               <h4>任务已完成</h4>
               <!-- <p>林东 2018/4/12 20:46</p> -->
               <el-button type="primary" size="small" class="routeButton" @click="taskRoute">查看任务轨迹</el-button>
+            </el-card>
+          </el-timeline-item>
+          <el-timeline-item :timestamp="form.stateTime1" placement="top" v-if="handleTimeline(3)">
+            <el-card>
+              <h4>一审已完成</h4>
+              <!-- <p>林东 2018/4/5 20:46</p> -->
+            </el-card>
+          </el-timeline-item>
+          <el-timeline-item :timestamp="form.stateTime2" placement="top" v-if="handleTimeline(4)">
+            <el-card>
+              <h4>二审已完成</h4>
+              <!-- <p>林东 2018/4/10 20:46</p> -->
             </el-card>
           </el-timeline-item>
         </el-timeline>
@@ -264,10 +264,10 @@ export default {
           return true;
         case 1:
           if (
-            this.form.taskState === "一审完成" ||
-            this.form.taskState === "二审完成" ||
             this.form.taskState === "正在执行" ||
-            this.form.taskState === "已完成"
+            this.form.taskState === "已完成" ||
+            this.form.taskState === "一审完成" ||
+            this.form.taskState === "二审完成"
           ) {
             return true;
           } else {
@@ -275,9 +275,9 @@ export default {
           }
         case 2:
           if (
-            this.form.taskState === "二审完成" ||
-            this.form.taskState === "正在执行" ||
-            this.form.taskState === "已完成"
+            this.form.taskState === "已完成" ||
+            this.form.taskState === "一审完成" ||
+            this.form.taskState === "二审完成"
           ) {
             return true;
           } else {
@@ -285,15 +285,15 @@ export default {
           }
         case 3:
           if (
-            this.form.taskState === "正在执行" ||
-            this.form.taskState === "已完成"
+            this.form.taskState === "一审完成" ||
+            this.form.taskState === "二审完成"
           ) {
             return true;
           } else {
             return false;
           }
         case 4:
-          if (this.form.taskState === "已完成") {
+          if (this.form.taskState === "二审完成") {
             return true;
           } else {
             return false;

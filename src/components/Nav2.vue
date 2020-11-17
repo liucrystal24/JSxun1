@@ -76,9 +76,6 @@
       <div :class="{ leftactive: leftnum == 6 }" class="leftnavitem" @click="leftnav6">
         <router-link :to="{ name: 'n2c6' }" class="lefta">测流人员管理</router-link>
       </div>
-      <div :class="{ leftactive: leftnum == 7 }" class="leftnavitem" @click="leftnav7">
-        <router-link :to="{ name: 'n2c7' }" class="lefta">水位流量查询</router-link>
-      </div>
       <!-- <div class="footer">
         <div class="comlogo">
           <img src="../assets/comlogo.png" />
@@ -119,6 +116,9 @@ export default {
     },
     leftnav7() {
       this.leftnum = 7;
+    },
+    leftnav8() {
+      this.leftnum = 8;
     }
   },
   mounted() {
@@ -131,7 +131,6 @@ export default {
       case "4":
       case "5":
       case "6":
-      case "7":
         this.leftnum = inum;
         break;
       default:

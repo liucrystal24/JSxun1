@@ -65,7 +65,7 @@
           </div>
         </el-col>
         <el-col :span="20">
-          <div class="titletext">水位历史信息</div>
+          <div class="titletext">流量历史信息</div>
         </el-col>
       </el-row>
       <el-alert
@@ -177,11 +177,11 @@ export default {
       chartShow: false,
       chartcontainershow: false,
       chartData: {
-        columns: ["时间", "水位高度"],
+        columns: ["时间", "流量"],
         rows: []
       },
       chartSettings: {
-        yAxisName: ["水位"],
+        yAxisName: ["流量"],
         xAxisName: ["时间"]
       },
       toolbox: {
@@ -211,7 +211,7 @@ export default {
   },
   methods: {
     DepthSearch() {
-      let url = "/jsxun/api/SectionDepth";
+      let url = "/jsxun/api/SectionFlow";
       console.log(
         this.dateselect.startdate,
         this.dateselect.enddate,
@@ -233,10 +233,10 @@ export default {
                 console.log(res.data.info);
                 let AvgDepthArr = [];
                 res.data.info.forEach(element => {
-                  if (element.AveDepth != null) {
+                  if (element.Flow != null) {
                     console.log(1);
                     let depthObj = {};
-                    depthObj["水位高度"] = element.AveDepth;
+                    depthObj["流量"] = element.Flow;
                     depthObj["时间"] = element.EndTime;
                     AvgDepthArr.push(depthObj);
                   }
